@@ -1,0 +1,3 @@
+[submodule "myvenv/myproject"]
+	path = myvenv/myproject
+	url = https://github.com/Mariin5/NAGOYAMESHI.git

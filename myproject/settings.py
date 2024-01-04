@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "nagoyameshi.apps.NagoyameshiConfig",
+    "accounts.apps.AccountsConfig",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,6 +40,30 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+]
+ACCOUNT_AUTHENTICATION_METHOD   = "email"
+ACCOUNT_USERNAME_REQUIRED       = False
+ACCOUNT_EMAIL_VARIFICATION  = "mandatory"
+ACCOUNT_EMAIL_REQUIRED      = True
+
+#DEBUGがTrueのとき、メールの内容は全て端末に表示させる
+if DEBUG:
+    EMAIL_BACKEND   = "django.core.mail.backends.console.EmailBackend"
+else:
+    EMAIL_BACKEND       = "sendgrid_backend.SendgridBackend"
+    DEFAULT_FROM_EMAIL  = "example@example.com" # Sendgrid送信用のメールアドレス。
+    SENDGRID_API_KEY    = "ここにsendgridのAPIkeyを記述する" # 環境変数でも可
+    SENDGRID_SANDBOX_MODE_IN_DEBUG = False
+
+
+LOGIN_REDIRECT_URL  = "/"
+LOGOUT_REDIRECT_URL = "login" # urls.pyのnameを参照している。
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
+ACCOUNT_FORMS   = { "signup":"accounts.forms.SignupForm"}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

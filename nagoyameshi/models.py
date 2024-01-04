@@ -13,7 +13,7 @@ User = get_user_model()
 
 class Category(models.Model):
     # 和食、洋食、中華、エスニック、メニューの種類
-    category_choice = [
+    category_choice =[
         ("和食","和食"),
         ("洋食","洋食"),
         ("中華","中華"),
@@ -28,7 +28,7 @@ class Category(models.Model):
         ("ラーメン","ラーメン"),
         ("その他","その他"),
     ]
-    category        = models.CharField(verbose_name="カテゴリ名", max_length=15 ,choices=category_choice)
+    category        = models.CharField(verbose_name="カテゴリ名", max_length=15 ,choices=category_choice,unique=True)
     created_at  = models.DateTimeField(verbose_name="登録日時", default=timezone.now)
     updated_at  = models.DateTimeField(verbose_name="更新日時", auto_now=True)
 
@@ -45,14 +45,14 @@ class Area(models.Model):
             ('南部', '南部'),
             ('北部', '北部'),
         ]
-    area        = models.CharField(verbose_name="エリア名", max_length=5, choices=area_choice)
+    area        = models.CharField(verbose_name="エリア名", max_length=5, choices=area_choice,unique=True)
     created_at  = models.DateTimeField(verbose_name="投稿日時", default=timezone.now)
     updated_at  = models.DateTimeField(verbose_name="更新日時", auto_now=True)
 
     def __str__(self):
         return self.area
 
-class Paymethod(models.Model):
+class PayMethod(models.Model):
     # 現金、カード(Visa、MasterCard)、電子マネー(PayPayなど)
     paymethod_choice = [
         ("現金","現金"),
@@ -60,7 +60,7 @@ class Paymethod(models.Model):
         ("交通系ICカード","交通系ICカード"),
         ("電子マネー","電子マネー"),
     ]
-    paymethod       = models.CharField(verbose_name="支払い方法", max_length=15, choices=paymethod_choice)
+    paymethod       = models.CharField(verbose_name="支払い方法", max_length=15, choices=paymethod_choice,unique=True)
     created_at  = models.DateTimeField(verbose_name="投稿日時", default=timezone.now)
     updated_at  = models.DateTimeField(verbose_name="更新日時", auto_now=True)
 
@@ -79,7 +79,7 @@ class Holiday(models.Model):
         ("土曜日","土曜日"),
         ("日曜日","日曜日"),
     ]
-    holiday         = models.CharField(verbose_name="定休日", choices=holidays_choice)
+    holiday         = models.CharField(verbose_name="定休日", max_length=5, choices=holidays_choice,unique=True,blank=True)
     created_at  = models.DateTimeField(verbose_name="投稿日時", default=timezone.now)
     updated_at  = models.DateTimeField(verbose_name="更新日時", auto_now=True)
 
@@ -101,7 +101,7 @@ class Restaurant(models.Model):
     tel_regex       = RegexValidator(regex=r'^\d{10,11}$')
     tel             = models.CharField(verbose_name="電話番号", max_length=11, validators=[tel_regex])
     email           = models.EmailField(verbose_name="メールアドレス",blank=True)
-    paymethod       = models.ManyToManyField(Paymethod, verbose_name="支払い方法")
+    paymethod       = models.ManyToManyField(PayMethod, verbose_name="支払い方法")
     # TrueもしくはFalse
     has_parking     = models.BooleanField(verbose_name="駐車場の有無")
     created_at  = models.DateTimeField(verbose_name="投稿日時", default=timezone.now)
@@ -137,7 +137,7 @@ class Company(models.Model):
     capital         = models.PositiveIntegerField(verbose_name="資本金(万円)")
     activity        = models.CharField(verbose_name="事業内容", max_length=300)
     post_code_regex = RegexValidator(regex=r'^\d{3}-\d{4}$')
-    post_code       = models.CharField(verbose_name="郵便番号", max_length=8 , validators=post_code_regex)
+    post_code       = models.CharField(verbose_name="郵便番号", max_length=8 , validators=[post_code_regex])
     # 携帯電話番号であれば11桁、固定回線の場合は10桁 混乱を招くためハイフンを除外
     tel_regex       = RegexValidator(regex=r'^\d{10,11}$')
     tel             = models.CharField(verbose_name="電話番号", max_length=11, validators=[tel_regex])

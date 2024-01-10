@@ -1,0 +1,40 @@
+{% extends "nagoyameshi/base.html" %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block main %}
+
+{# TODO: ここに紹介文を作る。 #}
+<div>紹介文</div>
+
+<form action="{% url 'nagoyameshi:restaurant_list' %}" method="GET">
+    {# TODO: ここで後にカテゴリ検索(多対多の検索)ができるように改良していく？ #}
+    <div class="input-group">
+        <input class="form-control" type="text" name="search" placeholder="キーワードを入力してください">
+        <div class="input-group-apend">
+            <input class="btn btn-outline-primary" type="submit">
+        </div>
+    </div>
+</form>
+
+
+{{ categories }}
+
+{% for category in categories %}
+<div>{{ category.category }}</div>
+{% endfor %}
+
+
+{{ restaurants }}
+
+
+
+
+{# TODO:エリアマップ #}
+
+{# TODO:カテゴリ一覧 #}
+
+{% endblock %}
+
+

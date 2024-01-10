@@ -28,7 +28,9 @@ class Category(models.Model):
         ("ラーメン","ラーメン"),
         ("その他","その他"),
     ]
-    category        = models.CharField(verbose_name="カテゴリ名", max_length=15 ,choices=category_choice,unique=True)
+    #もとはCharField
+    #カテゴリ名の表記を統一させるためchoicesにする（CharFieldの場合、投稿者によってカテゴリの表現が異なる可能性があるため）
+    category_name = models.CharField(verbose_name="カテゴリ名", max_length=15 ,choices=category_choice,unique=True)
     created_at  = models.DateTimeField(verbose_name="登録日時", default=timezone.now)
     updated_at  = models.DateTimeField(verbose_name="更新日時", auto_now=True)
 
@@ -87,11 +89,13 @@ class Holiday(models.Model):
         return self.holiday
 
 class Restaurant(models.Model):
-    category        = models.ManyToManyField(Category, verbose_name="カテゴリ")
+    category_name   = models.ManyToManyField(Category, verbose_name="カテゴリ")
     name            = models.CharField(verbose_name="店舗名", max_length=100)
     name_kana       = models.CharField(verbose_name="店舗名フリガナ", max_length=100)
     image           = models.ImageField(verbose_name="店舗画像", upload_to="nagoyameshi/restaurant/image/")
     introduction    = models.CharField(verbose_name="店舗紹介文", max_length=100)
+    #PROTECT=関連するオブジェクトがあると削除できない
+    area            = models.ForeignKey(Area,verbose_name="エリア",on_delete=models.PROTECT)
     post_code_regex = RegexValidator(regex=r'^\d{3}-\d{4}$')
     # validators：追加のバリデーションの指定
     post_code       = models.CharField(verbose_name="郵便番号", max_length=8 , validators=[post_code_regex])

@@ -9,7 +9,7 @@ from django.utils.html import format_html
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display	= [ "id", "category", "created_at", "updated_at" ]
+    list_display	= [ "id", "category_name", "created_at", "updated_at" ]
 
 class AreaAdmin(admin.ModelAdmin):
     list_display	= [ "id", "area", "created_at", "updated_at" ]
@@ -42,9 +42,8 @@ class RestaurantAdmin(admin.ModelAdmin):
     def format_category(self, obj):
         content  = ""
 
-        for category in obj.category.all():
-            content += category.name + ","
-
+        for category_name in obj.category.all():
+            content += category_name.caytegory + ","
         return format_html('{}', content)
         
 

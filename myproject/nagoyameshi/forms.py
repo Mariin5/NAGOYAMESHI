@@ -6,7 +6,7 @@ from .models import Category,Area,PayMethod,Holiday,Restaurant,Review,Reservatio
 class CategoryForm(forms.ModelForm):
     class Meta:
         model	= Category
-        fields	= [ "category" ]
+        fields	= [ "category_name" ]
 
 class AreaForm(forms.ModelForm):
     class Meta:
@@ -26,7 +26,7 @@ class HolidayForm(forms.ModelForm):
 class RestaurantForm(forms.ModelForm):
     class Meta:
         model	= Restaurant
-        fields	= [ "category", "name", "name_kana", "image", "introduction", "post_code", "address", "holiday", "tel", "email", "paymethod", "has_parking" ]
+        fields	= [ "category_name", "name", "name_kana", "image", "introduction", "post_code", "address", "holiday", "tel", "email", "paymethod", "has_parking" ]
 
 class ReviewForm(forms.ModelForm):
     class Meta:

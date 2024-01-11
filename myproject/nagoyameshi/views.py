@@ -15,10 +15,6 @@ from .models import Category,Area,PayMethod,Holiday,Restaurant,Review,Reservatio
 from .forms import CategoryForm,AreaForm,PayMethodForm,HolidayForm,RestaurantForm,ReviewForm,ReservationForm,CompanyForm
 
 class IndexView(View):
-    # リクエストメソッドごとの処理を書く。
-    # リクエストメソッド(リクエストの種類。getメソッド と postメソッドがある。getメソッドを使って読み込み・検索。postメソッドを使って投稿・書き込み)
-    # requestはリクエストオブジェクト、*argsと**kwargsは溢れた引数を受け取ることができる。エラー対策。
-    # https://noauto-nolife.com/post/django-args-kwargs/
     def get(self, request, *args, **kwargs):
 
         context = {}

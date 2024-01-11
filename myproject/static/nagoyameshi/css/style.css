@@ -3,7 +3,7 @@ html, body {
     margin:0;
 }
 a {
-    color:inherit;
+    color:#2e2930;
     text-decoration:none;
 }
 .right_header {
@@ -12,7 +12,7 @@ a {
     position:fixed;
     z-index:99;
 
-    background:#131417;
+    background:#bb5520;
     color:white;
     display:flex;
     align-items:center;
@@ -22,7 +22,10 @@ a {
 .header_link {
     color:white;
     margin-left:0.5rem;
+    /*画像使えるようになったらロゴ用で復活*/
+    /*text-align: left;*/
 }
+
 .right_header h1 {
     font-size:2rem;
     font-weight:bold;
@@ -82,8 +85,8 @@ input[type="checkbox"]#r_sidebar:checked ~ .right_header .r_sidebar_label i.fa-t
 
     height:calc( 100vh - 3rem);
     width:300px;
-    background:#333;
-    color:white;
+    background:#fafafa;
+    color:#2e2930;
     
     transition:0.2s;
     overflow:auto;
@@ -125,13 +128,43 @@ main {
 
 }
 
-
-
-
+/*foter*/
 footer {
-
-    padding:2rem;
+    padding: 2rem;
+    font-size: 15px;
+    background: #bb5520;
 }
 
+#footer_area ul{
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
 
+#footer_area li{
+    padding: 8px 25px;
+    border-bottom: 1px solid white;
+}
+
+#footer_area a{
+    color: white;
+    text-decoration: none;
+}
+
+#footer_area a:hover {
+    color: #fff;
+  }
+
+/*copyrigth*/
+#footer_area div {
+    display: flex;
+    justify-content: center;
+    padding-top: 8px;
+}
+
+#footer_area small {
+    color: white;
+  }
 

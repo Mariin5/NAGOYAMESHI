@@ -23,7 +23,7 @@ class IndexView(View):
         #カテゴリで検索した場合
         if "search" in request.GET:
             print(request.GET["search"])
-            context["restaurant"]   = Restaurant.objects.filter(name__icontains=request.GET["search"])
+            context["restaurants"]   = Restaurant.objects.filter(name__icontains=request.GET["search"])
             print( request.GET["search"].replace(" ","　").split("　") )
             
 

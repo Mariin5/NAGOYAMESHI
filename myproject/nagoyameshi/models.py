@@ -105,6 +105,8 @@ class Restaurant(models.Model):
     created_at  = models.DateTimeField(verbose_name="投稿日時", default=timezone.now)
     updated_at  = models.DateTimeField(verbose_name="更新日時", auto_now=True)
 
+    def __str__(self):
+        return self.name
 
 class Review(models.Model):
     user        = models.ForeignKey(User, verbose_name="投稿者", on_delete=models.CASCADE)

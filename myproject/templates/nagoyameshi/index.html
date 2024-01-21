@@ -1,12 +1,16 @@
 {% extends "nagoyameshi/base.html" %}
+{% load static %}
 
 {% block extra_head %}
 {% endblock %}
 
 {% block main %}
 
-{# TODO: ここに紹介文を作る。 #}
-<div>名古屋のグルメを堪能しよう！</div>
+<div id="intro">
+    <h1>名古屋のグルメを堪能しよう！</h1><br>
+    <p>名古屋は食べるべきグルメで溢れてる</p>
+</div>
+
 
 <form action="" method="">
     <div class="input-group">
@@ -20,22 +24,27 @@
 {% endcomment %}
 
 
-{{ categories }}
+<!--{{ categories }}-->
+<!--blockタグで継承しているときのカテゴリを横並びで表示させる方法を知りたい-->
+<div id="categories">
+    <h2>カテゴリ一覧</h2>
+    {% for category in categories %}
+        <div class="categories_list">{{ category.category_name }}</div>
+    {% endfor %}
+</div>
 
-{% for category in categories %}
-<div>{{ category.category }}</div>
-{% endfor %}
-
+<!--ワイヤーフレームには店舗一覧を書いてなかったので一旦コメントアウト
 <hr>
 {{ restaurants }}
+<div id="restaurants">
+    {% for restaurant in restaurants %}
+        <div class="restaurants_list">{{ restaurant.name }}</div>
+    {% endfor %}-->
+</div>
 
-{% for restaurant in restaurants %}
-<div>{{ restaurant.name }}</div>
-{% endfor %}
 
 
 {# TODO:エリアマップ #}
 
-{# TODO:カテゴリ一覧 #}
 
 {% endblock %}

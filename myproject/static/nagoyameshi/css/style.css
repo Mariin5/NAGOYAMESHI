@@ -5,10 +5,25 @@ h1{
     font-size: 40px;
 }
 
+/*店舗検索・カテゴリ一覧・エリア一覧の下線*/
 h2{
     color: #333333;
     text-decoration: none;
     font-size: 30px; 
+
+    border-bottom: solid 3px #f08300;
+    position: relative;
+    margin-top: 30px;
+    margin-bottom: 5px;
+}
+
+h2::after{
+    position: absolute;
+    content: " ";
+    display: block;
+    border-bottom: solid 3px #bb5520;
+    bottom: -3px;
+    width: 12%;
 }
 
 p{
@@ -75,8 +90,15 @@ a {
     position:relative;
     margin-left: auto;
     padding-right:0.5rem;
-
 }
+
+.r_sidebar_links a{
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    padding-right: 20px;
+}
+
 .r_sidebar_label i {
     position:absolute;
     top:50%;
@@ -141,103 +163,59 @@ main {
 }
 
   /*index.html*/
+
   /*冒頭イントロメッセージ*/
-  
-#intro{
-    box-shadow: 0px 0px 15px 0px rgba(187,95,32,0.8); /*影の指定*/
-    padding:50px 30px;
-    width: 50%;
-    margin: 0 auto;
-    border-radius: 20px;
+  .intro_area{
+    position:relative;
+    /* 親要素の高さを 100vh とする。 */
+    height:100vh;
 }
+.intro_background{
+
+    /* 親要素の左上を起点とする。 */
+    position:absolute;
+    top:0;
+    left:0;
+    /* 画面いっぱいまで画像を広げる。 */
+    width:100vw;
+    height:100vh;
+}
+
+
+.intro_title{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
 
 #intro h1,p{
     text-align: center;
+    color: white;
+    font-weight: bold;
 }
-    
+
+/*検索窓*/
 form{
     margin-top: 30px;
 }
 
-
-
-  /*検索窓*/
-  .form-control{
-    color: #727171; /* 入力済みの文字の色 */
-    background-color: #fff4ea; /* 文字の背景の色 */
-    border-color: #ffe8d1 ; /* 検索ボックスの枠線の色 */
-  }
-
-  /*スライドショー*/
-  .slideshow {
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-  }
-
-  .slideshow-image {
-    width: 100%;
-    height: 100%;
-    background: no-repeat 50% 50%;
-    background-size: cover;
-    animation-name: kenburns;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-duration: 8s;
-    opacity: 1;
-  
-    @for $i from 1 through $items {
-      &:nth-child(#{$i}) {
-        animation-name: kenburns-#{$i};
-        z-index: ($items - $i);
-      }
-    }
-  }
-  
-  @for $i from 1 through $items {
-    @keyframes kenburns-#{$i} {
-      $animation-time-percent: percentage($animation-time / $total-time);
-      $transition-time-percent: percentage($transition-time / $total-time);
-      
-      $t1: ($animation-time-percent * ($i - 1) - $transition-time-percent / 2);
-      $t2: ($animation-time-percent * ($i - 1) + $transition-time-percent / 2);
-      @if($t1 < 0%) { $t1: 0%; }
-      @if($t2 < 0%) { $t2: 0%; }
-  
-      $t3: ($animation-time-percent * ($i) - $transition-time-percent / 2);
-      $t4: ($animation-time-percent * ($i) + $transition-time-percent / 2);
-      @if($t3 > 100%) { $t3: 100%; }
-      @if($t4 > 100%) { $t4: 100%; }
-  
-      $t5: (100% - $transition-time-percent / 2);
-      $t6: (($t4 - $t1) * 100% / $t5);
-  
-      #{$t1} { opacity: 1; transform: scale($scale-base-1); }
-      #{$t2} { opacity: 1; }
-      #{$t3} { opacity: 1; }
-      #{$t4} { opacity: 0; transform: scale(1); }
-      
-      @if($i != $items) {
-        100% { opacity: 0; transform: scale($scale-base-1); }
-      }
-      
-      @if($i == 1) {
-        $scale-plus: ($scale * (100% - $t5) / $t4);
-        $scale-plus-base-1: (1 + ($scale + $scale-plus) / 100%);
-      
-        #{$t5} { opacity: 0; transform: scale($scale-plus-base-1); }
-        100% { opacity: 1; }
-      }
-    }
-  }
-  
-/*index.htmlカテゴリー表示部分*/
-#categories{
-
+.form-control{
+   color: #727171; /* 入力済みの文字の色 */
+   background-color: #fff4ea; /* 文字の背景の色 */
+   border-color: #ffe8d1 ; /* 検索ボックスの枠線の色 */
 }
 
-.categories_list{
+/*index.htmlカテゴリー表示部分*/
 
+.categories_list{
+    display:inline-block;
+    padding:0.25rem 1rem;
+    border:solid 0.1rem orange;
+    border-radius:0.5rem;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 /*index.html店舗名表示部分*/

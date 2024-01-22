@@ -17,39 +17,25 @@ from .forms import CategoryForm,AreaForm,PayMethodForm,HolidayForm,RestaurantFor
 class IndexView(View):
     def get(self, request, *args, **kwargs):
         context = {}
-        print("IndexViewメソッド")
-        print(request.GET)
+        query   =Q()
 
-        #カテゴリで検索した場合
+
         if "search" in request.GET:
             print(request.GET["search"])
             context["restaurants"]   = Restaurant.objects.filter(name__icontains=request.GET["search"])
             print( request.GET["search"].replace(" ","　").split("　") )
             
+            #split = 文字分割、スペースも文字とみなす
+            words =request.GET["search"].replace(" ","　").split("　")
+            #nameをモデル名に変更すれば他条件での検索も可能になる
+            for word in words:
+                query &= Q(name__icontains=word)
+        
+        #restaurant内でフィルターをかけた結果をだす
+        context["restaurants"] = Restaurant.objects.filter(query)
 
-        #未検索時の表示（店舗を表示）
-        else:
-            context["restaurants"]  = Restaurant.objects.all()
-        '''
-        ifとelseの間に以下elifた追記可能？「カテゴリ」「店舗名」「エリア」など複数条件で検索できるようにするには？
-        #カテゴリで検索した場合
-        elif "search" in request.GET:
-            print(request.GET["search"])
-            context["categories"]   = Category.objects.filter(name__icontains=request.GET["search"])
-            print( request.GET["search"].replace(" ","　").split("　") )
-
-        #エリアで検索した場合
-        elif "search" in request.GET:
-            print(request.GET["search"])
-            context["area"]         = Area.objects.filter(name__icontains=request.GET["search"])
-            print( request.GET["search"].replace(" ","　").split("　") )
-       '''
-         # Categoryモデルを使って、Categoryの全データを取り出す。
-        context["categories"]   = Category.objects.all()
-
-
-
-
+        #Categoryモデルを全て表示
+        context["categories"]  = Category.objects.all()
 
         # render関数は指定したテンプレートのレンダリングをしている。
         # 第一引数はrequestオブジェクト、第2引数はテンプレート、第3引数はコンテキスト(DBなどから読み込みしたデータ(辞書型))
@@ -68,41 +54,56 @@ class RestaurantListView(View):
     def get(self, request, *args, **kwargs):
 
         context = {}
-        context["categories"]   = Category.objects.all()
+        query   = Q()
 
-        """
-        restaurants = Restaurant.objects.all()
+        context["categories"] = Category.objects.all()
 
-        paginator   = Paginator(restaurants,6)
+        if "search" in request.GET:
+            words = request.GET["search"].replace(" ","　").split("　")
+            for word in words:
+                #AND検索：&=
+                #OR検索 ：!=
+                #OR検索で空文字を含むと全件が検索結果として表示されるため、空文字がない場合は検索条件を追加という定義をする（if word !="":）
+                if word   != "":
+                    quely &= Q( Q(name__icontains=word) | Q(area_area=word) )
+        restaurants = Restaurant.objects.filetr(query)
+
+        #ページネーション
+        #第一引数：オブジェクト、第二引数：1ページに表示するオブジェクト数
+        paginator = Paginator(restaurants,6)
 
         if "page" in request.GET:
-            context["restaurants"] = paginator.get_page(request.GET["page"])
+            restaurants = paginator.get_page(request.GET["page"])
         else:
-            context["restaurants"] = paginator.get_page(1)
-        """
+            restaurants = paginator.get_page(1)
 
+        #検索ワードを引き継いだままページ遷移できるようにする
+        copied = request.GET.copy()
 
-        # Restaurantのidが1のデータを取り出す
-        #context["restaurants"]  = Restaurant.objects.filter(id=1)
+        #パラメータ
+        print("?" + copied.urlencode())
 
-        # nameがtestのデータを取り出す。
-        #context["restaurants"]  = Restaurant.objects.filter(name="test")
+        #前にページがある場合
+        if restaurants.has_previous():
+            copied["page"]                 = restaurants.previous_page_number()
+            restaurants.previous_page_link = "?" + copied.urlencode()
 
-        # name="test" では 完全一致。testを含む検索をする 
-        # __icontains : 大文字と小文字を区別しない
-        # __contains : 大文字と小文字を区別する。
-        context["restaurants"]  = Restaurant.objects.filter(name__icontains="test")
+            copied["page"]                 = 1
+            restaurants.first_page_link = "?" + copied.urlencode()
 
-        # ↓『test ああああ』を含むのであって、『test』と『ああああ』を含むという意味ではない。
-        context["restaurants"]  = Restaurant.objects.filter(name__icontains="test ああああ")
+        #次にページがある場合
+        if restaurants.has_next():
+            copied["page"]                 = restaurants.next_page_number()
+            restaurants.previous_page_link = "?" + copied.urlencode()
 
-        # クエリビルダを使うことになる。.filter()に格納する検索条件を詳細に指定できる。
+            copied["page"]                 = restaurants.paginator.num_pages
+            restaurants.first_page_link = "?" + copied.urlencode()
+        
+        context["restaurants"]  = restaurants
 
+        return render(request,"nagoyameshi/restaurant_list.html",context)
 
-        return render(request, "nagoyameshi/restaurant_list.html", context)
-
-restaurant_list   = RestaurantListView.as_view()
-
+restaurant_list = RestaurantListView.as_view()
 
 class RestaurantDetailView(View):
 

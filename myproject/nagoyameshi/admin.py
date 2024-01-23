@@ -72,7 +72,7 @@ class ReservationAdmin(admin.ModelAdmin):
     list_display	= [ "id", "user", "restaurant", "scheduled_date", "headcount", "note" ]
 
 class CompanyAdmin(admin.ModelAdmin):
-    list_display	= [ "id", "name", "name_kana", "ceo", "founding_date", "capital", "activity", "post_code", "tel", "email", "created_at", "updated_at" ]
+    list_display	= [ "id", "name", "name_kana", "ceo", "founding_date", "capital", "activity", "post_code",  "tel", "email", "created_at", "updated_at" ]
 
 
 admin.site.register(Category,CategoryAdmin)

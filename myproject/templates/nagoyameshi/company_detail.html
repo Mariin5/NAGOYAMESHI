@@ -1,0 +1,50 @@
+{% extends "nagoyameshi/base.html" %}
+{% load static %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block main %}
+
+<div id="company_detail_title">
+    <h2>会社概要</h2>
+</div>
+<!--tableにブロック要素を継承する方法を知りたい-->
+<table class="company">
+    { % for company in companies % }
+        <tr>
+            <th>会社名</th>
+            <td>{{ company.name }}</td>
+        </tr>
+        <tr>
+            <th>事業内容</th>
+            <td>{{ company.activity }}</td>
+        </tr>
+        <tr>
+            <th>代表者名</th>
+            <td>{{ company.ceo }}</td>
+        </tr>
+        <tr>
+            <th>資本金</th>
+            <td>{{ company.capital }}</td>
+        </tr>
+        <tr>
+            <th>設立日</th>
+            <td>{{ company.founding_date }}</td>
+        </tr>
+        <tr>
+            <th>郵便番号</th>
+            <td>{{ company.post_code }}</td>
+        </tr>
+        <tr>
+            <th>電話番号</th>
+            <td>{{ company.tel }}</td>
+        </tr>
+        <tr>
+            <th>メールアドレス</th>
+            <th>{{ company.email }}</td>
+        </tr>
+    { % endfor % }
+    </table>
+
+{% endblock %}

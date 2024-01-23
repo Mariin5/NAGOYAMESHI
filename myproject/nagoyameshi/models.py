@@ -101,7 +101,7 @@ class Restaurant(models.Model):
     email           = models.EmailField(verbose_name="メールアドレス",blank=True)
     paymethod       = models.ManyToManyField(PayMethod, verbose_name="支払い方法")
     # TrueもしくはFalse
-    has_parking     = models.BooleanField(verbose_name="駐車場の有無")
+    has_parking     = models.CharField(verbose_name="駐車場", max_length=100)
     created_at  = models.DateTimeField(verbose_name="投稿日時", default=timezone.now)
     updated_at  = models.DateTimeField(verbose_name="更新日時", auto_now=True)
 
@@ -137,7 +137,7 @@ class Company(models.Model):
     capital         = models.PositiveIntegerField(verbose_name="資本金(万円)")
     activity        = models.CharField(verbose_name="事業内容", max_length=300)
     post_code_regex = RegexValidator(regex=r'^\d{3}-\d{4}$')
-    post_code       = models.CharField(verbose_name="郵便番号", max_length=8 , validators=[post_code_regex])
+    post_code       = models.CharField(verbose_name="郵便番号", max_length=8 , validators=[post_code_regex])       
     # 携帯電話番号であれば11桁、固定回線の場合は10桁 混乱を招くためハイフンを除外
     tel_regex       = RegexValidator(regex=r'^\d{10,11}$')
     tel             = models.CharField(verbose_name="電話番号", max_length=11, validators=[tel_regex])

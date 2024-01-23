@@ -162,7 +162,8 @@ main {
    margin-top:3rem;
 }
 
-  /*index.html*/
+
+/*index.html*/
 
   /*冒頭イントロメッセージ*/
   .intro_area{
@@ -277,5 +278,30 @@ footer {
 #footer_area small {
     color: white;
   }
+
+/*company_detail.html*/
+
+.company {
+    width: 30%;
+    margin: 20px 10px;
+    }
+    
+    .company th,
+    .company td {
+    border:1px solid #333;
+    font-size: small;
+    padding: 10px 5px;
+    }
+    
+    .company th {
+    font-weight: bold;
+    white-space: nowrap;
+    width: 100px;
+
+    }
+
+    #company_detail_title{
+        margin-left: 10px;
+    }
 
 

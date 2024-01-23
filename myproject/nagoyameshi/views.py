@@ -1,6 +1,8 @@
+from msilib.schema import ListView
 from django.shortcuts import render,redirect
 # TODO:この先は、TemplateViewやListViewなどではなく、Viewを継承したビュークラスを使いましょう(ビューの処理をより高度にできる)
 from django.views import View
+from django.shortcuts import redirect, get_object_or_404
 
 
 # 未認証であればログインページにリダイレクトさせる。
@@ -10,6 +12,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.db.models import Q
 from django.core.paginator import Paginator
+from django.views.generic.base import TemplateView
 
 from .models import Category,Area,PayMethod,Holiday,Restaurant,Review,Reservation,Company
 from .forms import CategoryForm,AreaForm,PayMethodForm,HolidayForm,RestaurantForm,ReviewForm,ReservationForm,CompanyForm
@@ -65,7 +68,7 @@ class RestaurantListView(View):
                 #OR検索 ：!=
                 #OR検索で空文字を含むと全件が検索結果として表示されるため、空文字がない場合は検索条件を追加という定義をする（if word !="":）
                 if word   != "":
-                    quely &= Q( Q(name__icontains=word) | Q(area_area=word) )
+                    query &= Q( Q(name__icontains=word) | Q(area_area=word) )
         restaurants = Restaurant.objects.filetr(query)
 
         #ページネーション
@@ -119,3 +122,5 @@ class RestaurantDetailView(View):
 restaurant_detail   = RestaurantDetailView.as_view()
 
 
+def company_detail(request):
+    return render(request,"nagoyameshi/company_detail.html")

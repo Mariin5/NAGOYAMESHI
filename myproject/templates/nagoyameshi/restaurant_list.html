@@ -4,14 +4,6 @@
 {% endblock %}
 
 {% block main %}
-<form action="" method="">
-    <div class="input-group">
-        <input class="form-control" type="text" name="search" value="{{ request.GET.search }}" placeholder="店舗名、カテゴリ、エリアなどで検索">
-        <div class="input-group-apend">
-            <input class="btn btn-outline-warning" type="submit" value="検索">
-        </div>
-    </div>
-</form>
 
 {% for restaurant in restaurants %}
 <a href="{% url 'nagoyameshi:restaurant_detail' restaurant.id %}">

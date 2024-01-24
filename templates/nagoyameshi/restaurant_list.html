@@ -1,0 +1,42 @@
+{% extends "nagoyameshi/base.html" %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block main %}
+
+{% for restaurant in restaurants %}
+<a href="{% url 'nagoyameshi:restaurant_detail' restaurant.id %}">
+    <div>{{ restaurant.name }}</div>
+</a>
+{% endfor %}
+
+{# ページの表示 #}
+{{ restaurants.number }} / {{ restaurants.paginator.num_pages }} ページ<br>
+{# 前へ #}
+{% if restaurants.has_previous %}
+<a href="?page=1">&laquo; 先頭</a>
+<a href="?page={{ restaurants.previous_page_number }}">前へ</a>
+{% endif %}
+{# 次へ #}
+{% if restaurants.has_next %}
+<a href="?page={{ restaurants.next_page_number }}">次へ</a>
+<a href="?page={{ restaurants.paginator.num_pages }}">最後 &raquo;</a>
+{% endif %}
+
+
+{# ページの表示 #}
+{{ restaurants.number }} / {{ restaurants.paginator.num_pages }} ページ<br>
+{# 前へ #}
+{% if restaurants.has_previous %}
+<a href="{{ restaurants.first_page_link }}">&laquo; 先頭</a>
+<a href="{{ restaurants.previous_page_link }}">前へ</a>
+{% endif %}
+{# 次へ #}
+{% if restaurants.has_next %}
+<a href="{{ restaurants.next_page_link }}">次へ</a>
+<a href="{{ restaurants.end_page_link }}">最後 &raquo;</a>
+{% endif %}
+
+{% endblock %}
+

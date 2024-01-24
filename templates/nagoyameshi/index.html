@@ -1,0 +1,59 @@
+{% extends "nagoyameshi/base.html" %}
+{% load static %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block main %}
+
+<div id="intro" class="intro_area">
+    <img class="intro_background" src="{% static 'assets/background.jpg' %}" alt="">
+    <div class="intro_title">
+        <h1>名古屋のグルメを堪能しよう！</h1><br>
+        <p>名古屋は食べるべきグルメで溢れてる</p>
+    </div>
+</div>
+
+<!--actionにURLを設定すると'Manager' object has no attribute 'filetr'とエラーが出る-->
+<!--Exception Location:	C:\work\myproject\myvenv\myproject\nagoyameshi\views.py, line 72, in get-->
+<form action="{% url 'nagoyameshi:restaurant_list' %}" method="">
+    <h2 style="text-align:center">店舗検索</h2>
+        <div class="input-group">
+            <input class="form-control" type="text" name="search" value="{{ request.GET.search }}" placeholder="店舗名、カテゴリ、エリアなどで検索">
+            <div class="input-group-apend">
+                <input class="btn btn-outline-warning" type="submit" value="検索">
+            </div>
+        </div>
+</form>
+{% comment %}
+{% endcomment %}
+
+
+<!--{{ categories }}-->
+<h2 style="text-align:center">カテゴリ一覧</h2>
+<div id="categories">
+    {% for category in categories %}
+        <div class="categories_list">{{ category.category_name }}</div>
+    {% endfor %}
+</div>
+
+
+<h2 style="text-align:center">レストラン一覧</h2>
+<div id="restaurants">
+    {% for restaurant in restaurants %}
+        <a href="{% url 'nagoyameshi:restaurant_detail' restaurant.id %}" class="restaurant_list">
+            <div>{{ restaurant.name }}</div>
+        </a>
+    {% endfor %}
+</div>
+
+{# TODO:エリアマップ #}
+<h2 style="text-align:center">名古屋市内エリアマップ</h2>
+<div id="area">
+    <!--https://allabout.co.jp/gm/gc/23823/#goog_rewarded -->
+    <!--TODO: エリアマップの必要性（使える地図が少ない、座標指定が難しい（方法は理解した）-->
+
+</div>
+
+
+{% endblock %}

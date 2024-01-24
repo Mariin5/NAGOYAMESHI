@@ -1,0 +1,45 @@
+{% extends "nagoyameshi/base.html" %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block main %}
+
+
+
+
+
+
+
+<table class="table">
+    <tr>
+        <td>郵便番号</td>
+        <td>{{ restaurant.post_code }}</td>
+    </tr>
+    <tr>
+        <td>住所</td>
+        <td>{{ restaurant.address }}</td>
+    </tr>
+    <tr>
+        <td>定休日</td>
+        <td>{{ restaurant.holiday.all }}</td>
+    </tr>
+    <tr>
+        <td>電話番号</td>
+        <td>{{ restaurant.tel }}</td>
+    </tr>
+    <tr>
+        <td>メールアドレス</td>
+        <td>{{ restaurant.email }}</td>
+    </tr>
+    <tr>
+        <td>支払い方法</td>
+        <td>{{ restaurant.paymethod }}</td>
+    </tr>
+    <tr>
+        <td>駐車場</td>
+        <td>{{ restaurant.has_parking }}</td>
+    </tr>
+</table>
+
+{% endblock %}

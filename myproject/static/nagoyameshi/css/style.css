@@ -209,9 +209,12 @@ form{
 }
 
 /*index.htmlカテゴリー表示部分*/
-
+#categories{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
 .categories_list{
-    display:inline-block;
     padding:0.25rem 1rem;
     border:solid 0.1rem orange;
     border-radius:0.5rem;
@@ -219,14 +222,20 @@ form{
     margin-bottom: 10px;
 }
 
+
+
 /*index.html店舗名表示部分*/
 #restaurants{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
 
 }
 
 .restautants_list{
-
+    
 }
+
 
 /* sp mode */
 @media (max-width:768px){
@@ -283,25 +292,39 @@ footer {
 
 .company {
     width: 30%;
-    margin: 20px 10px;
+    margin: 10px auto;
+    
     }
     
-    .company th,
-    .company td {
-    border:1px solid #333;
+.company th,
+.company td {
     font-size: small;
-    padding: 10px 5px;
-    }
-    
-    .company th {
-    font-weight: bold;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
     white-space: nowrap;
     width: 100px;
+}
+    
+.company th {
+    border-bottom:1px solid #bb5520;
+    font-weight: bold;
+}
 
-    }
+.company td {
+    border-bottom:1px solid #333;
+}
 
-    #company_detail_title{
-        margin-left: 10px;
-    }
 
+
+/*contact.html*/
+#contact{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.contact_label,.contact_radiobutton{
+    font-size: small;
+    font-weight: bold;
+}
 

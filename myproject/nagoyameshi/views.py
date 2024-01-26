@@ -68,8 +68,8 @@ class RestaurantListView(View):
                 #OR検索 ：!=
                 #OR検索で空文字を含むと全件が検索結果として表示されるため、空文字がない場合は検索条件を追加という定義をする（if word !="":）
                 if word   != "":
-                    query &= Q( Q(name__icontains=word) | Q(area_area=word) )
-        restaurants = Restaurant.objects.filetr(query)
+                    query &= Q( Q(name__icontains=word) | Q(area__area=word) )
+        restaurants = Restaurant.objects.filter(query)
 
         #ページネーション
         #第一引数：オブジェクト、第二引数：1ページに表示するオブジェクト数
@@ -123,4 +123,9 @@ restaurant_detail   = RestaurantDetailView.as_view()
 
 
 def company_detail(request):
-    return render(request,"nagoyameshi/company_detail.html")
+    companies = Company.objects.all()
+    context   = {'companies':companies,}
+    return render(request,"nagoyameshi/company_detail.html",context)
+
+def contact(request):
+    return render(request,"nagoyameshi/contact.html")

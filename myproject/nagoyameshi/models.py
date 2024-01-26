@@ -42,6 +42,7 @@ class Area(models.Model):
             ('西部', '西部'),
             ('南部', '南部'),
             ('北部', '北部'),
+            ('港', '港'),
         ]
     area        = models.CharField(verbose_name="エリア名", max_length=5, choices=area_choice,unique=True)
     created_at  = models.DateTimeField(verbose_name="投稿日時", default=timezone.now)

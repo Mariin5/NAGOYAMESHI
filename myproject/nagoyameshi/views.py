@@ -14,8 +14,8 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from django.views.generic.base import TemplateView
 
-from .models import Category,Area,PayMethod,Holiday,Restaurant,Review,Reservation,Company
-from .forms import CategoryForm,AreaForm,PayMethodForm,HolidayForm,RestaurantForm,ReviewForm,ReservationForm,CompanyForm
+from .models import Category,Area,PayMethod,Holiday,Restaurant,Review,Reservation,Company,Favorite
+from .forms import CategoryForm,AreaForm,PayMethodForm,HolidayForm,RestaurantForm,ReviewForm,ReservationForm,CompanyForm,FavoriteForm
 
 class IndexView(View):
     def get(self, request, *args, **kwargs):
@@ -68,7 +68,7 @@ class RestaurantListView(View):
                 #OR検索 ：!=
                 #OR検索で空文字を含むと全件が検索結果として表示されるため、空文字がない場合は検索条件を追加という定義をする（if word !="":）
                 if word   != "":
-                    query &= Q( Q(name__icontains=word) | Q(area__area=word) )
+                    query &= Q( Q(name__icontains=word) | Q(area__area=word) | Q(category_name__category_name=word) )
         restaurants = Restaurant.objects.filter(query)
 
         #ページネーション
@@ -97,10 +97,10 @@ class RestaurantListView(View):
         #次にページがある場合
         if restaurants.has_next():
             copied["page"]                 = restaurants.next_page_number()
-            restaurants.previous_page_link = "?" + copied.urlencode()
+            restaurants.next_page_link = "?" + copied.urlencode()
 
             copied["page"]                 = restaurants.paginator.num_pages
-            restaurants.first_page_link = "?" + copied.urlencode()
+            restaurants.end_page_link = "?" + copied.urlencode()
         
         context["restaurants"]  = restaurants
 
@@ -122,10 +122,50 @@ class RestaurantDetailView(View):
 restaurant_detail   = RestaurantDetailView.as_view()
 
 
+#お気に入り登録
+class FavoriteView(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+
+        context                 = {}
+        context["favorites"]    = Favorite.objects.filter(user=request.user).order_by("-created_at")
+
+        return render(request, "nagoyameshi/favorite.html", context)
+
+    def post(self, request, *args, **kwargs):
+        copied          = request.POST.copy()
+
+        # お気に入り登録したユーザー情報
+        copied["user"]  = request.user
+        form    = FavoriteForm(copied)
+
+        
+        if form.is_valid():
+            form.save()
+
+        return redirect("nagoyameshi:favorite")
+
+favorite        = FavoriteView.as_view()
+# お気に入り削除
+class FavoriteDeleteView(LoginRequiredMixin, View):
+    def post(self, request, pk,  *args, **kwargs):
+
+        favorite    = Favorite.objects.filter(id=pk, user=request.user).first()
+        favorite.delete()
+
+        return redirect("nagoyameshi:favorite")
+
+favorite_delete = FavoriteDeleteView.as_view()
+
+
 def company_detail(request):
     companies = Company.objects.all()
     context   = {'companies':companies,}
     return render(request,"nagoyameshi/company_detail.html",context)
 
+def terms_of_service(request):
+    return render(request,"nagoyameshi/terms_of_service.html")
+
 def contact(request):
     return render(request,"nagoyameshi/contact.html")
+

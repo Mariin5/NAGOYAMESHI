@@ -125,6 +125,15 @@ class Reservation(models.Model):
     headcount       = models.PositiveIntegerField(verbose_name="人数")
     # アレルギー、車椅子、盲導犬など
     note            = models.CharField(verbose_name="備考", max_length=100,blank=True)
+
+class Favorite(models.Model):
+    #同一ユーザーが複数回同じレストランをお気に入り登録できないように設定する（重複を防ぐ）
+    class Meta:
+        unique_together=("user","restaurant")
+
+    user       = models.ForeignKey(User, verbose_name="登録者",on_delete=models.CASCADE)
+    restaurant = models.ForeignKey(Restaurant, verbose_name="店舗",on_delete=models.CASCADE)
+    created_at = models.DateTimeField(verbose_name="投稿日時", default=timezone.now)
     
 
 

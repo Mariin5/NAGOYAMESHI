@@ -1,0 +1,19 @@
+{% extends "nagoyameshi/base.html" %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block main %}
+
+{% for favorite in favorites %}
+<div>
+    {{ favorite.restaurant.name }}
+
+    <form action="{% url 'nagoyameshi:favorite_delete' favorite.id %}" method="post">
+        {% csrf_token %}
+        <input class="btn btn-outline-warning" type="submit" value="お気に入り削除">
+    </form>
+</div>
+{% endfor %}
+
+{% endblock %}

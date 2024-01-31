@@ -12,7 +12,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
-    <!--ファビコンいつか時間ある時に追加したい-->
+
+
+  
 
     {% block extra_head %}
     {% endblock %}
@@ -24,7 +26,7 @@
         {# JavaScriptを使ってハンバーガーメニュー(サイドバー)を表示させていた。 #}
         <input id="r_sidebar" class="r_sidebar_button" type="checkbox">
         <div class="right_header">
-            <a class="header_link" href=""><img src="{% static 'assets/NAGOYAMESHI_logo.png' %}" alt="logo" width="350px" height="67px"></a>
+            <a class="header_link" href="{% url 'nagoyameshi:index' %}"><img src="{% static 'assets/NAGOYAMESHI_logo.png' %}" alt="logo" width="350px" height="67px"></a>
 
             {% if request.user.is_authenticated %}
             <label class="r_sidebar_label" for="r_sidebar">
@@ -58,8 +60,8 @@
     <footer id="footer_area">
         <ul>
             <li><a href="{% url 'nagoyameshi:company_detail' %}">会社概要</a></li>
-            <li><a href="">利用規約</a></li>
-            <li><a href="">お問い合わせ</a></li>
+            <li><a href="{% url 'nagoyameshi:terms_of_service' %}">利用規約</a></li>
+            <li><a href="{% url 'nagoyameshi:contact' %}">お問い合わせ</a></li>
         </ul>
         <div>
             <small>&copy; NAGOYAMESHI</small>

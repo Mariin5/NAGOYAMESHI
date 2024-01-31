@@ -6,13 +6,13 @@
 
 {% block main %}
 
-<div id="company_detail_title">
+<div>
     <h2 style="text-align:center">会社概要</h2>
 </div>
 <!--tableにブロック要素を継承する方法を知りたい-->
 
-<table class="company">
-    <!--{% for company in companies %}-->
+<table class="table">
+    {% for company in companies %}
         <tr>
             <th>会社名</th>
             <td>{{ company.name }}</td>
@@ -45,7 +45,7 @@
             <th>メールアドレス</th>
             <td>{{ company.email }}</td>
         </tr>
-    <!--{% endfor %}-->
+    {% endfor %}
 </table>
     
 

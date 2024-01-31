@@ -14,7 +14,7 @@ h2{
     border-bottom: solid 3px #f08300;
     position: relative;
     margin-top: 30px;
-    margin-bottom: 5px;
+    margin-bottom: 40px;
 }
 
 h2::after{
@@ -24,6 +24,10 @@ h2::after{
     border-bottom: solid 3px #bb5520;
     bottom: -3px;
     width: 12%;
+}
+
+h3{
+    border-left: double 6px #bb5520;
 }
 
 p{
@@ -165,6 +169,8 @@ main {
 
 /*index.html*/
 
+
+
   /*冒頭イントロメッセージ*/
   .intro_area{
     position:relative;
@@ -198,14 +204,24 @@ main {
 }
 
 /*検索窓*/
-form{
+#restaurant_search{
     margin-top: 30px;
+    width: 50%;
+    margin: auto;
 }
+
 
 .form-control{
    color: #727171; /* 入力済みの文字の色 */
    background-color: #fff4ea; /* 文字の背景の色 */
    border-color: #ffe8d1 ; /* 検索ボックスの枠線の色 */
+   height: 35px;
+   margin-left: 30px;
+}
+
+/*検索ボタン*/
+#search_button{
+    margin-left: 30px;
 }
 
 /*index.htmlカテゴリー表示部分*/
@@ -213,13 +229,13 @@ form{
     width: 100%;
     display: flex;
     justify-content: space-around;
+    margin-bottom: 70px;
 }
 .categories_list{
     padding:0.25rem 1rem;
     border:solid 0.1rem orange;
     border-radius:0.5rem;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 10px 10px;
 }
 
 
@@ -229,11 +245,126 @@ form{
     width: 100%;
     display: flex;
     justify-content: space-around;
-
+    flex-wrap: wrap;
+    margin-bottom: 70px;
 }
 
-.restautants_list{
+.restaurant_list{
+    padding:0.25rem 1rem;
+    border:solid 0.1rem orange;
+    border-radius:0.5rem;
+    margin: 10px 0px;
+}
+
+#restaurant_image{
+    width: auto;
+    height: auto;
+    text-align: center;
+}
+
+#restaurant_name{
+    font-size: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+#restaurant_info{
+    font-size: 15px;
+    text-align: center;
+}
+
+/*copyrigth*/
+#footer_area div {
+    display: flex;
+    justify-content: center;
+    padding-top: 8px;
+}
+
+#footer_area small {
+    color: white;
+  }
+
+
+/*restaurant_detail.html*/
+
+#restaurant_detail_submit{
+    width: 30%;
+    margin: 20px auto;
+    text-align: center;
+}
+
+/*company_detail.html*/
+/*restaurant_detail.html*/
+
+.table {
+    width: 30%;
+    margin: 0 auto;
+    }
     
+.table th,
+.table td {
+    font-size: small;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    white-space: nowrap;
+    width: 100px;
+}
+    
+.table th {
+    border-bottom:1px solid #bb5520;
+    font-weight: bold;
+    padding-left: 20px;
+}
+
+.table td {
+    border-bottom:1px solid #333;
+    margin-right: 10px;
+    width:calc(100%/5);
+}
+
+
+
+/*contact.html*/
+#contact_form{
+    margin: auto;
+}
+
+.contact{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+
+.contact_label,.contact_radiobutton{
+    font-size: small;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-right: 15px;
+}
+
+.contact_label{
+    font-weight: bold; 
+    white-space: nowrap;
+    width: 100px;
+}
+
+.contact_textbox{
+    font-size: small;
+    width: 300px;
+    height: 60px;
+}
+
+.input-group-apend{
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+
+
+/*terms_of_use.html*/
+#terms_of_use{
+    padding: 5px 20px;
 }
 
 
@@ -248,7 +379,19 @@ form{
 
 }
 
-/*foter*/
+/*index.html*/
+#categories{
+    flex-wrap: wrap;
+    width: 100%;
+}
+.categories_list{
+    padding:0.25rem 1rem;
+    border:solid 0.1rem orange;
+    border-radius:0.5rem;
+    margin: auto;
+}
+
+/*footer*/
 footer {
     padding: 2rem;
     font-size: 15px;
@@ -276,48 +419,6 @@ footer {
 #footer_area a:hover {
     color: #fff;
   }
-
-/*copyrigth*/
-#footer_area div {
-    display: flex;
-    justify-content: center;
-    padding-top: 8px;
-}
-
-#footer_area small {
-    color: white;
-  }
-
-/*company_detail.html*/
-
-.company {
-    width: 30%;
-    margin: 10px auto;
-    
-    }
-    
-.company th,
-.company td {
-    font-size: small;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-left: 20px;
-    white-space: nowrap;
-    width: 100px;
-}
-    
-.company th {
-    border-bottom:1px solid #bb5520;
-    font-weight: bold;
-}
-
-.company td {
-    border-bottom:1px solid #333;
-}
-
-#company_detail_title{
-    margin-left: 10px;
-}
 
 
 

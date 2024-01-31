@@ -1,7 +1,7 @@
 # == This code was created by https://noauto-nolife.com/post/django-auto-create-models-forms-admin/ == #
 
 from django import forms
-from .models import Category,Area,PayMethod,Holiday,Restaurant,Review,Reservation,Company
+from .models import Category,Area,PayMethod,Holiday,Restaurant,Review,Reservation,Company,Favorite
 
 class CategoryForm(forms.ModelForm):
     class Meta:
@@ -42,4 +42,11 @@ class CompanyForm(forms.ModelForm):
     class Meta:
         model	= Company
         fields	= [ "name", "name_kana", "ceo", "founding_date", "capital", "activity", "post_code", "tel", "email" ]
+
+
+class FavoriteForm(forms.ModelForm):
+    class Meta:
+        model   = Favorite
+        fields  = [ "user", "restaurant" ]
+    
 

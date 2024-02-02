@@ -322,7 +322,24 @@ main {
     width:calc(100%/5);
 }
 
+/*category_detail.html*/
+#not_found_restaurant{
+    padding:0.25rem 1rem;
+    margin: 10px 0px;
+}
 
+#not_found{
+    text-align: center;
+    font-weight: bold;
+    font-size: large;
+    margin: 10px auto;
+}
+
+#back_top{
+    text-align: center;
+    font-size: small;
+    margin: 15px auto;
+}
 
 /*contact.html*/
 #contact_form{

@@ -6,6 +6,7 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("restaurant_list/", views.restaurant_list, name="restaurant_list"),
     path("restaurant_detail/<int:pk>/", views.restaurant_detail, name="restaurant_detail"),
+    path("category_detail/<int:pk>/", views.category_detail, name="category_detail"),
     path("company_detail/", views.company_detail, name="company_detail"),
     path('contact/',views.contact,name='contact'),
     path('terms_of_service/',views.terms_of_service,name='terms_of_service'),

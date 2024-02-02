@@ -119,7 +119,17 @@ class RestaurantDetailView(View):
 
 restaurant_detail   = RestaurantDetailView.as_view()
 
+class CategoryDetailView(View):
+    def get(self, request, pk, *args, **kwargs):
 
+        context = {}
+        context["category"]   = Category.objects.filter(id=pk).first()
+        context["restaurant"]   = Restaurant.objects.filter(id=pk).first()
+
+        return render(request, "nagoyameshi/category_detail.html", context)
+    
+
+category_detail   = CategoryDetailView.as_view()
 
 #お気に入り登録
 class FavoriteView(LoginRequiredMixin, View):

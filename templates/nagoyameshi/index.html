@@ -34,7 +34,9 @@
 <h2 style="text-align:center">カテゴリ一覧</h2>
 <div id="categories">
     {% for category in categories %}
-        <div class="categories_list">{{ category.category_name }}</div>
+        <a href="{% url 'nagoyameshi:category_detail' category.id %}">
+            <div class="categories_list">{{ category.category_name }}</div>
+        </a>
     {% endfor %}
 </div>
 
@@ -43,7 +45,7 @@
 <div id="restaurants">
     {% for restaurant in restaurants %}
         <a href="{% url 'nagoyameshi:restaurant_detail' restaurant.id %}"   class="restaurant_list">
-            <div id="restaurant_image"><img src="{{ restaurant.image.url }}" alt="{{photo.name}}" ></div>
+            <div id="restaurant_image"><img src="{{ restaurant.image.url }}" alt="{{restaurant.name}}" ></div>
             <div id="restaurant_name">{{ restaurant.name }}</div>
             <div id="restaurant_info">{{ restaurant.area }}</div>
         </a>

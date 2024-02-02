@@ -9,6 +9,14 @@
 <div id="restaurant_image"><img src="{{ restaurant.image.url }}" alt="{{photo.name}}" ></div>
 <table class="table">
     <tr>
+        <th>カテゴリ</th>
+            <td>
+                {% for category_name in restaurant.category_name.all %}
+                {{ category_name.category_name }}
+                {% endfor %}
+            </td>
+    </tr>
+    <tr>
         <th>郵便番号</th>
         <td>{{ restaurant.post_code }}</td>
     </tr>
@@ -18,9 +26,11 @@
     </tr>
     <tr>
         <th>定休日</th>
-        {% for holiday in restaurant.holiday.all %}
-            <td>{{ holiday.holiday }}</td>
-        {% endfor %}
+            <td>
+                {% for holiday in restaurant.holiday.all %}
+                {{ holiday.holiday }}
+                {% endfor %}
+            </td>
     </tr>
     <tr>
         <th>電話番号</th>
@@ -32,9 +42,11 @@
     </tr>
     <tr>
         <th>支払い方法</th>
-        {% for paymethod in restaurant.paymethod.all %}
-            <td>{{ paymethod.paymethod }}</td>
-        {% endfor %}
+            <td>
+                {% for paymethod in restaurant.paymethod.all %}
+                {{ paymethod.paymethod }}<br>
+                {% endfor %}
+            </td>
     </tr>
     <tr>
         <th>駐車場</th>
@@ -48,6 +60,8 @@
     <input type="hidden" name="restaurant" value="{{ restaurant.id }}">
     <input class="btn btn-outline-warning" type="submit" value="お気に入り登録" >
 </form>
+
+<div id="back_top"><a href="{% url 'nagoyameshi:index' %}">トップページに戻る</a></div>
 
 
 

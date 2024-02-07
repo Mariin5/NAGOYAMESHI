@@ -6,8 +6,9 @@
 
 {% block main %}
 
+
 <div id="intro" class="intro_area">
-    <img class="intro_background" src="{% static 'assets/background.jpg' %}" alt="">
+    <img class="intro_background" src="{% static 'assets/back_ramen.jpg' %}" alt="">
     <div class="intro_title">
         <h1>名古屋のグルメを堪能しよう！</h1><br>
         <p>名古屋は食べるべきグルメで溢れてる</p>
@@ -16,12 +17,12 @@
 
 <!--actionにURLを設定すると'Manager' object has no attribute 'filetr'とエラーが出る-->
 <!--Exception Location:	C:\work\myproject\myvenv\myproject\nagoyameshi\views.py, line 72, in get-->
-<form action="{% url 'nagoyameshi:restaurant_list' %}" method="">
-    <h2 style="text-align:center">店舗検索</h2>
+<h2 style="text-align:center">店舗検索</h2>
+<form action="{% url 'nagoyameshi:restaurant_list' %}" method="" id="restaurant_search">
         <div class="input-group">
             <input class="form-control" type="text" name="search" value="{{ request.GET.search }}" placeholder="検索">
             <div class="input-group-apend">
-                <input class="btn btn-outline-warning" type="submit" value="検索">
+                <input class="btn btn-outline-warning" type="submit" value="検索" id="search_button">
             </div>
         </div>
 </form>
@@ -33,16 +34,17 @@
 <h2 style="text-align:center">カテゴリ一覧</h2>
 <div id="categories">
     {% for category in categories %}
-        <div class="categories_list">{{ category.category_name }}</div>
+    <a class="categories_list" href="{% url 'nagoyameshi:restaurant_list' %}?category_name={{ category.id }}">{{ category.category_name }}</a>
     {% endfor %}
 </div>
-
 
 <h2 style="text-align:center">レストラン一覧</h2>
 <div id="restaurants">
     {% for restaurant in restaurants %}
-        <a href="{% url 'nagoyameshi:restaurant_detail' restaurant.id %}" class="restaurant_list">
-            <div>{{ restaurant.name }}</div>
+        <a href="{% url 'nagoyameshi:restaurant_detail' restaurant.id %}"   class="restaurant_list">
+            <div id="restaurant_image"><img src="{{ restaurant.image.url }}" alt="{{restaurant.name}}" ></div>
+            <div id="restaurant_name">{{ restaurant.name }}</div>
+            <div id="restaurant_info">{{ restaurant.area }}</div>
         </a>
     {% endfor %}
 </div>

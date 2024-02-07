@@ -6,8 +6,11 @@ from django.http import HttpResponseNotAllowed
 from django.views.generic import CreateView
 from django.contrib.auth.views import LoginView,LogoutView,PasswordChangeView,PasswordChangeDoneView,PasswordResetView,PasswordResetDoneView,PasswordResetConfirmView,PasswordResetCompleteView
 
-
 from .forms import SignupForm
+
+from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
+import stripe
 
 #アカウント新規作成のビュー
 class SignupView(CreateView):
@@ -41,6 +44,9 @@ class CustomLogoutView(LogoutView):
         return HttpResponseNotAllowed(permitted_methods=['POST'])
 
 logout  = CustomLogoutView.as_view()
+
+
+
 
 
 password_change             = PasswordChangeView.as_view()

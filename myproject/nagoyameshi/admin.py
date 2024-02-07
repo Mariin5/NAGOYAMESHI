@@ -30,17 +30,16 @@ class HolidayAdmin(admin.ModelAdmin):
 '''
 
 class RestaurantAdmin(admin.ModelAdmin):
-    list_display	= [ "id", "name", "name_kana", "image", "introduction", "area", "post_code", "format_holiday", "tel", "email", "format_paymethod", "has_parking", "created_at", "updated_at"]
+    list_display    = [ "id", "name", "name_kana", "image", "introduction", "area", "post_code", "format_holiday", "tel", "email", "format_paymethod", "has_parking", "created_at", "updated_at" , "format_category" ]
     filter_horizontal   = [ "category_name", "paymethod","holiday" ]
 
     def format_category(self, obj):
         content  = ""
 
-        for category in obj.category.all():
-            content += category.category_name + ","
+        for category in obj.category_name.all():
+            content += category.category_name + "," 
 
         return format_html('{}', content)
-        
 
     def format_paymethod(self, obj):
 

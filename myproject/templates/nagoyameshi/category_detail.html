@@ -1,0 +1,31 @@
+{% extends "nagoyameshi/base.html" %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block main %}
+
+<h2 style="text-align:center">{{ category.category_name }}</h2>
+    <div>
+        <div id="restaurants">
+            {% for restaurant in restaurant.category_name.all %}
+                <a href="{% url 'nagoyameshi:restaurant_detail' restaurant.id %}"   class="restaurant_list">
+                    <div id="restaurant_image"><img src="{{ restaurant.image.url }}" alt="{{photo.name}}" ></div>
+                    <div id="restaurant_name">{{ restaurant.name }}</div>
+                    <div id="restaurant_info">{{ restaurant.area }}</div>
+                </a>
+        </div>
+
+        {% empty %}
+        <div id="not_found_restaurant">
+            <div><!--FontAwesomeで画像探す--></div>
+            <div id="not_found">該当するレストランはありません</div>
+            <div id="back_top"><a href="{% url 'nagoyameshi:index' %}">トップページに戻る</a></div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+
+
+{% endblock %}

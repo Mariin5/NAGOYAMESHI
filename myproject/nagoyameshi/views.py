@@ -15,7 +15,10 @@ from django.core.paginator import Paginator
 from django.views.generic.base import TemplateView
 
 from .models import Category,Area,PayMethod,Holiday,Restaurant,Review,Reservation,Company,Favorite
-from .forms import CategoryForm,AreaForm,PayMethodForm,HolidayForm,RestaurantForm,ReviewForm,ReservationForm,CompanyForm,FavoriteForm
+from .forms import CategoryForm,AreaForm,PayMethodForm,HolidayForm,RestaurantForm,ReviewForm,ReservationForm,CompanyForm,FavoriteForm,RestaurantCategorySearchForm
+import stripe
+from django.urls import reverse_lazy
+from django.conf import settings
 
 class IndexView(View):
     def get(self, request, *args, **kwargs):
@@ -67,10 +70,26 @@ class RestaurantListView(View):
                 #AND検索：&=
                 #OR検索 ：!=
                 #OR検索で空文字を含むと全件が検索結果として表示されるため、空文字がない場合は検索条件を追加という定義をする（if word !="":）
-                if word   != "":
+                if word   != "": 
                     query &= Q( Q(name__icontains=word) | Q(area__area=word) | Q(category_name__category_name=word) )
-        restaurants = Restaurant.objects.filter(query)
 
+
+        #TODO : ここにカテゴリでの検索にも対応させる。
+        # RestaurantCategorySearchForm で実在するカテゴリのidかをチェックする。
+        form    = RestaurantCategorySearchForm(request.GET)
+
+        if form.is_valid():
+            # このManyToManyFieldのオブジェクトは直接指定して検索はできない。
+            print( form.cleaned_data["category_name"] )
+            # そのため、request.GETからidをセット
+            query &= Q(category_name=request.GET["category_name"])
+
+
+
+        print(query)
+
+        # TODO:カテゴリも含めて検索する。
+        restaurants = Restaurant.objects.filter(query)
         #ページネーション
         #第一引数：オブジェクト、第二引数：1ページに表示するオブジェクト数
         paginator = Paginator(restaurants,6)
@@ -108,6 +127,28 @@ class RestaurantListView(View):
 
 restaurant_list = RestaurantListView.as_view()
 
+
+"""
+class RestaurantListView(View):
+
+    def get(self, request, *args, **kwargs):
+
+        context = {}
+        query   = Q()
+
+        context["categories"] = Category.objects.all()
+
+        if "search" in request.GET:
+            words = request.GET["search"].replace(" ","　").split("　")
+            for word in words:
+                #AND検索：&=
+                #OR検索 ：!=
+                #OR検索で空文字を含むと全件が検索結果として表示されるため、空文字がない場合は検索条件を追加という定義をする（if word !="":）
+                if word   != "":
+                    query &= Q( Q(name__icontains=word) | Q(area__area=word) | Q(category_name__category_name=word) )
+        restaurants = Restaurant.objects.filter(query)
+"""
+        
 class RestaurantDetailView(View):
 
     def get(self, request, pk, *args, **kwargs):
@@ -116,11 +157,20 @@ class RestaurantDetailView(View):
         context["restaurant"]   = Restaurant.objects.filter(id=pk).first()
 
         return render(request, "nagoyameshi/restaurant_detail.html", context)
-        
-    #TODO: このPOSTメソッドでレビューを受け付ける？
 
 restaurant_detail   = RestaurantDetailView.as_view()
 
+class CategoryDetailView(View):
+    def get(self, request, pk, *args, **kwargs):
+
+        context = {}
+        context["category"]   = Category.objects.filter(id=pk).first()
+        context["restaurant"]   = Restaurant.objects.filter(id=pk).first()
+
+        return render(request, "nagoyameshi/category_detail.html", context)
+    
+
+category_detail   = CategoryDetailView.as_view()
 
 #お気に入り登録
 class FavoriteView(LoginRequiredMixin, View):
@@ -168,4 +218,105 @@ def terms_of_service(request):
 
 def contact(request):
     return render(request,"nagoyameshi/contact.html")
+
+'''
+stripe.api_key  = settings.STRIPE_API_KEY
+'''
+class IndexView(LoginRequiredMixin,View):
+    def get(self,request,*args,**kwargs):
+        return render(request,"nagoyameshi/index.html")
+index =IndexView.as_view()
+
+class CheckoutView(LoginRequiredMixin,View):
+    def post(self, request, *args, **kwargs):
+        checkout_session =stripe.checkout.Session.create(
+            line_items=[
+                {
+                    'price':settings.STRIPE_PRICE_ID,
+                    'quantity':1,
+                },
+            ],
+            payment_method_types=['card'],
+            mode='suscription',
+            success_url=request.build_absolute_uri(reverse_lazy("nagoyameshi:success")) + '?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url=request.build_absolute_uri(reverse_lazy("nagoyameshi:index")),
+        )
+
+        print( checkout_session["id"] )
+
+        return redirect(checkout_session.url)
+
+checkout    = CheckoutView.as_view()
+
+class SuccessView(LoginRequiredMixin,View):
+    def get(self, request, *args, **kwargs):
+
+        if "session_id" not in request.GET:
+            print("セッションIDがありません。")
+            return redirect("nagoyameshi:index")
+        try:
+            checkout_session_id = request.GET['session_id']
+            checkout_session    = stripe.checkout.Session.retrieve(checkout_session_id)
+        except:
+            print( "このセッションIDは無効です。")
+            return redirect("nagoyameshi:index")
+        print(checkout_session)
+
+        if checkout_session["payment_status"] != "paid":
+            print("未払い")
+            return redirect("nagoyameshi:index")
+        print("支払い済み")
+
+
+        request.user.customer   = checkout_session["customer"]
+        request.user.save()
+
+        print("有料会員登録しました！")
+
+        return redirect("bbs:index")
+
+success     = SuccessView.as_view()
+
+class PortalView(LoginRequiredMixin,View):
+    def get(self, request, *args, **kwargs):
+
+        if not request.user.customer:
+            print( "有料会員登録されていません")
+            return redirect("bbs:index")
+
+        portalSession   = stripe.billing_portal.Session.create(
+            customer    = request.user.customer,
+            return_url  = request.build_absolute_uri(reverse_lazy("bbs:index")),
+        )
+
+        return redirect(portalSession.url)
+
+portal      = PortalView.as_view()
+
+
+class PremiumView(View):
+    def get(self, request, *args, **kwargs):
+        
+
+        try:
+            subscriptions = stripe.Subscription.list(customer=request.user.customer)
+        except:
+            print("このカスタマーIDは無効です。")
+            return redirect("bbs:index")
+        
+
+        for subscription in subscriptions.auto_paging_iter():
+            if subscription.status == "active":
+                print("サブスクリプションは有効です。")
+
+                return render(request, "bbs/premium.html")
+            else:
+                print("サブスクリプションが無効です。")
+
+        return redirect("bbs:index")
+
+premium     = PremiumView.as_view()
+
+
+
 

@@ -14,7 +14,7 @@ h2{
     border-bottom: solid 3px #f08300;
     position: relative;
     margin-top: 30px;
-    margin-bottom: 5px;
+    margin-bottom: 40px;
 }
 
 h2::after{
@@ -24,6 +24,10 @@ h2::after{
     border-bottom: solid 3px #bb5520;
     bottom: -3px;
     width: 12%;
+}
+
+h3{
+    border-left: double 6px #bb5520;
 }
 
 p{
@@ -165,6 +169,8 @@ main {
 
 /*index.html*/
 
+
+
   /*冒頭イントロメッセージ*/
   .intro_area{
     position:relative;
@@ -198,14 +204,24 @@ main {
 }
 
 /*検索窓*/
-form{
+#restaurant_search{
     margin-top: 30px;
+    width: 50%;
+    margin: auto;
 }
+
 
 .form-control{
    color: #727171; /* 入力済みの文字の色 */
    background-color: #fff4ea; /* 文字の背景の色 */
    border-color: #ffe8d1 ; /* 検索ボックスの枠線の色 */
+   height: 35px;
+   margin-left: 30px;
+}
+
+/*検索ボタン*/
+#search_button{
+    margin-left: 30px;
 }
 
 /*index.htmlカテゴリー表示部分*/
@@ -213,13 +229,13 @@ form{
     width: 100%;
     display: flex;
     justify-content: space-around;
+    margin-bottom: 70px;
 }
 .categories_list{
     padding:0.25rem 1rem;
     border:solid 0.1rem orange;
     border-radius:0.5rem;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 10px 10px;
 }
 
 
@@ -229,53 +245,33 @@ form{
     width: 100%;
     display: flex;
     justify-content: space-around;
-
+    flex-wrap: wrap;
+    margin-bottom: 70px;
 }
 
-.restautants_list{
-    
+.restaurant_list{
+    padding:0.25rem 1rem;
+    border:solid 0.1rem orange;
+    border-radius:0.5rem;
+    margin: 10px 0px;
 }
 
-
-/* sp mode */
-@media (max-width:768px){
-    .right_header h1 {
-        font-size:1.5rem;
-        font-weight:bold;
-        line-height:normal;
-        margin:0;
-    }
-
+#restaurant_image{
+    width: auto;
+    height: auto;
+    text-align: center;
 }
 
-/*foter*/
-footer {
-    padding: 2rem;
+#restaurant_name{
     font-size: 15px;
-    background: #bb5520;
+    text-align: center;
+    font-weight: bold;
 }
 
-#footer_area ul{
-    display: flex;
-    list-style: none;
-    justify-content: center;
-    padding: 0;
-    margin: 0;
+#restaurant_info{
+    font-size: 15px;
+    text-align: center;
 }
-
-#footer_area li{
-    padding: 8px 25px;
-    border-bottom: 1px solid white;
-}
-
-#footer_area a{
-    color: white;
-    text-decoration: none;
-}
-
-#footer_area a:hover {
-    color: #fff;
-  }
 
 /*copyrigth*/
 #footer_area div {
@@ -288,34 +284,68 @@ footer {
     color: white;
   }
 
-/*company_detail.html*/
 
-.company {
+/*restaurant_detail.html*/
+
+#restaurant_detail_submit{
     width: 30%;
-    margin: 10px auto;
-    
+    margin: 20px auto;
+    text-align: center;
+}
+
+/*restaurant_list.html*/
+#page{
+    display: flex;
+    justify-content: center;
+}
+
+/*company_detail.html*/
+/*restaurant_detail.html*/
+
+.table {
+    width: 30%;
+    margin: 0 auto;
     }
     
-.company th,
-.company td {
+.table th,
+.table td {
     font-size: small;
     padding-top: 20px;
     padding-bottom: 20px;
-    padding-left: 20px;
     white-space: nowrap;
     width: 100px;
 }
     
-.company th {
+.table th {
     border-bottom:1px solid #bb5520;
     font-weight: bold;
+    padding-left: 20px;
 }
 
-.company td {
+.table td {
     border-bottom:1px solid #333;
+    margin-right: 10px;
+    width:calc(100%/5);
 }
 
+/*category_detail.html*/
+#not_found_restaurant{
+    padding:0.25rem 1rem;
+    margin: 10px 0px;
+}
 
+#not_found{
+    text-align: center;
+    font-weight: bold;
+    font-size: large;
+    margin: 10px auto;
+}
+
+#back_top{
+    text-align: center;
+    font-size: small;
+    margin: 15px auto;
+}
 
 /*contact.html*/
 #contact_form{
@@ -352,4 +382,66 @@ footer {
     text-align: center;
     margin-bottom: 30px;
 }
+
+
+
+/*terms_of_use.html*/
+#terms_of_use{
+    padding: 5px 20px;
+}
+
+
+/* sp mode */
+@media (max-width:768px){
+    .right_header h1 {
+        font-size:1.5rem;
+        font-weight:bold;
+        line-height:normal;
+        margin:0;
+    }
+
+}
+
+/*index.html*/
+#categories{
+    flex-wrap: wrap;
+    width: 100%;
+}
+.categories_list{
+    padding:0.25rem 1rem;
+    border:solid 0.1rem orange;
+    border-radius:0.5rem;
+    margin: auto;
+}
+
+/*footer*/
+footer {
+    padding: 2rem;
+    font-size: 15px;
+    background: #bb5520;
+}
+
+#footer_area ul{
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+#footer_area li{
+    padding: 8px 25px;
+    border-bottom: 1px solid white;
+}
+
+#footer_area a{
+    color: white;
+    text-decoration: none;
+}
+
+#footer_area a:hover {
+    color: #fff;
+  }
+
+
 

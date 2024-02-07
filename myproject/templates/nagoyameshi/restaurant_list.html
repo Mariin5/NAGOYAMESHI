@@ -5,48 +5,54 @@
 
 {% block main %}
 
-<form action="{% url 'nagoyameshi:restaurant_list' %}" method="">
-    <h2 style="text-align:center">店舗検索</h2>
-        <div class="input-group">
-            <input class="form-control" type="text" name="search" value="{{ request.GET.search }}" placeholder="検索">
-            <div class="input-group-apend">
-                <input class="btn btn-outline-warning" type="submit" value="検索">
-            </div>
+<form action="{% url 'nagoyameshi:restaurant_list' %}" method="" id="restaurant_search">
+    <div class="input-group">
+        <input class="form-control" type="text" name="search" value="{{ request.GET.search }}" placeholder="検索">
+        <div class="input-group-apend">
+            <input class="btn btn-outline-warning" type="submit" value="検索" id="search_button">
         </div>
+    </div>
 </form>
 
 {% for restaurant in restaurants %}
-<a href="{% url 'nagoyameshi:restaurant_detail' restaurant.id %}">
-    <div>{{ restaurant.name }}</div>
+<div id="restaurants">
+    <a href="{% url 'nagoyameshi:restaurant_detail' restaurant.id %}" class="restaurant_list">
+        <div id="restaurant_image"><img src="{{ restaurant.image.url }}" alt="{{restaurant.name}}" ></div>
+        <div id="restaurant_name">{{ restaurant.name }}</div>
+        <div style="text-align:center"> カテゴリ: {% for category in restaurant.category_name.all %}{{ category.category_name }} {% endfor %}</div>
+        <div id="restaurant_info">{{ restaurant.area }}</div>
 </a>
+</div>
 {% endfor %}
 
-{# ページの表示 #}
-{{ restaurants.number }} / {{ restaurants.paginator.num_pages }} ページ<br>
-{# 前へ #}
-{% if restaurants.has_previous %}
-<a href="?page=1">&laquo; 先頭</a>
-<a href="?page={{ restaurants.previous_page_number }}">前へ</a>
-{% endif %}
-{# 次へ #}
-{% if restaurants.has_next %}
-<a href="?page={{ restaurants.next_page_number }}">次へ</a>
-<a href="?page={{ restaurants.paginator.num_pages }}">最後 &raquo;</a>
+<div id="page">
+    {# ページの表示 #}
+    {{ restaurants.number }} / {{ restaurants.paginator.num_pages }} ページ<br>
+    
+    {% if restaurants.has_previous %}
+    <a href="?page=1">&laquo; 先頭</a>
+    <a href="?page={{ restaurants.previous_page_number }}">前へ</a>
+    {% endif %}
+
+    {% if restaurants.has_next %}
+    <a href="?page={{ restaurants.next_page_number }}">次へ</a>
+    <a href="?page={{ restaurants.paginator.num_pages }}">最後 &raquo;</a>
 {% endif %}
 
 
-{# ページの表示 #}
-{{ restaurants.number }} / {{ restaurants.paginator.num_pages }} ページ<br>
-{# 前へ #}
-{% if restaurants.has_previous %}
-<a href="{{ restaurants.first_page_link }}">&laquo; 先頭</a>
-<a href="{{ restaurants.previous_page_link }}">前へ</a>
-{% endif %}
-{# 次へ #}
-{% if restaurants.has_next %}
-<a href="{{ restaurants.next_page_link }}">次へ</a>
-<a href="{{ restaurants.end_page_link }}">最後 &raquo;</a>
-{% endif %}
+    {{ restaurants.number }} / {{ restaurants.paginator.num_pages }} ページ<br>
+    
+    {% if restaurants.has_previous %}
+    <a href="{{ restaurants.first_page_link }}">&laquo; 先頭</a>
+    <a href="{{ restaurants.previous_page_link }}">前へ</a> 
+    {% endif %}
 
+    {% if restaurants.has_next %}
+    <a href="{{ restaurants.next_page_link }}">次へ</a>
+    <a href="{{ restaurants.end_page_link }}">最後 &raquo;</a>
+    {% endif %}
+</div>
+
+<div id="back_top"><a href="{% url 'nagoyameshi:index' %}">トップページに戻る</a></div>
 {% endblock %}
 

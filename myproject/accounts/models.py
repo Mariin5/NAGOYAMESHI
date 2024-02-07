@@ -29,6 +29,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
                         'unique': _("A user with that username already exists."),
                     },
                 )
+    customer    = models.TextField(verbose_name="有料会員", null=True, blank=True)
 
     # _() は verbose_nameの多言語仕様
     last_name   = models.CharField(_('last name'), max_length=150, blank=True)

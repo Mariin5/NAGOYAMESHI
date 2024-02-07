@@ -48,5 +48,13 @@ class FavoriteForm(forms.ModelForm):
     class Meta:
         model   = Favorite
         fields  = [ "user", "restaurant" ]
-    
 
+class RestaurantCategoryForm(forms.ModelForm):
+    class Meta:
+        model   = Restaurant
+        fields  = [ "name" ]   
+
+class RestaurantCategorySearchForm(forms.ModelForm):
+    class Meta:
+        model   = Restaurant
+        fields  = [ "category_name" ]

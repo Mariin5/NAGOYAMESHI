@@ -2,14 +2,24 @@
 
 {% block main %}
 
-<a href="{% url 'signup' %}">アカウント新規作成</a>
-<a href="{% url 'password_reset' %}">パスワードを忘れた方</a>
-
 <h2>ログイン</h2>
 <form method="post" action="{% url 'login' %}">
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="ログイン">
+    <div class="signup_form">
+         {{ form.as_p }}
+    </div>
+    <div class="input-group-apend">
+        <input class="btn btn-outline-warning" type="submit" value="ログイン" id="search_button">
+    </div>
 </form>
 
+<div id="create_account">
+    <div class="account">
+        <a href="{% url 'signup' %}">アカウント新規作成</a>
+    </div>
+    <div class="account">
+        <a href="{% url 'password_reset' %}">パスワードを忘れた方</a>
+    </div>
+</div>
+            
 {% endblock %}

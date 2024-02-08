@@ -219,12 +219,12 @@ def terms_of_service(request):
 def contact(request):
     return render(request,"nagoyameshi/contact.html")
 
-'''
+
 stripe.api_key  = settings.STRIPE_API_KEY
-'''
+
 class IndexView(LoginRequiredMixin,View):
     def get(self,request,*args,**kwargs):
-        return render(request,"nagoyameshi/index_2.html")
+        return render(request,"nagoyameshi/index.html")
 index =IndexView.as_view()
 
 class CheckoutView(LoginRequiredMixin,View):
@@ -237,9 +237,9 @@ class CheckoutView(LoginRequiredMixin,View):
                 },
             ],
             payment_method_types=['card'],
-            mode='suscription',
+            mode='subscription',
             success_url=request.build_absolute_uri(reverse_lazy("nagoyameshi:success")) + '?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url=request.build_absolute_uri(reverse_lazy("nagoyameshi:index_2")),
+            cancel_url=request.build_absolute_uri(reverse_lazy("nagoyameshi:index")),
         )
 
         print( checkout_session["id"] )
@@ -253,18 +253,18 @@ class SuccessView(LoginRequiredMixin,View):
 
         if "session_id" not in request.GET:
             print("セッションIDがありません。")
-            return redirect("nagoyameshi:index_2")
+            return redirect("nagoyameshi:index")
         try:
             checkout_session_id = request.GET['session_id']
             checkout_session    = stripe.checkout.Session.retrieve(checkout_session_id)
         except:
             print( "このセッションIDは無効です。")
-            return redirect("nagoyameshi:index_2")
+            return redirect("nagoyameshi:index")
         print(checkout_session)
 
         if checkout_session["payment_status"] != "paid":
             print("未払い")
-            return redirect("nagoyameshi:index_2")
+            return redirect("nagoyameshi:index")
         print("支払い済み")
 
 
@@ -273,7 +273,7 @@ class SuccessView(LoginRequiredMixin,View):
 
         print("有料会員登録しました！")
 
-        return redirect("nagoyameshi:index_2")
+        return redirect("nagoyameshi:index")
 
 success     = SuccessView.as_view()
 
@@ -282,11 +282,11 @@ class PortalView(LoginRequiredMixin,View):
 
         if not request.user.customer:
             print( "有料会員登録されていません")
-            return redirect("nagoyameshi:index_2")
+            return redirect("nagoyameshi:index")
 
         portalSession   = stripe.billing_portal.Session.create(
             customer    = request.user.customer,
-            return_url  = request.build_absolute_uri(reverse_lazy("nagoyameshi:index_2")),
+            return_url  = request.build_absolute_uri(reverse_lazy("nagoyameshi:index")),
         )
 
         return redirect(portalSession.url)
@@ -302,7 +302,7 @@ class PremiumView(View):
             subscriptions = stripe.Subscription.list(customer=request.user.customer)
         except:
             print("このカスタマーIDは無効です。")
-            return redirect("nagoyameshi:index_2")
+            return redirect("nagoyameshi:index")
         
 
         for subscription in subscriptions.auto_paging_iter():
@@ -313,7 +313,7 @@ class PremiumView(View):
             else:
                 print("サブスクリプションが無効です。")
 
-        return redirect("nagoyameshi:index_2")
+        return redirect("nagoyameshi:index")
 
 premium     = PremiumView.as_view()
 

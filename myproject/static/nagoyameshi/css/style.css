@@ -7,6 +7,7 @@ h1{
 
 /*店舗検索・カテゴリ一覧・エリア一覧の下線*/
 h2{
+    text-align: center;
     color: #333333;
     text-decoration: none;
     font-size: 30px; 
@@ -30,11 +31,13 @@ h3{
     border-left: double 6px #bb5520;
 }
 
+/*
 p{
-    color: #333333;
+    color: black;
     text-decoration: none;
     font-size: 20px;  
 }
+*/
 
 /*base.html*/
 html, body {
@@ -126,6 +129,9 @@ input[type="checkbox"]#r_sidebar:checked ~ .right_header .r_sidebar_label i.fa-t
     margin-right:0.5rem;
 }
 
+.right_content_menu{
+    color: black;
+}
 
 .r_sidebar_menu {
     position:fixed;
@@ -390,6 +396,27 @@ main {
     padding: 5px 20px;
 }
 
+/*login.html*/
+.signup_form p{
+    color: black;
+    font-size: 20px;
+    margin: 10px auto;
+}
+
+#create_account{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 70px;
+}
+
+.account{
+    padding:0.25rem 1rem;
+    border:solid 0.1rem orange;
+    border-radius:0.5rem;
+    margin: 10px 10px;
+}
 
 /* sp mode */
 @media (max-width:768px){

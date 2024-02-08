@@ -127,6 +127,8 @@ input[type="checkbox"]#r_sidebar:checked ~ .right_header .r_sidebar_label i.fa-t
 
     display:flex;
     margin-right:0.5rem;
+
+    color: black;
 }
 
 .right_content_menu{
@@ -141,7 +143,7 @@ input[type="checkbox"]#r_sidebar:checked ~ .right_header .r_sidebar_label i.fa-t
     height:calc( 100vh - 3rem);
     width:300px;
     background:#fafafa;
-    color:#2e2930;
+    color:black;
     
     transition:0.2s;
     overflow:auto;
@@ -226,7 +228,7 @@ main {
 }
 
 /*検索ボタン*/
-#search_button{
+.search_button{
     margin-left: 30px;
 }
 
@@ -347,7 +349,7 @@ main {
     margin: 10px auto;
 }
 
-#back_top{
+.back_top{
     text-align: center;
     font-size: small;
     margin: 15px auto;
@@ -378,10 +380,15 @@ main {
     width: 100px;
 }
 
+/*login.html、signin.htmlのtextboxにも使用*/
 .contact_textbox{
     font-size: small;
     width: 300px;
-    height: 60px;
+    height: 60px; 
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: dotted 1px #bb5520; 
 }
 
 .input-group-apend{
@@ -393,15 +400,49 @@ main {
 
 /*terms_of_use.html*/
 #terms_of_use{
-    padding: 5px 20px;
+    padding-left: 5px;
+    margin-bottom: 20px;
+}
+
+/*signup.html*/
+.signup_pros{
+    text-align: center;
+}
+
+.signup_list li{
+    list-style: none;
+}
+
+.signup_item{
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.signup_caution{
+    font-size: 13px;
+    margin-left: 10px;
+}
+
+.signup_button{
+    display: block;
+    margin: 10px auto;
+}
+
+.signup_table{
+    margin: auto;
 }
 
 /*login.html*/
+/*signup.html*/
+
 .signup_form p{
-    color: black;
-    font-size: 20px;
+    color: black; 
+    width: 100%;
     margin: 10px auto;
 }
+
+
+
 
 #create_account{
     width: 100%;
@@ -411,12 +452,14 @@ main {
     margin-bottom: 70px;
 }
 
+/*
 .account{
     padding:0.25rem 1rem;
     border:solid 0.1rem orange;
     border-radius:0.5rem;
     margin: 10px 10px;
 }
+*/
 
 /* sp mode */
 @media (max-width:768px){

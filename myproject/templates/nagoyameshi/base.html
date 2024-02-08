@@ -42,11 +42,16 @@
 
             <div class="header_right_content">
             {% block header_right_content %}
-
             {% endblock %}
             </div>
         </div>
         <div class="r_sidebar_menu">
+            <ul>
+                <li><a href="">会員情報管理</a></li>
+                <li><a href="">お気に入り店舗管理</a></li>
+                <li><a href="">予約管理</a></li>
+                <li><a href="{% url 'logout' %}">ログアウト</a></li>
+            </ul>
             {% block sidebar_content %}
             {% endblock %}
         </div>

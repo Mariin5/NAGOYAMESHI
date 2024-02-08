@@ -33,7 +33,8 @@
     <a href="{% url 'nagoyameshi:premium' %}">有料会員のサービスを使う</a>
 </div>
 {% else %}
-<form action="{% url 'nagoyameshi:checkout' %}" method="post">
+<!--利用規約ページに遷移し、下部から登録-->
+<form action="{% url 'nagoyameshi:terms_of_service' %}" method="post">
     {% csrf_token %}
     <input type="submit" value="有料会員登録する">
 </form>

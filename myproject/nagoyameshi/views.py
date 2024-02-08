@@ -219,13 +219,17 @@ def terms_of_service(request):
 def contact(request):
     return render(request,"nagoyameshi/contact.html")
 
+def premium_contents(request):
+    return render(request,"nagoyameshi/premium_contents.html")
+
 
 stripe.api_key  = settings.STRIPE_API_KEY
-
+'''
 class IndexView(LoginRequiredMixin,View):
     def get(self,request,*args,**kwargs):
         return render(request,"nagoyameshi/index.html")
 index =IndexView.as_view()
+'''
 
 class CheckoutView(LoginRequiredMixin,View):
     def post(self, request, *args, **kwargs):

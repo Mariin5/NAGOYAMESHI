@@ -18,9 +18,9 @@
 
         {% empty %}
         <div id="not_found_restaurant">
-            <div><!--FontAwesomeで画像探す--></div>
-            <div id="not_found">該当するレストランはありません</div>
-            <div id="back_top"><a href="{% url 'nagoyameshi:index' %}">トップページに戻る</a></div>
+            <div class="fontawesome_shop"><i class="fa-solid fa-shop-slash"></i></div>
+            <div class="not_found">該当するレストランはありません</div>
+            <div class="back_top"><a href="{% url 'nagoyameshi:index' %}">トップページに戻る</a></div>
         </div>
         {% endfor %}
     </div>

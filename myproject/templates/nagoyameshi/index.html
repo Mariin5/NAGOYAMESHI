@@ -39,12 +39,12 @@
 </div>
 
 <h2 style="text-align:center">レストラン一覧</h2>
-<div id="restaurants">
+<div class="restaurants">
     {% for restaurant in restaurants %}
         <a href="{% url 'nagoyameshi:restaurant_detail' restaurant.id %}"   class="restaurant_list">
-            <div id="restaurant_image"><img src="{{ restaurant.image.url }}" alt="{{restaurant.name}}" ></div>
-            <div id="restaurant_name">{{ restaurant.name }}</div>
-            <div id="restaurant_info">{{ restaurant.area }}</div>
+            <div class="restaurant_image"><img src="{{ restaurant.image.url }}" alt="{{restaurant.name}}" ></div>
+            <div class="restaurant_name">{{ restaurant.name }}</div>
+            <div class="restaurant_info">{{ restaurant.area }}</div>
         </a>
     {% endfor %}
 </div>

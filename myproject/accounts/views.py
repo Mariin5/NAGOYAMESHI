@@ -42,6 +42,7 @@ login   = CustomLoginView.as_view()
 class CustomLogoutView(LogoutView):
     def get(self, request, *args, **kwargs):
         return HttpResponseNotAllowed(permitted_methods=['POST'])
+        #return render(request,"accounts/logout.html")
 
 logout  = CustomLogoutView.as_view()
 

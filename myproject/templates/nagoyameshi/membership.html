@@ -1,0 +1,76 @@
+{% extends "nagoyameshi/base.html" %}
+{% load static %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block main %}
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>MAGOYAMESHI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+
+
+<body>
+<h2>基本会員情報</h2>
+<div class="membership">
+    <div class="membership_menu">
+        <form action="{% url 'password_change' %}" method="post">
+            {% csrf_token %}
+            <input type="submit" name="password_change" value="パスワード変更" class="btn btn-outline-warning">
+        </form>
+    </div>
+    <div class="membership_menu">
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <input type="submit" name="logout" value="ログアウト" class="btn btn-outline-warning">
+        </form>
+    </div>
+</div>
+
+    
+
+{# すでに有料会員登録している場合は、プランにアクセスできるようにする。有料会員ではない場合は、そのリンクを表示させる。#}
+{% if request.user.customer %}
+<h2>有料会員情報</h2>
+<div class="membership">
+    <div class="membership_menu"><a href="{% url 'nagoyameshi:portal' %}">有料会員登録の設定をする</a></div>
+    <div class="membership_menu"><a href="{% url 'nagoyameshi:premium' %}">有料会員のサービスを使う</a></div>
+</div>
+{% else %}
+<!--利用規約ページに遷移し、下部から登録-->
+<h2>有料会員情報</h2>
+<div class="membership">
+    <div class="membership_menu">
+        <a href="{% url 'nagoyameshi:premium_contents' %}"><input type="submit" name="create_premium" value="有料会員について" class="btn btn-outline-warning"></a>
+    </div>
+    <div class="membership_menu">
+        <form action="{% url 'nagoyameshi:terms_of_service' %}" method="post">
+            {% csrf_token %}
+            <input type="submit" name="create_premium" value="利用規約を確認して有料会員登録する" class="btn btn-outline-warning">
+        </form>
+    </div>
+</div>
+{% endif %}
+
+<div class="back_top"><a href="{% url 'nagoyameshi:index' %}">トップページに戻る</a></div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+

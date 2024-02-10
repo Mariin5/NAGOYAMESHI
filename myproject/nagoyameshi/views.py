@@ -222,6 +222,9 @@ def contact(request):
 def premium_contents(request):
     return render(request,"nagoyameshi/premium_contents.html")
 
+def membership(request):
+    return render(request,"nagoyameshi/membership.html")
+
 
 stripe.api_key  = settings.STRIPE_API_KEY
 '''

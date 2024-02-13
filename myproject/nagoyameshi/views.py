@@ -19,6 +19,8 @@ from .forms import CategoryForm,AreaForm,PayMethodForm,HolidayForm,RestaurantFor
 import stripe
 from django.urls import reverse_lazy
 from django.conf import settings
+from django.contrib.auth.mixins import AccessMixin
+from django.utils import timezone 
 
 class IndexView(View):
     def get(self, request, *args, **kwargs):
@@ -196,6 +198,7 @@ class FavoriteView(LoginRequiredMixin, View):
         return redirect("nagoyameshi:favorite")
 
 favorite        = FavoriteView.as_view()
+
 # お気に入り削除
 class FavoriteDeleteView(LoginRequiredMixin, View):
     def post(self, request, pk,  *args, **kwargs):
@@ -316,7 +319,7 @@ class PremiumView(View):
             if subscription.status == "active":
                 print("サブスクリプションは有効です。")
 
-                return render(request, "bbs/premium.html")
+                return render(request, "nagoyameshi/premium.html")
             else:
                 print("サブスクリプションが無効です。")
 
@@ -324,6 +327,57 @@ class PremiumView(View):
 
 premium     = PremiumView.as_view()
 
+#ログイン状態とサブスク状態を一気にチェック
+class PremiumMemberMixin(AccessMixin):
+    def dispatch(self,request,*args,**kwargs):
 
+        if not request.user.is_authenticated:
+            #return redirect("login")と同じ
+            return self.handle_no_permission()
 
+        #カスタマーIDの確認
+        try:
+            subscriptions = stripe.Subscription.list(customer=request.user.customer)
+        except:
+            print("このカスタマーIDは無効です。")
+            request.user.customer = ""
+            request.user.save()
+            return redirect("nagoyameshi:index")
+
+    #サブスクの確認
+        for subscription in subscriptions.auto_paging_iter():
+            if subscription.status == "active":
+                print("サブスクリプションは有効です")
+                return super().dispatch(request,*args,**kwargs)
+            else:
+                print("サブスクリプションが無効です。再度登録をお願いします。")
+            request.user.customer = ""
+            request.user.save()
+            return redirect("nagoyameshi:index")
+        
+class ReservationView(PremiumMemberMixin,View):
+        def get(self, request, *args, **kwargs):
+            context = {}
+
+        #現在時刻より未来の予約のみ表示
+        #__gte : Greater Than or Equal
+        # 過去の予約を出す場合は　__lte：Less Than or Equal
+        # https://noauto-nolife.com/post/django-filter-method/
+            context["reservations"] = Reservation.objects.filter(user=request.user, scheduled_date__gte=timezone.now()).order_by("scheduled_date")
+            return render(request, "nagoyameshi/reservation.html", context)
+
+        def post(self, request, *args, **kwargs):
+            copied          = request.POST.copy()
+            copied["user"]  = request.user
+            form    = ReservationForm(copied)
+
+            if form.is_valid():
+                print("予約が完了しました")
+                form.save()
+            else:
+                print("予約に失敗しました")
+                print(form.errors)
+            return redirect("nagoyameshi:reservation")
+
+reservation  = ReservationView.as_view()
 

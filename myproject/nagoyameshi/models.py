@@ -95,12 +95,15 @@ class Restaurant(models.Model):
     # validators：追加のバリデーションの指定
     post_code       = models.CharField(verbose_name="郵便番号", max_length=8 , validators=[post_code_regex])
     address         = models.CharField(verbose_name="住所", max_length=100)
+    start_hour      = models.TimeField(verbose_name="営業開始時間",default=timezone.now)
+    end_hour      = models.TimeField(verbose_name="営業終了時間",default=timezone.now)
     holiday         =models.ManyToManyField(Holiday, verbose_name="定休日")
     # 携帯電話番号であれば11桁、固定回線の場合は10桁 混乱を招くためハイフンを除外する。
     tel_regex       = RegexValidator(regex=r'^\d{10,11}$')
     tel             = models.CharField(verbose_name="電話番号", max_length=11, validators=[tel_regex])
     email           = models.EmailField(verbose_name="メールアドレス",blank=True)
     paymethod       = models.ManyToManyField(PayMethod, verbose_name="支払い方法")
+    headcount       = models.PositiveIntegerField(verbose_name="最大予約可能人数",default=1) 
     # TrueもしくはFalse
     has_parking     = models.CharField(verbose_name="駐車場", max_length=100)
     created_at  = models.DateTimeField(verbose_name="投稿日時", default=timezone.now)

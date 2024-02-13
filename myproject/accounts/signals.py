@@ -31,9 +31,11 @@ def user_logged_in_callback(sender, request, user, **kwargs):
 
     msg.send(fail_silently=False)
 
-    print(f'{user.username}がログインしました。')
+    print('ログインしました。')
+  
 
 @receiver(user_logged_out)
 def user_logged_out_callback(sender, request, user, **kwargs):
     # ログアウトをしたときの処理
-    print(f'{user.username}がログアウトしました。')
+    print('ログアウトしました。')
+     # attribute errorがでるため f'{user.username} は一旦なし

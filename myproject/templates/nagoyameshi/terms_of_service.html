@@ -160,14 +160,22 @@
     以上<br><br>
 </div>
 
-<div>
-<form action="{% url 'signup' %}" method="post">
-    {% csrf_token %}
-    <span>利用規約についてご同意いただける場合は、同意ボタンを押してください。<br>
-        一度無料会員登録後、マイページより有料会員登録が可能になります。</span>
-    <input type="submit" name="agree" value="同意" class="btn btn-outline-warning">
-</form>
-</div>
+{% if request.user.is_authenticated %}
 
+{% if not request.user.customer %}
+<div>
+    <form action="{% url 'nagoyameshi:checkout' %}" method="post">
+        {% csrf_token %}
+        <span>利用規約についてご同意いただける場合は、同意ボタンを押してください。<br></span>
+        <input class="btn btn-outline-warning" type="submit" value="同意">
+    </form>
+</div>
+{% endif %}
+
+{% else %}
+<span>一度無料会員登録後、マイページより有料会員登録が可能になります。</span><br>
+<a href="{% url 'signup' %}" class="btn btn-outline-warning">無料会員登録</a>
+<a href="{% url 'login' %}" class="btn btn-outline-warning">ログイン</a>
+{% endif %}
 
 {% endblock %}

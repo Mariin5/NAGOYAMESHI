@@ -13,7 +13,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
+    {# 予約時のflatpickr#}
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ja.js"></script>
+    <script src="{% static 'nagoyameshi/js/script.js' %}"></script>
   
 
     {% block extra_head %}
@@ -49,9 +54,14 @@
             <ul class="sidebar_ul"> 
                 <li class="sidebar_li"><i class="fa-regular fa-circle-user" style="margin-right: 10px;"></i><a href="{% url 'nagoyameshi:membership' %}">会員情報管理</a></li>
                 <li class="sidebar_li"><i class="fa-regular fa-heart" style="margin-right: 10px;"></i><a href="{% url 'nagoyameshi:favorite' %}">お気に入り店舗管理</a></li>
-                <li class="sidebar_li"><i class="fa-regular fa-calendar-days" style="margin-right: 10px;"></i><a href="">予約管理</a></li>
-                <li class="sidebar_li"><i class="fa-solid fa-right-from-bracket" style="margin-right: 10px;"></i><a href="{% url 'logout' %}">ログアウト</a></li>
+                <li class="sidebar_li"><i class="fa-regular fa-calendar-days" style="margin-right: 10px;"></i><a href="{% url 'nagoyameshi:reservation' %}">予約管理</a></li>
             </ul>
+            <div class="sidebar_logout">
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <input class="btn btn-outline-warning"  type="submit" value="ログアウト">
+                </form>
+            </div>
             {% block sidebar_content %}
             {% endblock %}
         </div>

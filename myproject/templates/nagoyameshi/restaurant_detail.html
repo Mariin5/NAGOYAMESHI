@@ -25,6 +25,14 @@
         <td>{{ restaurant.address }}</td>
     </tr>
     <tr>
+        <th>営業開始時間</th>
+        <td>{{ restaurant.start_hour }}</td>
+    </tr>
+    <tr>
+        <th>営業終了時間</th>
+        <td>{{ restaurant.end_hour }}</td>
+    </tr>
+    <tr>
         <th>定休日</th>
             <td>
                 {% for holiday in restaurant.holiday.all %}
@@ -49,6 +57,12 @@
             </td>
     </tr>
     <tr>
+        <th>予約可能人数</th>
+            <td>
+                {{ restaurant.headcount }}人まで
+            </td>
+    </tr>
+    <tr>
         <th>駐車場</th>
         <td>{{ restaurant.has_parking }}</td>
     </tr>
@@ -59,6 +73,17 @@
     {% csrf_token %}
     <input type="hidden" name="restaurant" value="{{ restaurant.id }}">
     <input class="btn btn-outline-warning" type="submit" value="お気に入り登録" >
+</form>
+
+<form action="{% url 'nagoyameshi:reservation' %}" method="post" class="restaurant_detail_submit">
+    {% csrf_token %}
+
+    <input type="hidden" name="restaurant" value="{{ restaurant.id }}">
+    <label>人数</label><input type="number" name="headcount" min="1"><br>
+
+    <label>予約日時</label><input type="text" name="scheduled_date" class="flatpickr_datetime_form" ><br>
+    <label>備考</label><textarea name="note" maxlength="100"></textarea><br>
+    <input class="btn btn-outline-warning" type="submit" value="予約">
 </form>
 
 <div class="back_top"><a href="{% url 'nagoyameshi:index' %}">トップページに戻る</a></div>

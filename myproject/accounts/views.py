@@ -42,7 +42,8 @@ login   = CustomLoginView.as_view()
 class CustomLogoutView(LogoutView):
     def get(self, request, *args, **kwargs):
         return HttpResponseNotAllowed(permitted_methods=['POST'])
-        #return render(request,"accounts/logout.html")
+        #print("ログアウトしました")
+        #return redirect("nagoyameshi:index")
 
 logout  = CustomLogoutView.as_view()
 

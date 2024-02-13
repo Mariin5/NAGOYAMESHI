@@ -183,6 +183,9 @@ main {
     margin: 20px auto;
 }
 
+.sidebar_logout{
+    text-align: center;
+}
 
 /*index.html*/
 

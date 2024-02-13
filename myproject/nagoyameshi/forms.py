@@ -26,7 +26,7 @@ class HolidayForm(forms.ModelForm):
 class RestaurantForm(forms.ModelForm):
     class Meta:
         model	= Restaurant
-        fields	= [ "category_name", "name", "name_kana", "image", "introduction", "post_code", "address", "holiday", "tel", "email", "paymethod", "has_parking" ]
+        fields	= [ "category_name", "name", "name_kana", "image", "introduction", "post_code", "address", "start_hour", "end_hour","holiday", "tel", "email", "paymethod", "headcount","has_parking" ]
 
 class ReviewForm(forms.ModelForm):
     class Meta:

@@ -50,7 +50,10 @@
             {% endblock %}
             </div>
         </div>
+        
         <div class="r_sidebar_menu">
+            <!--有料会員の場合-->
+            {% if request.user.customer %}
             <ul class="sidebar_ul"> 
                 <li class="sidebar_li"><i class="fa-regular fa-circle-user" style="margin-right: 10px;"></i><a href="{% url 'nagoyameshi:membership' %}">会員情報管理</a></li>
                 <li class="sidebar_li"><i class="fa-regular fa-heart" style="margin-right: 10px;"></i><a href="{% url 'nagoyameshi:favorite' %}">お気に入り店舗管理</a></li>
@@ -62,6 +65,23 @@
                     <input class="btn btn-outline-warning"  type="submit" value="ログアウト">
                 </form>
             </div>
+            {% endif %}
+
+            <!--無料会員の場合-->
+            {% if not request.user.customer %}
+            <ul class="sidebar_ul"> 
+                <li class="sidebar_li"><i class="fa-regular fa-circle-user" style="margin-right: 10px;"></i><a href="{% url 'nagoyameshi:membership' %}">会員情報管理</a></li>
+                <li class="sidebar_li"><i class="fa-regular fa-heart" style="margin-right: 10px;"></i><a href="{% url 'nagoyameshi:premium_contents' %}">お気に入り店舗管理</a></li>
+                <li class="sidebar_li"><i class="fa-regular fa-calendar-days" style="margin-right: 10px;"></i><a href="{% url 'nagoyameshi:premium_contents' %}">予約管理</a></li>
+            </ul>
+            <div class="sidebar_logout">
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <input class="btn btn-outline-warning"  type="submit" value="ログアウト">
+                </form>
+            </div>
+            {% endif %}
+
             {% block sidebar_content %}
             {% endblock %}
         </div>

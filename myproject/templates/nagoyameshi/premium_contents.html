@@ -19,12 +19,29 @@
     </ul> 
 </div>
 
+{% if request.user.is_authenticated %}
+{% if not request.user.customer %}
 <div class="membership_menu">
     <form action="{% url 'nagoyameshi:terms_of_service' %}" method="post">
         {% csrf_token %}
         <input type="submit" name="create_premium" value="利用規約を確認して有料会員登録する" class="btn btn-outline-warning">
     </form>
 </div>
+{% endif %}
+
+{% else %}
+<div class="membership_menu">
+    <form action="{% url 'nagoyameshi:terms_of_service' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" name="create_premium" value="利用規約を確認して有料会員登録する" class="btn btn-outline-warning">
+    </form><br>
+    <form action="{% url 'signup' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" name="create_premium" value="無料会員登録をする" class="btn btn-outline-warning">
+    </form>
+    <span style="font-size: small;">無料会員後、いつでも有料会員に切り替え可能！</span>
+</div>
+{% endif %}
 
 <div class="back_top"><a href="{% url 'nagoyameshi:index' %}">トップページに戻る</a></div>
 {% endblock %}

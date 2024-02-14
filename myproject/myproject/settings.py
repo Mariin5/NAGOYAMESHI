@@ -62,7 +62,7 @@ else:
 
 
 LOGIN_REDIRECT_URL  = "/"
-LOGOUT_REDIRECT_URL = "accounts:login" # urls.pyのnameを参照している。
+LOGOUT_REDIRECT_URL = "login" # urls.pyのnameを参照している。
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 ACCOUNT_FORMS   = { "signup":"accounts.forms.SignupForm"}

@@ -5,6 +5,9 @@ from django.db import models
 
 from django.utils import timezone 
 from django.core.validators import RegexValidator
+import datetime
+from django.core.exceptions import ValidationError
+from django.db.models import Sum
 
 # ユーザーモデルを読み込みする(1対多)
 from django.contrib.auth import get_user_model
@@ -119,15 +122,6 @@ class Review(models.Model):
     content     = models.CharField(verbose_name="内容", max_length=1000)
     created_at  = models.DateTimeField(verbose_name="投稿日時", default=timezone.now)
 
-    
-class Reservation(models.Model):
-    user            = models.ForeignKey(User, verbose_name="予約者", on_delete=models.CASCADE)
-    restaurant      = models.ForeignKey(Restaurant, verbose_name="店舗", on_delete=models.CASCADE)
-    scheduled_date  = models.DateTimeField(verbose_name="予約日")
-    # 人数はマイナスにならないのでPostiveIntegerField
-    headcount       = models.PositiveIntegerField(verbose_name="人数")
-    # アレルギー、車椅子、盲導犬など
-    note            = models.CharField(verbose_name="備考", max_length=100,blank=True)
 
 class Favorite(models.Model):
     #同一ユーザーが複数回同じレストランをお気に入り登録できないように設定する（重複を防ぐ）
@@ -157,3 +151,71 @@ class Company(models.Model):
     email           = models.EmailField(verbose_name="メールアドレス")
     created_at  = models.DateTimeField(verbose_name="投稿日時", default=timezone.now)
     updated_at  = models.DateTimeField(verbose_name="更新日時", auto_now=True)
+
+
+#予約締め切り日（24時間前)を超えていないかチェック
+def scheduled_date_check(value):
+    deadline = timezone.now() + datetime.timedelta(days=1)
+
+    if deadline > value :
+        raise ValidationError("予約可能日時を過ぎています")
+    
+    
+class Reservation(models.Model):
+    user            = models.ForeignKey(User, verbose_name="予約者", on_delete=models.CASCADE)
+    restaurant      = models.ForeignKey(Restaurant, verbose_name="店舗", on_delete=models.CASCADE)
+    scheduled_date  = models.DateTimeField(verbose_name="予約日",validators=[scheduled_date_check])
+    # 人数はマイナスにならないのでPostiveIntegerField
+    headcount       = models.PositiveIntegerField(verbose_name="人数")
+    # アレルギー、車椅子、盲導犬など
+    note            = models.CharField(verbose_name="備考", max_length=100,blank=True)
+
+    #2つ以上のフィールドをバリデーションする場合
+    def clean(self):
+        super().clean()
+    #予約人数確認
+        restaurant = self.restaurant
+        headcount  = self.headcount
+        date       = self.scheduled_date 
+    #希望予約日の予約人数状況確認
+    #default=0 : 予約人数が0人だった場合に「0」と表示させる。この指定が無いとnoneになる
+        result = Reservation.objects.filter(scheduled_date_year = date.year,
+                                            scheduled_date_month = date.month,
+                                            scheduled_date_day = date.day,
+                                            restaurant = restaurant).aggregate(Sum("headcount",default=0))
+        print(result["headcount__sum"])
+        if result["headcount__sum"] > restaurant.headcount:
+            raise ValidationError("予約可能人数を超えています")
+    
+    #予約希望日が定休日でないかつ営業時間内であることを確認
+    #最初に定休日の確認
+        print( date.weekday() )
+
+        holidays = [
+            "月曜日",
+            "火曜日",
+            "水曜日",
+            "木曜日",
+            "金曜日",
+            "土曜日",
+            "日曜日",
+        ]
+
+        print(self.restaurant.holiday.filter(holiday=holidays[ date.weekday() ]))
+        print(self.restaurant.holiday.filter(holiday=holidays[ date.weekday() ]).exists() )
+        if self.restaurant.holiday.filter(holiday=holidays[ date.weekday() ]).exists():
+            raise ValidationError("この予約希望日は定休日の為、予約できません")
+        
+    #営業時間内かどうか確認
+        start = restaurant.start_hour
+        end   = restaurant.end_hour
+
+        print(start)
+        print(end)
+        print(type(end))
+
+        scheduled_time = datetime.time(date.hour,date.minute)
+        print(scheduled_time)
+
+        if start > scheduled_time or scheduled_time > end:
+            raise ValidationError("営業時間外の予約はできません")

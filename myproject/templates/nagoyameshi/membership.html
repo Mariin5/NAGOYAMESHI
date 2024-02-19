@@ -31,6 +31,13 @@
             {% csrf_token %}
             <input type="submit" name="logout" value="ログアウト" class="btn btn-outline-warning">
         </form>
+
+    <div class="membership_menu">
+        <form action="{% url 'nagoyameshi:account_delete' %}" method="post">
+            {% csrf_token %}
+            <input type="submit" name="logout" value="退会する" class="btn btn-outline-warning">
+            <span style="font-size: small;">このボタンをクリックするとアカウントが削除されます</span>
+        </form>
     </div>
 </div>
 

@@ -1,12 +1,11 @@
-from msilib.schema import ListView
+#from msilib.schema import ListView
 from django.shortcuts import render,redirect
-# TODO:この先は、TemplateViewやListViewなどではなく、Viewを継承したビュークラスを使いましょう(ビューの処理をより高度にできる)
 from django.views import View
 from django.shortcuts import redirect, get_object_or_404
 
 
 # 未認証であればログインページにリダイレクトさせる。
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin,AccessMixin
 
 
 from django.contrib import messages
@@ -19,7 +18,6 @@ from .forms import CategoryForm,AreaForm,PayMethodForm,HolidayForm,RestaurantFor
 import stripe
 from django.urls import reverse_lazy
 from django.conf import settings
-from django.contrib.auth.mixins import AccessMixin
 from django.utils import timezone 
 
 class IndexView(View):
@@ -175,40 +173,7 @@ class CategoryDetailView(View):
 category_detail   = CategoryDetailView.as_view()
 
 #お気に入り登録
-class FavoriteView(LoginRequiredMixin, View):
 
-    def get(self, request, *args, **kwargs):
-
-        context                 = {}
-        context["favorites"]    = Favorite.objects.filter(user=request.user).order_by("-created_at")
-
-        return render(request, "nagoyameshi/favorite.html", context)
-
-    def post(self, request, *args, **kwargs):
-        copied          = request.POST.copy()
-
-        # お気に入り登録したユーザー情報
-        copied["user"]  = request.user
-        form    = FavoriteForm(copied)
-
-        
-        if form.is_valid():
-            form.save()
-
-        return redirect("nagoyameshi:favorite")
-
-favorite        = FavoriteView.as_view()
-
-# お気に入り削除
-class FavoriteDeleteView(LoginRequiredMixin, View):
-    def post(self, request, pk,  *args, **kwargs):
-
-        favorite    = Favorite.objects.filter(id=pk, user=request.user).first()
-        favorite.delete()
-
-        return redirect("nagoyameshi:favorite")
-
-favorite_delete = FavoriteDeleteView.as_view()
 
 
 def company_detail(request):
@@ -355,6 +320,41 @@ class PremiumMemberMixin(AccessMixin):
             request.user.save()
             return redirect("nagoyameshi:index")
         
+class FavoriteView(PremiumMemberMixin,View):
+
+    def get(self, request, *args, **kwargs):
+
+        context                 = {}
+        context["favorites"]    = Favorite.objects.filter(user=request.user).order_by("-created_at")
+
+        return render(request, "nagoyameshi/favorite.html", context)
+
+    def post(self, request, *args, **kwargs):
+        copied          = request.POST.copy()
+
+        # お気に入り登録したユーザー情報
+        copied["user"]  = request.user
+        form    = FavoriteForm(copied)
+
+        
+        if form.is_valid():
+            form.save()
+
+        return redirect("nagoyameshi:favorite")
+
+favorite        = FavoriteView.as_view()
+
+# お気に入り削除
+class FavoriteDeleteView(LoginRequiredMixin, View):
+    def post(self, request, pk,  *args, **kwargs):
+
+        favorite    = Favorite.objects.filter(id=pk, user=request.user).first()
+        favorite.delete()
+
+        return redirect("nagoyameshi:favorite")
+
+favorite_delete = FavoriteDeleteView.as_view()
+        
 class ReservationView(PremiumMemberMixin,View):
         def get(self, request, *args, **kwargs):
             context = {}
@@ -380,4 +380,24 @@ class ReservationView(PremiumMemberMixin,View):
             return redirect("nagoyameshi:reservation")
 
 reservation  = ReservationView.as_view()
+
+# 予約の削除(キャンセル)をするビュー
+class ReservationDeleteView(PremiumMemberMixin,View):
+    def post(self, request, pk, *args, **kwargs):
+
+        reservation = Reservation.objects.filter(id=pk).first()
+        reservation.delete()
+
+        return redirect("nagoyameshi:reservation_delete")
+
+reservation_delete  = ReservationDeleteView.as_view()
+
+
+class AccountDeleteView(LoginRequiredMixin,View):
+    def post(self, request, *args, **kwargs):
+
+        request.user.is_active = False
+        request.user.save() 
+        return redirect("nagoyameshi:index")
+account_delete      = AccountDeleteView.as_view()
 

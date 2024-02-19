@@ -1,5 +1,6 @@
 
 // ページが読み込み完了したときに発動
+//restaurant\detail.htmlの予約日時選定
 window.addEventListener("load" , () => {
 
     const today   = new Date();
@@ -24,4 +25,21 @@ window.addEventListener("load" , () => {
 
 });
 
+//contact.htmlの送信ボタンクリック後
+window.onload = function() {
+var button = document.getElementById('button');
+
+button.addEventListener('click',()=>{
+    var result = window.confirm('送信してもよろしいですか？');
+
+    if ( result ){
+        console.log('送信しました');
+    }
+
+    else{
+        console.log('問い合わせ内容を再度ご確認ください');
+    }
+
+});
+};
 

@@ -39,6 +39,10 @@ p{
 }
 */
 
+.btn{
+    width: 250px;
+}
+
 /*base.html*/
 html, body {
     overflow-x: hidden;

@@ -179,10 +179,10 @@ class Reservation(models.Model):
         date       = self.scheduled_date 
     #希望予約日の予約人数状況確認
     #default=0 : 予約人数が0人だった場合に「0」と表示させる。この指定が無いとnoneになる
-        result = Reservation.objects.filter(scheduled_date_year = date.year,
-                                            scheduled_date_month = date.month,
-                                            scheduled_date_day = date.day,
-                                            restaurant = restaurant).aggregate(Sum("headcount",default=0))
+        result  = Reservation.objects.filter(scheduled_date__year=date.year,
+                                             scheduled_date__month=date.month,
+                                             scheduled_date__day=date.day,
+                                             restaurant=restaurant).aggregate(Sum("headcount", default=0))
         print(result["headcount__sum"])
         if result["headcount__sum"] > restaurant.headcount:
             raise ValidationError("予約可能人数を超えています")

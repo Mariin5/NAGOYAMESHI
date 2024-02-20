@@ -16,11 +16,21 @@
         <div class="restaurant_info">人数: {{ reservation.headcount }}</div>
         <div class="restaurant_info">備考: {{ reservation.note }}</div>
     </a>
+
+    <form action="{% url 'nagoyameshi:reservation_delete' reservation.id %}" method="post" class="restaurant_detail_submit">
+        {% csrf_token %}
+        <input class="btn btn-outline-warning" type="submit" value="予約をキャンセルする">
+    </form>
+</div>
+
+<div>
+    <div class="back_top"><a href="{% url 'nagoyameshi:past_reservation' %}">過去の予約履歴</a></div>
 </div>
 {% empty %}
 <div class="not_found_restaurant">
     <div class="fontawesome_shop"><i class="fa-solid fa-shop-slash"></i></div>
     <div class="not_found">予約済のレストランはありません</div>
+    <div class="back_top"><a href="{% url 'nagoyameshi:past_reservation' %}">過去の予約履歴</a></div>
     <div class="back_top"><a href="{% url 'nagoyameshi:index' %}">トップページに戻る</a></div>
 </div>
 {% endfor %}
@@ -28,24 +38,7 @@
 
 {% endblock %}
 
-<!--
-<div>
-    {% for reservation in reservations %}
-    <div>予約日時: {{ reservation.scheduled_date }}</div>
-    <div>店舗名: {{ reservation.restaurant.name }}</div>
-    <div>人数: {{ reservation.headcount }}</div>
-    <div>備考: {{ reservation.note }}</div>
 
-
-    {% empty %}
-    <div class="not_found_restaurant">
-        <div class="fontawesome_shop"><i class="fa-solid fa-shop-slash"></i></div>
-        <div class="not_found">予約済のレストランはありません</div>
-        <div class="back_top"><a href="{% url 'nagoyameshi:index' %}">トップページに戻る</a></div>
-    </div>
-    {% endfor %}
-</div>
--->
 
 
 

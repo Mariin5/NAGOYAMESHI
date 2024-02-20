@@ -18,7 +18,10 @@ from .forms import CategoryForm,AreaForm,PayMethodForm,HolidayForm,RestaurantFor
 import stripe
 from django.urls import reverse_lazy
 from django.conf import settings
-from django.utils import timezone 
+from django.utils import timezone
+from django.core.mail import send_mail
+
+ 
 
 class IndexView(View):
     def get(self, request, *args, **kwargs):
@@ -345,7 +348,7 @@ class FavoriteView(PremiumMemberMixin,View):
 favorite        = FavoriteView.as_view()
 
 # お気に入り削除
-class FavoriteDeleteView(LoginRequiredMixin, View):
+class FavoriteDeleteView(PremiumMemberMixin, View):
     def post(self, request, pk,  *args, **kwargs):
 
         favorite    = Favorite.objects.filter(id=pk, user=request.user).first()
@@ -374,6 +377,18 @@ class ReservationView(PremiumMemberMixin,View):
             if form.is_valid():
                 print("予約が完了しました")
                 form.save()
+
+                def get(self, request, *args, **kwargs):
+
+                    subject = "NAGOYAMESHI：予約完了"
+                    message = "NAGOYAMESHIのご利用ありがとうございます。予約が完了しました。予約詳細はマイページよりご確認ください。"
+
+                    from_email = nagoyameshi@testl.com
+                    recipient_list = [ "nagoyameshi@testl.com" ]
+                    send_mail(subject, message, from_email, recipient_list)
+
+                return redirect("nagoyameshi:reservation")
+
             else:
                 print("予約に失敗しました")
                 print(form.errors)
@@ -381,16 +396,30 @@ class ReservationView(PremiumMemberMixin,View):
 
 reservation  = ReservationView.as_view()
 
+class PastReservationView(PremiumMemberMixin,View):
+        def get(self, request, *args, **kwargs):
+            context = {}
+
+        #現在時刻より未来の予約のみ表示
+        #__gte : Greater Than or Equal
+        # 過去の予約を出す場合は　__lte：Less Than or Equal
+        # https://noauto-nolife.com/post/django-filter-method/
+            context["reservations"] = Reservation.objects.filter(user=request.user, scheduled_date__lte=timezone.now()).order_by("scheduled_date")
+            return render(request, "nagoyameshi/past_reservation.html", context)
+
+past_reservation  = PastReservationView.as_view()
+
 # 予約の削除(キャンセル)をするビュー
 class ReservationDeleteView(PremiumMemberMixin,View):
-    def post(self, request, pk, *args, **kwargs):
+    def post(self, request, pk,  *args, **kwargs):
 
-        reservation = Reservation.objects.filter(id=pk).first()
+        reservation = Reservation.objects.filter(id=pk, user=request.user).first()
         reservation.delete()
 
-        return redirect("nagoyameshi:reservation_delete")
+        return redirect("nagoyameshi:reservation")
 
 reservation_delete  = ReservationDeleteView.as_view()
+
 
 
 class AccountDeleteView(LoginRequiredMixin,View):

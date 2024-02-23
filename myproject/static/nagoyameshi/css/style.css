@@ -318,6 +318,9 @@ main {
 }
 
 /*restaurant_detail.htmlのレビュー投稿部分*/
+.review_radio{
+    display: none;
+}
 .star_radio_label_area {
     display:inline-block;
 }

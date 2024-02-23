@@ -115,6 +115,7 @@ class Restaurant(models.Model):
     def __str__(self):
         return self.name
 
+
 class Review(models.Model):
     MAX_STAR      = 5
 
@@ -122,7 +123,7 @@ class Review(models.Model):
     restaurant  = models.ForeignKey(Restaurant, verbose_name="店舗", on_delete=models.CASCADE)
     star        = models.IntegerField(verbose_name="星",validators=[MinValueValidator(1),MaxValueValidator(MAX_STAR)],default=1)
     subject     = models.CharField(verbose_name="件名", max_length=100)
-    content     = models.CharField(verbose_name="内容", max_length=1000)
+    content     = models.CharField(verbose_name="内容", max_length=100)
     created_at  = models.DateTimeField(verbose_name="投稿日時", default=timezone.now)
 
     def star_icon(self):
@@ -131,6 +132,7 @@ class Review(models.Model):
         dic["false_star"] = ( MAX_STAR - self.star) * ""
 
         return dic
+
 
 
 

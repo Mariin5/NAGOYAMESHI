@@ -156,17 +156,16 @@
 </form><br><br>
 
 <!--レビュー投稿-->
-<!--arestaurant_detailに投稿内容を表示させる場合はactionはrestaurant_detail/pk?-->
 <h3 style="text-align: center;">レビュー投稿</h3>
 <form action="{% url 'nagoyameshi:restaurant_detail' restaurant.id %}" method="POST" class="restaurant_detail_submit">
     {% csrf_token %}
-
-    <input id="star_radio_1" type="radio" name="star" value="1">
-    <input id="star_radio_2" type="radio" name="star" value="2">
-    <input id="star_radio_3" type="radio" name="star" value="3">
-    <input id="star_radio_4" type="radio" name="star" value="4">
-    <input id="star_radio_5" type="radio" name="star" value="5">
-
+    <div class="review_radio">
+        <input id="star_radio_1" type="radio" name="star" value="1">
+        <input id="star_radio_2" type="radio" name="star" value="2">
+        <input id="star_radio_3" type="radio" name="star" value="3">
+        <input id="star_radio_4" type="radio" name="star" value="4">
+        <input id="star_radio_5" type="radio" name="star" value="5">
+    </div>
 
     <div class="star_radio_label_area">
         <div class="star_radio_label_flex">
@@ -177,8 +176,44 @@
             <label class="star_radio_label" for="star_radio_1"><div class="true_star" ><i class="fas fa-star"></i></div><div class="false_star"><i class="far fa-star"></i></div></label>
         </div>
     </div>
-    <textarea class="form-control" name="comment" placeholder="レビュー内容(100文字以内)"></textarea><br>
-    <input class="btn btn-outline-warning" type="submit" value="投稿する">
+
+    <table class="contact_form">
+        <tr class="contact">
+            <th>
+                <label class="contact_label">投稿者名</label>
+            </th>
+            <td>
+                <textarea class="form-control contact_textbox" name="user" placeholder="このフィールドは必須です"></textarea>
+            </td>
+        </tr>
+        <tr class="contact">
+            <th>
+                <label class="contact_label">レストラン名</label>
+            </th>
+            <td>
+                <textarea class="form-control contact_textbox" name="restaurant" placeholder="このフィールドは必須です"></textarea>
+            </td>
+        </tr>
+        <tr class="contact">
+            <th>
+                <label class="contact_label">件名(100文字以内)</label>
+            </th>
+            <td>
+                <textarea class="form-control contact_textbox" name="subject" placeholder="このフィールドは必須です"></textarea>
+            </td>
+        </tr>
+        <tr class="contact">
+            <th>
+                <label class="contact_label">内容(100文字以内)</label>
+            </th>
+            <td>
+                <textarea class="form-control contact_textbox" name="comment" placeholder="このフィールドは必須です"></textarea>
+            </td>
+        </tr>
+    </table>
+    <div class="input-group-apend" style="margin-top: 10px;">
+        <input class="btn btn-outline-warning" type="submit" value="投稿する">
+    </div>
 </form><br><br>
 
 {% endif %}

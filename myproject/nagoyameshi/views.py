@@ -14,7 +14,7 @@ from django.core.paginator import Paginator
 from django.views.generic.base import TemplateView
 
 from .models import Category,Area,PayMethod,Holiday,Restaurant,Review,Reservation,Company,Favorite
-from .forms import CategoryForm,AreaForm,PayMethodForm,HolidayForm,RestaurantForm,ReviewForm,ReservationForm,CompanyForm,FavoriteForm,RestaurantCategorySearchForm,ReviewForm
+from .forms import CategoryForm,AreaForm,PayMethodForm,HolidayForm,RestaurantForm,ReviewForm,ReservationForm,CompanyForm,FavoriteForm,RestaurantCategorySearchForm
 import stripe
 from django.urls import reverse_lazy
 from django.conf import settings
@@ -158,7 +158,8 @@ class RestaurantDetailView(View):
 
         context = {}
         context["restaurant"]   = Restaurant.objects.filter(id=pk).first()
-        context["reviews"]  = Review.objects.filter(id=pk).first()
+        context["reviews"]  = Review.objects.filter(id=pk).order_by("-created_at")
+
 
 
         return render(request, "nagoyameshi/restaurant_detail.html", context)
@@ -173,7 +174,10 @@ class RestaurantDetailView(View):
         if form.is_valid():
             print('レビュー投稿が完了しました')
             form.save()
-        return redirect("nagoyameshi:restaurant_detail")
+        else:
+            print(form.errors)
+        return redirect("nagoyameshi:restaurant_detail", pk)
+
 
 restaurant_detail   = RestaurantDetailView.as_view()
 

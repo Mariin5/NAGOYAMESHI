@@ -14,7 +14,7 @@ from django.core.paginator import Paginator
 from django.views.generic.base import TemplateView
 
 from .models import Category,Area,PayMethod,Holiday,Restaurant,Review,Reservation,Company,Favorite
-from .forms import CategoryForm,AreaForm,PayMethodForm,HolidayForm,RestaurantForm,ReviewForm,ReservationForm,CompanyForm,FavoriteForm,RestaurantCategorySearchForm
+from .forms import CategoryForm,AreaForm,PayMethodForm,HolidayForm,RestaurantForm,ReviewForm,ReservationForm,CompanyForm,FavoriteForm,RestaurantCategorySearchForm,ReviewForm
 import stripe
 from django.urls import reverse_lazy
 from django.conf import settings
@@ -158,8 +158,22 @@ class RestaurantDetailView(View):
 
         context = {}
         context["restaurant"]   = Restaurant.objects.filter(id=pk).first()
+        context["reviews"]  = Review.objects.filter(id=pk).first()
+
 
         return render(request, "nagoyameshi/restaurant_detail.html", context)
+    
+    def post(self, request, pk,*args, **kwargs):
+        copied          = request.POST.copy()
+
+        copied["user"]  = request.user
+        form    = ReviewForm(request.POST)
+
+        
+        if form.is_valid():
+            print('レビュー投稿が完了しました')
+            form.save()
+        return redirect("nagoyameshi:restaurant_detail")
 
 restaurant_detail   = RestaurantDetailView.as_view()
 
@@ -171,7 +185,6 @@ class CategoryDetailView(View):
         context["restaurant"]   = Restaurant.objects.filter(id=pk).first()
 
         return render(request, "nagoyameshi/category_detail.html", context)
-    
 
 category_detail   = CategoryDetailView.as_view()
 
@@ -429,4 +442,27 @@ class AccountDeleteView(LoginRequiredMixin,View):
         request.user.save() 
         return redirect("nagoyameshi:index")
 account_delete      = AccountDeleteView.as_view()
+
+'''
+class ReviewView(PremiumMemberMixin,View):
+    def get(self, request, pk, *args, **kwargs):
+        context             = {}
+        context["reviews"]  = Review.objects.filter(id=pk).first()
+
+        return render(request,"nagoyameshi/restaurant_detail.html",context)
+
+    def post(self, request, pk,*args, **kwargs):
+        copied          = request.POST.copy()
+
+        copied["user"]  = request.user
+        form    = ReviewForm(request.POST)
+
+        
+        if form.is_valid():
+            form.save()
+        return redirect("nagoyameshi:restaurant_detail")
+
+
+review   = ReviewView.as_view()
+'''
 

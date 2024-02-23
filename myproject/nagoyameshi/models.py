@@ -4,7 +4,7 @@
 from django.db import models 
 
 from django.utils import timezone 
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator,MinValueValidator,MaxValueValidator
 import datetime
 from django.core.exceptions import ValidationError
 from django.db.models import Sum
@@ -116,11 +116,22 @@ class Restaurant(models.Model):
         return self.name
 
 class Review(models.Model):
+    MAX_STAR      = 5
+
     user        = models.ForeignKey(User, verbose_name="投稿者", on_delete=models.CASCADE)
     restaurant  = models.ForeignKey(Restaurant, verbose_name="店舗", on_delete=models.CASCADE)
+    star        = models.IntegerField(verbose_name="星",validators=[MinValueValidator(1),MaxValueValidator(MAX_STAR)],default=1)
     subject     = models.CharField(verbose_name="件名", max_length=100)
     content     = models.CharField(verbose_name="内容", max_length=1000)
     created_at  = models.DateTimeField(verbose_name="投稿日時", default=timezone.now)
+
+    def star_icon(self):
+        dic               = []
+        dic["true_star"]  = self.star * ""
+        dic["false_star"] = ( MAX_STAR - self.star) * ""
+
+        return dic
+
 
 
 class Favorite(models.Model):

@@ -2,6 +2,7 @@
 
 from django import forms
 from .models import Category,Area,PayMethod,Holiday,Restaurant,Review,Reservation,Company,Favorite
+from django.core.validators import MinValueValidator,MaxValueValidator
 
 class CategoryForm(forms.ModelForm):
     class Meta:
@@ -31,7 +32,7 @@ class RestaurantForm(forms.ModelForm):
 class ReviewForm(forms.ModelForm):
     class Meta:
         model	= Review
-        fields	= [ "user", "restaurant", "subject", "content", "created_at" ]
+        fields	= [ "star" ,"user", "restaurant", "subject", "content" ]
 
 class ReservationForm(forms.ModelForm):
     class Meta:
@@ -58,3 +59,7 @@ class RestaurantCategorySearchForm(forms.ModelForm):
     class Meta:
         model   = Restaurant
         fields  = [ "category_name" ]
+
+class YearMonthForm(forms.Form):
+    year  = forms.IntegerField()
+    month = forms.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(12)])

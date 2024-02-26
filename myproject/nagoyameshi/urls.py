@@ -16,6 +16,7 @@ urlpatterns = [
     path("portal/", views.portal, name="portal"),
     path("premium/", views.premium, name="premium"),
     path('premium_contents/',views.premium_contents,name="premium_contents"),
+    path("profit/", views.profit, name="profit"),
     path('reservation/',views.reservation,name="reservation"),
     path('reservation_delete/<int:pk>/',views.reservation_delete,name="reservation_delete"),
     path("restaurant_list/", views.restaurant_list, name="restaurant_list"),

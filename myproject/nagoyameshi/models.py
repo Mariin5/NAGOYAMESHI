@@ -126,12 +126,14 @@ class Review(models.Model):
     content     = models.CharField(verbose_name="内容", max_length=100)
     created_at  = models.DateTimeField(verbose_name="投稿日時", default=timezone.now)
 
+#" "に半角スペースを入れなかった場合「空文字」として扱われなにも表示されない
     def star_icon(self):
         dic               = []
-        dic["true_star"]  = self.star * ""
-        dic["false_star"] = ( MAX_STAR - self.star) * ""
+        dic["true_star"]  = self.star * " "
+        dic["false_star"] = ( MAX_STAR - self.star) * " "
 
         return dic
+
 
 
 

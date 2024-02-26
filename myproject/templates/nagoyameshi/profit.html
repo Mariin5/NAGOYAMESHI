@@ -1,0 +1,32 @@
+{% extends "nagoyameshi/base.html" %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block main %}
+<h2>{{ first_day }} ~ {{ last_day }}の収益</h2>
+
+<form action="{% url 'nagoyameshi:profit' %}" method="post" style="text-align: center;">
+    <select name="year">
+        {% for y in year %}
+        <option value="{{ y }}" {% if select_date.year == y  %}selected{% endif %}>{{ y }}年</option>
+        {% endfor %}
+    </select>
+    <select name="month">
+        {% for m in month %}
+        <option value="{{ m }}" {% if select_date.month == m %}selected{% endif %}>{{ m }}月</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="検索" class="btn btn-outline-warning">
+</form>
+
+<table class="table" style="margin-bottom: 30px;">
+    <tr>
+        <th>売上</th>
+        <td>{{ total_sales }}円</td>
+    </tr>
+</table>
+
+
+
+{% endblock %}

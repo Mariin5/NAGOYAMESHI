@@ -93,9 +93,7 @@
         <tr>
             <th>アカウント名</th>
                 <td>
-                    {% for user in review.user.all %}
-                    {{ user.user }}
-                    {% endfor %}
+                    {{ review.user.name }}
                 </td>
         </tr>
 
@@ -159,13 +157,12 @@
 <h3 style="text-align: center;">レビュー投稿</h3>
 <form action="{% url 'nagoyameshi:restaurant_detail' restaurant.id %}" method="POST" class="restaurant_detail_submit">
     {% csrf_token %}
-    <div class="review_radio">
-        <input id="star_radio_1" type="radio" name="star" value="1">
-        <input id="star_radio_2" type="radio" name="star" value="2">
-        <input id="star_radio_3" type="radio" name="star" value="3">
-        <input id="star_radio_4" type="radio" name="star" value="4">
-        <input id="star_radio_5" type="radio" name="star" value="5">
-    </div>
+    <input class="review_radio" id="star_radio_1" type="radio" name="star" value="1">
+    <input class="review_radio" id="star_radio_2" type="radio" name="star" value="2">
+    <input class="review_radio" id="star_radio_3" type="radio" name="star" value="3">
+    <input class="review_radio" id="star_radio_4" type="radio" name="star" value="4">
+    <input class="review_radio" id="star_radio_5" type="radio" name="star" value="5">
+
 
     <div class="star_radio_label_area">
         <div class="star_radio_label_flex">
@@ -178,22 +175,7 @@
     </div>
 
     <table class="contact_form">
-        <tr class="contact">
-            <th>
-                <label class="contact_label">投稿者名</label>
-            </th>
-            <td>
-                <textarea class="form-control contact_textbox" name="user" placeholder="このフィールドは必須です"></textarea>
-            </td>
-        </tr>
-        <tr class="contact">
-            <th>
-                <label class="contact_label">レストラン名</label>
-            </th>
-            <td>
-                <textarea class="form-control contact_textbox" name="restaurant" placeholder="このフィールドは必須です"></textarea>
-            </td>
-        </tr>
+        
         <tr class="contact">
             <th>
                 <label class="contact_label">件名(100文字以内)</label>
@@ -207,7 +189,7 @@
                 <label class="contact_label">内容(100文字以内)</label>
             </th>
             <td>
-                <textarea class="form-control contact_textbox" name="comment" placeholder="このフィールドは必須です"></textarea>
+                <textarea class="form-control contact_textbox" name="comntent" placeholder="このフィールドは必須です"></textarea>
             </td>
         </tr>
     </table>
@@ -220,6 +202,41 @@
 
 <!--無料会員の場合-->
 {% if not request.user.customer %}
+
+<h3 style="text-align: center;">レビュー内容</h3>
+{% for review in reviews %}
+<div>
+    <div class="review_star">
+        <span class="review_true_star">{% for star_icon in review.star_icon.true_star %}<i class="fas fa-star"></i>{% endfor %}</span>
+        <span class="review_false_star">{% for star_icon in review.star_icon.false_star %}<i class="far fa-star"></i>{% endfor %}</span>
+    </div>
+
+    <table class="table">
+        <tr>
+            <th>アカウント名</th>
+                <td>
+                    {{ review.user.name }}
+                </td>
+        </tr>
+
+        <tr>
+            <th>件名</th>
+                <td>
+                    {{ review.subject }}
+                </td>
+        </tr>
+ 
+        <tr>
+            <th>内容</th>
+                <td>
+                    {{ review.content }}
+                </td>
+        </tr>
+        </table>
+</div><br><br>
+{% endfor %}
+
+
 <div class="restaurant_detail_submit">
     <span>有料会員になるとお気に入り登録や予約が可能になります！</span><br>
     <a href="{% url 'nagoyameshi:premium_contents' %}" class="btn btn-outline-warning">有料会員について</a>
@@ -228,6 +245,41 @@
 
 <!--非会員の場合-->
 {% else %}
+
+<h3 style="text-align: center;">レビュー内容</h3>
+{% for review in reviews %}
+<div>
+    <div class="review_star">
+        <span class="review_true_star">{% for star_icon in review.star_icon.true_star %}<i class="fas fa-star"></i>{% endfor %}</span>
+        <span class="review_false_star">{% for star_icon in review.star_icon.false_star %}<i class="far fa-star"></i>{% endfor %}</span>
+    </div>
+
+    <table class="table">
+        <tr>
+            <th>アカウント名</th>
+                <td>
+                    {{ review.user.username }}
+                </td>
+        </tr>
+
+        <tr>
+            <th>件名</th>
+                <td>
+                    {{ review.subject }}
+                </td>
+        </tr>
+ 
+        <tr>
+            <th>内容</th>
+                <td>
+                    {{ review.content }}
+                </td>
+        </tr>
+        </table>
+</div><br><br>
+{% endfor %}
+
+
 <div class="restaurant_detail_submit">
     <span>有料会員になるとお気に入り登録や予約が可能になります！</span><br>
     <a href="{% url 'nagoyameshi:premium_contents' %}" class="btn btn-outline-warning">有料会員について</a>

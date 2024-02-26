@@ -14,12 +14,13 @@ from django.core.paginator import Paginator
 from django.views.generic.base import TemplateView
 
 from .models import Category,Area,PayMethod,Holiday,Restaurant,Review,Reservation,Company,Favorite
-from .forms import CategoryForm,AreaForm,PayMethodForm,HolidayForm,RestaurantForm,ReviewForm,ReservationForm,CompanyForm,FavoriteForm,RestaurantCategorySearchForm
+from .forms import CategoryForm,AreaForm,PayMethodForm,HolidayForm,RestaurantForm,ReviewForm,ReservationForm,CompanyForm,FavoriteForm,RestaurantCategorySearchForm,YearMonthForm
 import stripe
 from django.urls import reverse_lazy
 from django.conf import settings
 from django.utils import timezone
 from django.core.mail import send_mail
+import datetime
 
  
 
@@ -158,17 +159,20 @@ class RestaurantDetailView(View):
 
         context = {}
         context["restaurant"]   = Restaurant.objects.filter(id=pk).first()
-        context["reviews"]  = Review.objects.filter(id=pk).order_by("-created_at")
+        #レストランのIDとレビューが紐づいているためfilter(restaurant=pk)
+        context["reviews"]  = Review.objects.filter(restaurant=pk).order_by("-created_at")
 
 
 
         return render(request, "nagoyameshi/restaurant_detail.html", context)
     
     def post(self, request, pk,*args, **kwargs):
+        #request.POSTにはstar subject contentしか入ってないため、name,restaurantがバリデーションエラーになる
         copied          = request.POST.copy()
 
         copied["user"]  = request.user
-        form    = ReviewForm(request.POST)
+        copied["restaurant"]  = pk
+        form    = ReviewForm(copied)
 
         
         if form.is_valid():
@@ -447,26 +451,103 @@ class AccountDeleteView(LoginRequiredMixin,View):
         return redirect("nagoyameshi:index")
 account_delete      = AccountDeleteView.as_view()
 
+
+class ProfitView(LoginRequiredMixin,View):
+    def get(self, request, *args, **kwargs):
+
+        if not request.user.is_staff:
+            return redirect("nagoyameshi:index")
+        
+        context = {}
+
+        form = YearMonthForm(request.GET)
+
+        #期間指定
+        if form.is_valid():
+            select_date = datetime.date(year=form.cleaned_data["year"],month=form.cleaned_data["month"],day=1)
+        else:
+            select_date             = datetime.date.today()
+
+        first_day       = datetime.date(year=select_date.year, month=select_date.month, day=1)
+
+        #12月の次は一年増やす、それ以外は増やさない
+        if select_date.month == 12:
+            last_day    = datetime.date(year=select_date.year+1, month=1, day=1) - datetime.timedelta(days=1)
+        else:
+            last_day    = datetime.date(year=select_date.year, month=select_date.month+1, day=1) - datetime.timedelta(days=1)
+        
+        print(first_day)
+        print(last_day)
+
+        context["first_day"]    = first_day
+        context["last_day"]     = last_day
+
+        #UNIXタイムスタンプ：https://wa3.i-3-i.info/word18475.html
+        #Stripeから売上実績を引きだすためにUNIXタイムスタンプが必要
+        #int：整数にする
+
+        first_time = int( datetime.datetime.combine(first_day, datetime.datetime.min.time() ).timestamp())
+        last_time  = int( datetime.datetime.combine(last_day, datetime.datetime.min.time() ).timestamp())
+
+        print(first_time)
+        print(last_time)
+
+        #取得したい期間設定：選択期間の時間00::~23:59まで
+        created = {"gte":first_time,"lte":last_time}
+
+        all_charges = []
+        has_more = True
+        starting_after = None
+
+        while has_more:
+            charges = stripe.Charge.list(limit=100, created=created, starting_after=starting_after)
+
+            has_more =charges.has_more
+            if has_more:
+                starting_after = charges.data[-1].id
+
+            all_charges.extend(charges.data)
+        
+        print(len(all_charges))
+
+        total_sales = 0
+        for charge in all_charges:
+            total_sales += charge["amount"]
+
+        print(total_sales)
+
+        context["total_sales"] = total_sales
+            
+        today   = datetime.date.today()
+        context["year"]             = [ y for y in range( today.year, today.year-11, -1) ]
+        context["month"]            = [ m for m in range(1, 13) ]
+        context["select_date"]      = select_date
+
+
+        return render(request, "nagoyameshi/profit.html", context)
+
+profit  = ProfitView.as_view()
+
 '''
 class ReviewView(PremiumMemberMixin,View):
-    def get(self, request, pk, *args, **kwargs):
-        context             = {}
-        context["reviews"]  = Review.objects.filter(id=pk).first()
-
-        return render(request,"nagoyameshi/restaurant_detail.html",context)
-
     def post(self, request, pk,*args, **kwargs):
+        #request.POSTにはstar subject contentしか入ってないため、name,restaurantがバリデーションエラーになる
         copied          = request.POST.copy()
 
         copied["user"]  = request.user
+        copied["restaurant"]  = pk
         form    = ReviewForm(request.POST)
 
         
         if form.is_valid():
+            print('レビュー投稿が完了しました')
             form.save()
-        return redirect("nagoyameshi:restaurant_detail")
-
-
+        else:
+            print(form.errors)
+        return redirect("nagoyameshi:restaurant_detail", pk)
 review   = ReviewView.as_view()
 '''
+
+
+
 

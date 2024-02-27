@@ -7,6 +7,7 @@ h1{
 
 /*店舗検索・カテゴリ一覧・エリア一覧の下線*/
 h2{
+    text-align: center;
     color: #333333;
     text-decoration: none;
     font-size: 30px; 
@@ -30,10 +31,16 @@ h3{
     border-left: double 6px #bb5520;
 }
 
+/*
 p{
-    color: #333333;
+    color: black;
     text-decoration: none;
     font-size: 20px;  
+}
+*/
+
+.btn{
+    width: 250px;
 }
 
 /*base.html*/
@@ -124,8 +131,13 @@ input[type="checkbox"]#r_sidebar:checked ~ .right_header .r_sidebar_label i.fa-t
 
     display:flex;
     margin-right:0.5rem;
+
+    color: black;
 }
 
+.right_content_menu{
+    color: black;
+}
 
 .r_sidebar_menu {
     position:fixed;
@@ -135,7 +147,7 @@ input[type="checkbox"]#r_sidebar:checked ~ .right_header .r_sidebar_label i.fa-t
     height:calc( 100vh - 3rem);
     width:300px;
     background:#fafafa;
-    color:#2e2930;
+    color:black;
     
     transition:0.2s;
     overflow:auto;
@@ -166,6 +178,18 @@ main {
    margin-top:3rem;
 }
 
+.sidebar_ul{
+    list-style: none;
+    margin: 40px auto;
+}
+
+.sidebar_li{
+    margin: 20px auto;
+}
+
+.sidebar_logout{
+    text-align: center;
+}
 
 /*index.html*/
 
@@ -220,7 +244,7 @@ main {
 }
 
 /*検索ボタン*/
-#search_button{
+.search_button{
     margin-left: 30px;
 }
 
@@ -241,7 +265,7 @@ main {
 
 
 /*index.html店舗名表示部分*/
-#restaurants{
+.restaurants{
     width: 100%;
     display: flex;
     justify-content: space-around;
@@ -256,19 +280,19 @@ main {
     margin: 10px 0px;
 }
 
-#restaurant_image{
+.restaurant_image{
     width: auto;
     height: auto;
     text-align: center;
 }
 
-#restaurant_name{
+.restaurant_name{
     font-size: 15px;
     text-align: center;
     font-weight: bold;
 }
 
-#restaurant_info{
+.restaurant_info{
     font-size: 15px;
     text-align: center;
 }
@@ -287,17 +311,133 @@ main {
 
 /*restaurant_detail.html*/
 
-#restaurant_detail_submit{
+.restaurant_detail_submit{
     width: 30%;
     margin: 20px auto;
     text-align: center;
+}
+
+/*restaurant_detail.htmlのレビュー投稿部分*/
+.review_radio{
+    display: none;
+}
+.star_radio_label_area {
+    display:inline-block;
+}
+.star_radio_label_flex {
+    font-size:2.5rem;
+    display:flex;
+    flex-direction: row-reverse;
+}
+.star_radio_label{
+    cursor:pointer;
+}
+.true_star {
+    display:none;
+    color:orange;
+}
+.false_star {
+    color:gray;
+}
+
+.review_star { font-size:0; }
+.review_star > span { font-size:1.25rem; }
+.review_true_star { color:orange; }
+.review_false_star { color:gray; }
+
+
+/* ホバーをしたときの装飾 */
+label[for="star_radio_1"]:hover > .true_star{ display:inline-block; }
+label[for="star_radio_1"]:hover > .false_star{ display:none; }
+
+label[for="star_radio_2"]:hover > .true_star , 
+label[for="star_radio_2"]:hover ~ label[for="star_radio_1"] > .true_star { display:inline-block; }
+
+label[for="star_radio_2"]:hover > .false_star, 
+label[for="star_radio_2"]:hover ~ label[for="star_radio_1"] > .false_star{ display:none; }
+
+label[for="star_radio_3"]:hover > .true_star , 
+label[for="star_radio_3"]:hover ~ label[for="star_radio_2"] > .true_star ,
+label[for="star_radio_3"]:hover ~ label[for="star_radio_1"] > .true_star { display:inline-block; }
+
+label[for="star_radio_3"]:hover > .false_star, 
+label[for="star_radio_3"]:hover ~ label[for="star_radio_2"] > .false_star,
+label[for="star_radio_3"]:hover ~ label[for="star_radio_1"] > .false_star{ display:none; }
+
+label[for="star_radio_4"]:hover > .true_star , 
+label[for="star_radio_4"]:hover ~ label[for="star_radio_3"] > .true_star ,
+label[for="star_radio_4"]:hover ~ label[for="star_radio_2"] > .true_star ,
+label[for="star_radio_4"]:hover ~ label[for="star_radio_1"] > .true_star { display:inline-block; }
+
+label[for="star_radio_4"]:hover > .false_star, 
+label[for="star_radio_4"]:hover ~ label[for="star_radio_3"] > .false_star,
+label[for="star_radio_4"]:hover ~ label[for="star_radio_2"] > .false_star,
+label[for="star_radio_4"]:hover ~ label[for="star_radio_1"] > .false_star{ display:none; }
+
+label[for="star_radio_5"]:hover > .true_star , 
+label[for="star_radio_5"]:hover ~ label[for="star_radio_4"] > .true_star ,
+label[for="star_radio_5"]:hover ~ label[for="star_radio_3"] > .true_star ,
+label[for="star_radio_5"]:hover ~ label[for="star_radio_2"] > .true_star ,
+label[for="star_radio_5"]:hover ~ label[for="star_radio_1"] > .true_star { display:inline-block; }
+
+label[for="star_radio_5"]:hover > .false_star, 
+label[for="star_radio_5"]:hover ~ label[for="star_radio_4"] > .false_star,
+label[for="star_radio_5"]:hover ~ label[for="star_radio_3"] > .false_star,
+label[for="star_radio_5"]:hover ~ label[for="star_radio_2"] > .false_star,
+label[for="star_radio_5"]:hover ~ label[for="star_radio_1"] > .false_star{ display:none; }
+
+
+/* チェックされたときの装飾 */
+#star_radio_1[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_1"] > .true_star{ display:inline-block; }
+#star_radio_1[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_1"] > .false_star{ display:none; }
+
+#star_radio_2[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_2"] > .true_star , 
+#star_radio_2[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_1"] > .true_star { display:inline-block; }
+
+#star_radio_2[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_2"] > .false_star, 
+#star_radio_2[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_1"] > .false_star{ display:none; }
+
+#star_radio_3[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_3"] > .true_star , 
+#star_radio_3[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_2"] > .true_star ,
+#star_radio_3[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_1"] > .true_star { display:inline-block; }
+
+#star_radio_3[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_3"] > .false_star, 
+#star_radio_3[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_2"] > .false_star,
+#star_radio_3[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_1"] > .false_star{ display:none; }
+
+#star_radio_4[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_4"] > .true_star , 
+#star_radio_4[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_3"] > .true_star ,
+#star_radio_4[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_2"] > .true_star ,
+#star_radio_4[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_1"] > .true_star { display:inline-block; }
+
+#star_radio_4[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_4"] > .false_star, 
+#star_radio_4[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_3"] > .false_star,
+#star_radio_4[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_2"] > .false_star,
+#star_radio_4[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_1"] > .false_star{ display:none; }
+
+#star_radio_5[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_5"] > .true_star , 
+#star_radio_5[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_4"] > .true_star ,
+#star_radio_5[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_3"] > .true_star ,
+#star_radio_5[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_2"] > .true_star ,
+#star_radio_5[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_1"] > .true_star { display:inline-block; }
+
+#star_radio_5[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_5"] > .false_star, 
+#star_radio_5[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_4"] > .false_star,
+#star_radio_5[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_3"] > .false_star,
+#star_radio_5[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_2"] > .false_star,
+#star_radio_5[type="radio"]:checked ~ .star_radio_label_area > .star_radio_label_flex > label[for="star_radio_1"] > .false_star{ display:none; }
+
+/*restaurant_list.html*/
+#page{
+    display: flex;
+    justify-content: center;
 }
 
 /*company_detail.html*/
 /*restaurant_detail.html*/
 
 .table {
-    width: 30%;
+    width: 20%;
     margin: 0 auto;
     }
     
@@ -313,36 +453,43 @@ main {
 .table th {
     border-bottom:1px solid #bb5520;
     font-weight: bold;
-    padding-left: 20px;
+    text-align: center;
 }
 
 .table td {
     border-bottom:1px solid #333;
     margin-right: 10px;
-    width:calc(100%/5);
+    text-align: center;
 }
 
 /*category_detail.html*/
-#not_found_restaurant{
+.not_found_restaurant{
     padding:0.25rem 1rem;
     margin: 10px 0px;
 }
 
-#not_found{
+/*favorite.htmlでも使用*/
+.fontawesome_shop{
+    text-align: center;
+    font-size: 70px;
+}
+
+.not_found{
     text-align: center;
     font-weight: bold;
     font-size: large;
     margin: 10px auto;
 }
 
-#back_top{
+.back_top{
     text-align: center;
     font-size: small;
     margin: 15px auto;
 }
 
 /*contact.html*/
-#contact_form{
+/*restaurant_detail.html*/
+.contact_form{
     margin: auto;
 }
 
@@ -366,10 +513,15 @@ main {
     width: 100px;
 }
 
+/*login.html、signin.htmlのtextboxにも使用*/
 .contact_textbox{
     font-size: small;
     width: 300px;
-    height: 60px;
+    height: 60px; 
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: dotted 1px #bb5520; 
 }
 
 .input-group-apend{
@@ -381,9 +533,79 @@ main {
 
 /*terms_of_use.html*/
 #terms_of_use{
-    padding: 5px 20px;
+    padding-left: 5px;
+    margin-bottom: 20px;
 }
 
+/*signup.html*/
+.signup_pros{
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.signup_list li{
+    list-style: none;
+}
+
+.signup_item{
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.signup_caution{
+    font-size: 13px;
+    margin-left: 10px;
+}
+
+.signup_button{
+    display: block;
+    margin: 10px auto;
+}
+
+.signup_table{
+    margin: auto;
+}
+
+/*login.html*/
+/*signup.html*/
+
+.signup_form p{
+    color: black; 
+    width: 100%;
+    margin: 10px auto;
+}
+
+
+
+/*login.htmlでも使用*/
+.create_account{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 70px;
+}
+
+/*
+.account{
+    padding:0.25rem 1rem;
+    border:solid 0.1rem orange;
+    border-radius:0.5rem;
+    margin: 10px 10px;
+}
+*/
+
+/*membership.html*/
+.membership{
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.membership_menu{
+    text-align: center;
+    margin: 30px auto;
+
+}
 
 /* sp mode */
 @media (max-width:768px){

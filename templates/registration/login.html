@@ -1,15 +1,48 @@
 {% extends "registration/base.html" %}
+{% load static %}
 
 {% block main %}
 
-<a href="{% url 'signup' %}">アカウント新規作成</a>
-<a href="{% url 'password_reset' %}">パスワードを忘れた</a>
+  
 <h2>ログイン</h2>
-
-<form method="post" action="{% url 'login' %}">
+<form action="{% url 'login' %}" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="ログイン">
-</form>
+    {#<input type="hidden" name="csrfmiddlewaretoken" value="8EUebdpKj8Kl8ElqupVHtgdqp4iGRy237gwJUMDxGPYMUOTcIaNBvlwFO6u88Aoh">#}
+    <table  class="signup_table">
+        <tr class="contact">
+            <th>
+                <label for="id_username" class="contact_label">メールアドレス:</label>
+            </th>
+            <td>
+                <input type="text" name="username" autofocus="" autocapitalize="none" autocomplete="off" maxlength="254" required="" id="id_username" data-nlok-ref-guid="9d0821cd-dd0d-4e70-d38c-8621a91ad4f3" class="contact_textbox">
+            </td>
 
+        </tr>
+
+        <tr class="contact">
+            <th>
+                <label for="id_password" class="contact_label">パスワード</label>
+                
+            </th>
+            <td>
+                <input type="password" name="password" autocomplete="off" required="" id="id_password" data-nlok-ref-guid="66c580a5-7773-4654-f4cf-c4f517dc8546" class="contact_textbox">
+            </td>
+        </tr>
+    </table>
+    <div class="input-group-apend">
+        <input class="btn btn-outline-warning" type="submit" value="ログイン" id="search_button">
+    </div>
+  </form>
+
+
+
+<div class="create_account">
+    <div  style="margin-right: 10px;">
+        <a href="{% url 'signup' %}"><input class="btn btn-outline-warning" type="submit" value="アカウントをお持ちでない方"></a>
+    </div>
+    <div>
+        <a href="{% url 'password_reset' %}"><input class="btn btn-outline-warning" type="submit" value="パスワードを忘れた方"></a>
+    </div>
+</div>
+       
 {% endblock %}

@@ -7,7 +7,6 @@ from . import views
 urlpatterns = [ 
     path("signup/", views.signup, name="signup"),
 
-    # 書き方を統一させるため前もってas_view化しておく。(一部オーバーライドしている。)
     path("login/", views.login, name="login"),
     path("logout/", views.logout, name="logout"),
     path("password_change/", views.password_change, name="password_change"),

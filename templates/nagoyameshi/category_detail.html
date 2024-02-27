@@ -18,20 +18,13 @@
 
         {% empty %}
         <div id="not_found_restaurant">
-            <div><!--FontAwesomeで画像探す--></div>
-            <div id="not_found">該当するレストランはありません</div>
-            <div id="back_top"><a href="{% url 'nagoyameshi:index' %}">トップページに戻る</a></div>
+            <div class="fontawesome_shop"><i class="fa-solid fa-shop-slash"></i></div>
+            <div class="not_found">該当するレストランはありません</div>
+            <div class="back_top"><a href="{% url 'nagoyameshi:index' %}">トップページに戻る</a></div>
         </div>
         {% endfor %}
     </div>
 
-    <!--        
-        ・カテゴリクリック後の店舗一覧で、画像・店舗名・エリアが表示されていない
-        ・エスニックにイタリアンが表示されている
-        ・和食、焼肉、うどん・そばに該当している店舗が表示されず「該当するレストランがありません」になる
-        ・フレンチ、ファストフードに削除したはずのID1の店舗が表示されている
-        ・居酒屋に喫茶店が表示されている
-        ・カフェ・喫茶店に該当している店舗が2店舗あるはずだが1店舗表示されていない-->
 
 
 

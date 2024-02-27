@@ -6,7 +6,7 @@
 {% block main %}
 
 <h2 style="text-align:center">{{ restaurant.name}}</h2>
-<div id="restaurant_image"><img src="{{ restaurant.image.url }}" alt="{{photo.name}}" ></div>
+<div class="restaurant_image"><img src="{{ restaurant.image.url }}" alt="{{photo.name}}" ></div>
 <table class="table">
     <tr>
         <th>カテゴリ</th>
@@ -23,6 +23,14 @@
     <tr>
         <th>住所</th>
         <td>{{ restaurant.address }}</td>
+    </tr>
+    <tr>
+        <th>営業開始時間</th>
+        <td>{{ restaurant.start_hour }}</td>
+    </tr>
+    <tr>
+        <th>営業終了時間</th>
+        <td>{{ restaurant.end_hour }}</td>
     </tr>
     <tr>
         <th>定休日</th>
@@ -49,20 +57,234 @@
             </td>
     </tr>
     <tr>
+        <th>予約可能人数</th>
+            <td>
+                {{ restaurant.headcount }}人まで
+            </td>
+    </tr>
+    <tr>
         <th>駐車場</th>
         <td>{{ restaurant.has_parking }}</td>
     </tr>
-</table>
+</table><br><br>
 
+{% if request.user.is_authenticated %}
 
-<form action="{% url 'nagoyameshi:favorite' %}" method="post"  id="restaurant_detail_submit">    
+<!--有料会員の場合-->
+{% if request.user.customer %}
+<!--お気に入り登録-->
+
+<form action="{% url 'nagoyameshi:favorite' %}" method="post"  class="restaurant_detail_submit">    
     {% csrf_token %}
     <input type="hidden" name="restaurant" value="{{ restaurant.id }}">
     <input class="btn btn-outline-warning" type="submit" value="お気に入り登録" >
-</form>
+</form><br><br>
 
-<div id="back_top"><a href="{% url 'nagoyameshi:index' %}">トップページに戻る</a></div>
+<!--レビュー表示-->
+<h3 style="text-align: center;">レビュー内容</h3>
+{% for review in reviews %}
+<!--<div>
+    無料会員でコメントアウトしてる星のコードいれる（なぜかこの部分だけコメントアウトしてもエラーになるので一旦削除）
+    </div>-->
+
+    <table class="table">
+        <tr>
+            <th>アカウント名</th>
+                <td>
+                    {{ review.user.name }}
+                </td>
+        </tr>
+
+        <tr>
+            <th>件名</th>
+                <td>
+                    {{ review.subject }}
+                </td>
+        </tr>
+ 
+        <tr>
+            <th>内容</th>
+                <td>
+                    {{ review.content }}
+                </td>
+        </tr>
+        </table>
+</div><br><br>
+{% endfor %}
 
 
+<!--予約-->
+<h3 style="text-align: center;">予約フォーム</h3>
+<form action="{% url 'nagoyameshi:reservation' %}" method="post" class="restaurant_detail_submit">
+    {% csrf_token %}
 
+    <input type="hidden" name="restaurant" value="{{ restaurant.id }}">
+
+    <table class="contact_form">
+        <tr class="contact">
+            <th>
+                <label class="contact_label">人数</label>
+            </th>
+            <td>
+                <input type="number" name="headcount" min="1" class="contact_textbox">
+            </td>
+        </tr>
+        <tr class="contact">
+            <th>
+                <label class="contact_label">予約日時</label>
+            </th>
+            <td>
+                <input type="text" name="scheduled_date" class="flatpickr_datetime_form contact_textbox" >
+            </td>
+        </tr>
+        <tr class="contact">
+            <th>
+                <label class="contact_label">備考</label>
+            </th>
+            <td>
+                <textarea placeholder="アレルギー情報やその他店舗への依頼など" name="note" maxlength="100" class="contact_textbox"></textarea>
+            </td>
+        </tr>
+    </table>
+    <div class="input-group-apend" style="margin-top: 10px;">
+        <input class="btn btn-outline-warning" type="submit" value="予約">
+    </div>
+</form><br><br>
+
+<!--レビュー投稿-->
+<h3 style="text-align: center;">レビュー投稿</h3>
+<form action="{% url 'nagoyameshi:restaurant_detail' restaurant.id %}" method="POST" class="restaurant_detail_submit">
+    {% csrf_token %}
+    <input class="review_radio" id="star_radio_1" type="radio" name="star" value="1">
+    <input class="review_radio" id="star_radio_2" type="radio" name="star" value="2">
+    <input class="review_radio" id="star_radio_3" type="radio" name="star" value="3">
+    <input class="review_radio" id="star_radio_4" type="radio" name="star" value="4">
+    <input class="review_radio" id="star_radio_5" type="radio" name="star" value="5">
+
+
+    <div class="star_radio_label_area">
+        <div class="star_radio_label_flex">
+            <label class="star_radio_label" for="star_radio_5"><div class="true_star" ><i class="fas fa-star"></i></div><div class="false_star"><i class="far fa-star"></i></div></label>
+            <label class="star_radio_label" for="star_radio_4"><div class="true_star" ><i class="fas fa-star"></i></div><div class="false_star"><i class="far fa-star"></i></div></label>
+            <label class="star_radio_label" for="star_radio_3"><div class="true_star" ><i class="fas fa-star"></i></div><div class="false_star"><i class="far fa-star"></i></div></label>
+            <label class="star_radio_label" for="star_radio_2"><div class="true_star" ><i class="fas fa-star"></i></div><div class="false_star"><i class="far fa-star"></i></div></label>
+            <label class="star_radio_label" for="star_radio_1"><div class="true_star" ><i class="fas fa-star"></i></div><div class="false_star"><i class="far fa-star"></i></div></label>
+        </div>
+    </div>
+
+    <table class="contact_form">
+        
+        <tr class="contact">
+            <th>
+                <label class="contact_label">件名(100文字以内)</label>
+            </th>
+            <td>
+                <textarea class="form-control contact_textbox" name="subject" placeholder="このフィールドは必須です"></textarea>
+            </td>
+        </tr>
+        <tr class="contact">
+            <th>
+                <label class="contact_label">内容(100文字以内)</label>
+            </th>
+            <td>
+                <textarea class="form-control contact_textbox" name="content" placeholder="このフィールドは必須です"></textarea>
+            </td>
+        </tr>
+    </table>
+    <div class="input-group-apend" style="margin-top: 10px;">
+        <input class="btn btn-outline-warning" type="submit" value="投稿する">
+    </div>
+</form><br><br>
+
+{% endif %}
+
+<!--無料会員の場合-->
+{% if not request.user.customer %}
+
+<h3 style="text-align: center;">レビュー内容</h3>
+{% for review in reviews %}
+<!--<div>
+    <div class="review_star">
+        <span class="review_true_star">{% for s in review.star_icon.true_star %}<i class="fas fa-star"></i>{% endfor %}</span>
+        <span class="review_false_star">{% for s in review.star_icon.false_star %}<i class="far fa-star"></i>{% endfor %}</span>
+    </div>-->
+
+    <table class="table">
+        <tr>
+            <th>アカウント名</th>
+                <td>
+                    {{ review.user.name }}
+                </td>
+        </tr>
+
+        <tr>
+            <th>件名</th>
+                <td>
+                    {{ review.subject }}
+                </td>
+        </tr>
+ 
+        <tr>
+            <th>内容</th>
+                <td>
+                    {{ review.content }}
+                </td>
+        </tr>
+        </table>
+</div><br><br>
+{% endfor %}
+
+
+<div class="restaurant_detail_submit">
+    <span>有料会員になるとお気に入り登録や予約が可能になります！</span><br>
+    <a href="{% url 'nagoyameshi:premium_contents' %}" class="btn btn-outline-warning">有料会員について</a>
+</div>
+{% endif %}
+
+<!--非会員の場合-->
+{% else %}
+
+<h3 style="text-align: center;">レビュー内容</h3>
+{% for review in reviews %}
+<div>
+    <div class="review_star">
+        <span class="review_true_star">{% for star_icon in review.star_icon.true_star %}<i class="fas fa-star"></i>{% endfor %}</span>
+        <span class="review_false_star">{% for star_icon in review.star_icon.false_star %}<i class="far fa-star"></i>{% endfor %}</span>
+    </div>
+
+    <table class="table">
+        <tr>
+            <th>アカウント名</th>
+                <td>
+                    {{ review.user.username }}
+                </td>
+        </tr>
+
+        <tr>
+            <th>件名</th>
+                <td>
+                    {{ review.subject }}
+                </td>
+        </tr>
+ 
+        <tr>
+            <th>内容</th>
+                <td>
+                    {{ review.content }}
+                </td>
+        </tr>
+        </table>
+</div><br><br>
+{% endfor %}
+
+
+<div class="restaurant_detail_submit">
+    <span>有料会員になるとお気に入り登録や予約が可能になります！</span><br>
+    <a href="{% url 'nagoyameshi:premium_contents' %}" class="btn btn-outline-warning">有料会員について</a>
+    <a href="{% url 'login' %}" class="btn btn-outline-warning">既に会員登録済の方</a>
+</div>
+{% endif %}
+
+
+<div class="back_top"><a href="{% url 'nagoyameshi:index' %}">トップページに戻る</a></div>
 {% endblock %}

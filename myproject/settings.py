@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+#from . import secret_settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -152,3 +154,14 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 STATICFILES_DIRS = [ BASE_DIR / "static" ]
 
+#Stripe API Key
+if "STRIPE_PUBLISHABLE_KEY" in os.environ and "STRIPE_API_KEY" in os.environ and "STRIPE_PRICE_ID" in os.environ:
+    STRIPE_PUBLISHABLE_KEY  = os.environ["STRIPE_PUBLISHABLE_KEY"]
+    STRIPE_API_KEY          = os.environ["STRIPE_API_KEY"]
+    STRIPE_PRICE_ID         = os.environ["STRIPE_PRICE_ID"]
+else:
+    from . import secret_settings
+
+    STRIPE_API_KEY          = secret_settings.STRIPE_API_KEY
+    STRIPE_PUBLISHABLE_KEY  = secret_settings.STRIPE_PUBLISHABLE_KEY
+    STRIPE_PRICE_ID         = secret_settings.STRIPE_PRICE_ID

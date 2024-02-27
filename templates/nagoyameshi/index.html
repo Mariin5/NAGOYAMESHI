@@ -22,7 +22,7 @@
         <div class="input-group">
             <input class="form-control" type="text" name="search" value="{{ request.GET.search }}" placeholder="検索">
             <div class="input-group-apend">
-                <input class="btn btn-outline-warning" type="submit" value="検索" id="search_button">
+                <input class="btn btn-outline-warning" type="submit" value="検索" class="search_button">
             </div>
         </div>
 </form>
@@ -34,20 +34,17 @@
 <h2 style="text-align:center">カテゴリ一覧</h2>
 <div id="categories">
     {% for category in categories %}
-        <a href="{% url 'nagoyameshi:category_detail' category.id %}">
-            <div class="categories_list">{{ category.category_name }}</div>
-        </a>
+    <a class="categories_list" href="{% url 'nagoyameshi:restaurant_list' %}?category_name={{ category.id }}">{{ category.category_name }}</a>
     {% endfor %}
 </div>
 
-
 <h2 style="text-align:center">レストラン一覧</h2>
-<div id="restaurants">
+<div class="restaurants">
     {% for restaurant in restaurants %}
         <a href="{% url 'nagoyameshi:restaurant_detail' restaurant.id %}"   class="restaurant_list">
-            <div id="restaurant_image"><img src="{{ restaurant.image.url }}" alt="{{restaurant.name}}" ></div>
-            <div id="restaurant_name">{{ restaurant.name }}</div>
-            <div id="restaurant_info">{{ restaurant.area }}</div>
+            <div class="restaurant_image"><img src="{{ restaurant.image.url }}" alt="{{restaurant.name}}" ></div>
+            <div class="restaurant_name">{{ restaurant.name }}</div>
+            <div class="restaurant_info">{{ restaurant.area }}</div>
         </a>
     {% endfor %}
 </div>

@@ -13,7 +13,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
+    {# 予約時のflatpickr#}
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ja.js"></script>
+    <script src="{% static 'nagoyameshi/js/script.js' %}"></script>
   
 
     {% block extra_head %}
@@ -22,8 +27,6 @@
 </head>
 <body>
     <header>
-        {# type="checkbox"とCSSを使った表示・非表示を採用。 #}
-        {# JavaScriptを使ってハンバーガーメニュー(サイドバー)を表示させていた。 #}
         <input id="r_sidebar" class="r_sidebar_button" type="checkbox">
         <div class="right_header">
             <a class="header_link" href="{% url 'nagoyameshi:index' %}"><img src="{% static 'assets/NAGOYAMESHI_logo.png' %}" alt="logo" width="350px" height="67px"></a>
@@ -45,8 +48,60 @@
             {% endblock %}
             </div>
         </div>
+        
         <div class="r_sidebar_menu">
-            {% block sidebar_content %}{% endblock %}
+            <!--管理者の場合
+            {% if request.user.is_staff %}
+            <ul class="sidebar_ul"> 
+                <li class="sidebar_li"><i class="fa-regular fa-circle-user" style="margin-right: 10px;"></i><a href="{% url 'nagoyameshi:membership' %}">会員情報管理</a></li>
+                <li class="sidebar_li"><i class="fa-regular fa-heart" style="margin-right: 10px;"></i><a href="{% url 'nagoyameshi:favorite' %}">お気に入り店舗管理</a></li>
+                <li class="sidebar_li"><i class="fa-regular fa-calendar-days" style="margin-right: 10px;"></i><a href="{% url 'nagoyameshi:reservation' %}">予約管理</a></li>
+                <li class="sidebar_li"><i class="fa-solid fa-yen-sign" style="margin-right: 10px;"></i><a href="{% url 'nagoyameshi:profit' %}">売上管理</a></li>
+            </ul>
+            <div class="sidebar_logout">
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <input class="btn btn-outline-warning"  type="submit" value="ログアウト">
+                </form>
+            </div>
+            {% endif %}-->
+
+            <!--有料会員の場合-->
+            {% if request.user.customer %}
+            <ul class="sidebar_ul"> 
+                <li class="sidebar_li"><i class="fa-regular fa-circle-user" style="margin-right: 10px;"></i><a href="{% url 'nagoyameshi:membership' %}">会員情報管理</a></li>
+                <li class="sidebar_li"><i class="fa-regular fa-heart" style="margin-right: 10px;"></i><a href="{% url 'nagoyameshi:favorite' %}">お気に入り店舗管理</a></li>
+                <li class="sidebar_li"><i class="fa-regular fa-calendar-days" style="margin-right: 10px;"></i><a href="{% url 'nagoyameshi:reservation' %}">予約管理</a></li>
+                <!--管理者のみ表示-->
+                {% if request.user.is_staff %}
+                <li class="sidebar_li"><i class="fa-solid fa-yen-sign" style="margin-right: 10px;"></i><a href="{% url 'nagoyameshi:profit' %}">売上管理</a></li>
+                {% endif %}
+            </ul>
+            <div class="sidebar_logout">
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <input class="btn btn-outline-warning"  type="submit" value="ログアウト">
+                </form>
+            </div>
+            {% endif %}
+
+            <!--無料会員の場合-->
+            {% if not request.user.customer %}
+            <ul class="sidebar_ul"> 
+                <li class="sidebar_li"><i class="fa-regular fa-circle-user" style="margin-right: 10px;"></i><a href="{% url 'nagoyameshi:membership' %}">会員情報管理</a></li>
+                <li class="sidebar_li"><i class="fa-regular fa-heart" style="margin-right: 10px;"></i><a href="{% url 'nagoyameshi:premium_contents' %}">お気に入り店舗管理</a></li>
+                <li class="sidebar_li"><i class="fa-regular fa-calendar-days" style="margin-right: 10px;"></i><a href="{% url 'nagoyameshi:premium_contents' %}">予約管理</a></li>
+            </ul>
+            <div class="sidebar_logout">
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <input class="btn btn-outline-warning"  type="submit" value="ログアウト">
+                </form>
+            </div>
+            {% endif %}
+
+            {% block sidebar_content %}
+            {% endblock %}
         </div>
         <label class="r_sidebar_closer" for="r_sidebar"></label>
 

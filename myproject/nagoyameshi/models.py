@@ -115,9 +115,9 @@ class Restaurant(models.Model):
     def __str__(self):
         return self.name
 
-
+MAX_STAR      = 5
 class Review(models.Model):
-    MAX_STAR      = 5
+
 
     user        = models.ForeignKey(User, verbose_name="投稿者", on_delete=models.CASCADE)
     restaurant  = models.ForeignKey(Restaurant, verbose_name="店舗", on_delete=models.CASCADE)
@@ -128,7 +128,7 @@ class Review(models.Model):
 
 #" "に半角スペースを入れなかった場合「空文字」として扱われなにも表示されない
     def star_icon(self):
-        dic               = []
+        dic               = {}
         dic["true_star"]  = self.star * " "
         dic["false_star"] = ( MAX_STAR - self.star) * " "
 

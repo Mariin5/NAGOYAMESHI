@@ -24,7 +24,7 @@
 <div class="membership_menu">
     <form action="{% url 'nagoyameshi:terms_of_service' %}" method="post">
         {% csrf_token %}
-        <input type="submit" name="create_premium" value="利用規約を確認して有料会員登録する" class="btn btn-outline-warning">
+        <input type="submit" name="create_premium" value="有料会員登録する" class="btn btn-outline-warning">
     </form>
 </div>
 {% endif %}
@@ -33,7 +33,7 @@
 <div class="membership_menu">
     <form action="{% url 'nagoyameshi:terms_of_service' %}" method="post">
         {% csrf_token %}
-        <input type="submit" name="create_premium" value="利用規約を確認して有料会員登録する" class="btn btn-outline-warning">
+        <input type="submit" name="create_premium" value="有料会員登録する" class="btn btn-outline-warning">
     </form><br>
     <form action="{% url 'signup' %}" method="post">
         {% csrf_token %}

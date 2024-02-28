@@ -81,13 +81,12 @@
 </form><br><br>
 
 <!--レビュー表示-->
-<h3 style="text-align: center;">レビュー内容</h3>
+<h2 style="text-align: center;">レビュー内容</h2>
 {% for review in reviews %}
-<div>
-    <div class="review_star">
-        <span class="review_true_star">{% for star_icon in review.star_icon.true_star %}<i class="fas fa-star"></i>{% endfor %}</span>
-        <span class="review_false_star">{% for star_icon in review.star_icon.false_star %}<i class="far fa-star"></i>{% endfor %}</span>
-    </div>
+<div class="review_star" style="text-align: center;">
+    <span class="review_true_star">{% for s in review.star_icon.true_star %}<i class="fas fa-star"></i>{% endfor %}</span>
+    <span class="review_false_star">{% for s in review.star_icon.false_star %}<i class="far fa-star"></i>{% endfor %}</span>
+</div>
 
     <table class="table">
         <tr>
@@ -116,7 +115,7 @@
 
 
 <!--予約-->
-<h3 style="text-align: center;">予約フォーム</h3>
+<h2 style="text-align: center;">予約フォーム</h2>
 <form action="{% url 'nagoyameshi:reservation' %}" method="post" class="restaurant_detail_submit">
     {% csrf_token %}
 
@@ -154,7 +153,7 @@
 </form><br><br>
 
 <!--レビュー投稿-->
-<h3 style="text-align: center;">レビュー投稿</h3>
+<h2 style="text-align: center;">レビュー投稿</h2>
 <form action="{% url 'nagoyameshi:restaurant_detail' restaurant.id %}" method="POST" class="restaurant_detail_submit">
     {% csrf_token %}
     <input class="review_radio" id="star_radio_1" type="radio" name="star" value="1">
@@ -189,7 +188,7 @@
                 <label class="contact_label">内容(100文字以内)</label>
             </th>
             <td>
-                <textarea class="form-control contact_textbox" name="comntent" placeholder="このフィールドは必須です"></textarea>
+                <textarea class="form-control contact_textbox" name="content" placeholder="このフィールドは必須です"></textarea>
             </td>
         </tr>
     </table>
@@ -203,12 +202,12 @@
 <!--無料会員の場合-->
 {% if not request.user.customer %}
 
-<h3 style="text-align: center;">レビュー内容</h3>
+<h2 style="text-align: center;">レビュー内容</h2>
 {% for review in reviews %}
 <div>
     <div class="review_star">
-        <span class="review_true_star">{% for star_icon in review.star_icon.true_star %}<i class="fas fa-star"></i>{% endfor %}</span>
-        <span class="review_false_star">{% for star_icon in review.star_icon.false_star %}<i class="far fa-star"></i>{% endfor %}</span>
+        <span class="review_true_star">{% for s in review.star_icon.true_star %}<i class="fas fa-star"></i>{% endfor %}</span>
+        <span class="review_false_star">{% for s in review.star_icon.false_star %}<i class="far fa-star"></i>{% endfor %}</span>
     </div>
 
     <table class="table">
@@ -246,7 +245,7 @@
 <!--非会員の場合-->
 {% else %}
 
-<h3 style="text-align: center;">レビュー内容</h3>
+<h2 style="text-align: center;">レビュー内容</h2>
 {% for review in reviews %}
 <div>
     <div class="review_star">

@@ -21,6 +21,9 @@ from django.conf import settings
 from django.utils import timezone
 from django.core.mail import send_mail
 import datetime
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
  
 
@@ -435,8 +438,17 @@ class ReservationDeleteView(PremiumMemberMixin,View):
     def post(self, request, pk,  *args, **kwargs):
 
         reservation = Reservation.objects.filter(id=pk, user=request.user).first()
-        reservation.delete()
+        now = datetime.datetime.now()
+        dt = reservation.scheduled_date - datetime.timedelta(days=1)
+        deadline    = datetime.datetime( year=dt.year , month=dt.month, day=dt.day, hour=23, minute=59)
+        
+        print(deadline)
 
+        if now < deadline:
+            print("予約キャンセルを承りました")
+            reservation.delete()
+        else:
+            print("予約キャンセル可能な日時を過ぎています")
         return redirect("nagoyameshi:reservation")
 
 reservation_delete  = ReservationDeleteView.as_view()
@@ -523,7 +535,14 @@ class ProfitView(LoginRequiredMixin,View):
         context["month"]            = [ m for m in range(1, 13) ]
         context["select_date"]      = select_date
 
-
+# ============ profit.htmlの総会員数等の情報 ==========
+        context["all_user"]     = User.objects.count()
+        #カスタマーID none = 無料会員
+        context["premium_user"] = User.objects.exclude(customer=None).count()
+        context["normal_user"]  = User.objects.filter(customer=None).count()
+        context["restaurant"]   = Restaurant.objects.count()
+        context["reservation"]  = Reservation.objects.count()
+        
         return render(request, "nagoyameshi/profit.html", context)
 
 profit  = ProfitView.as_view()

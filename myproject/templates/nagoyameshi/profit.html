@@ -6,7 +6,7 @@
 {% block main %}
 <h2>{{ first_day }} ~ {{ last_day }}の収益</h2>
 
-<form action="{% url 'nagoyameshi:profit' %}" method="post" style="text-align: center;">
+<form action="{% url 'nagoyameshi:profit' %}" method="get" style="text-align: center;">
     <select name="year">
         {% for y in year %}
         <option value="{{ y }}" {% if select_date.year == y  %}selected{% endif %}>{{ y }}年</option>
@@ -27,6 +27,36 @@
     </tr>
 </table>
 
+<h2>その他実績</h2>
+<div style="text-align:center;">
 
+    <table class="table" style="margin-bottom: 30px;">
+        <tr>
+            <th>総会員数</th>
+            <td>{{ all_user }}人</td>
+        </tr>
+
+        <tr>
+            <th>有料会員数</th>
+            <td>{{ premium_user }}人</td>
+        </tr>
+
+        <tr>
+            <th>無料会員数</th>
+            <td>{{ normal_user }}人</td>
+        </tr>
+
+        <tr>
+            <th>総登録店舗数</th>
+            <td>{{ restaurant }}店舗</td>
+        </tr>
+
+        <tr>
+            <th>総予約数</th>
+            <td>{{ reservation }}件</td>
+        </tr>
+    </table>
+
+</div>
 
 {% endblock %}

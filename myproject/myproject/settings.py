@@ -165,3 +165,65 @@ else:
     STRIPE_API_KEY          = secret_settings.STRIPE_API_KEY
     STRIPE_PUBLISHABLE_KEY  = secret_settings.STRIPE_PUBLISHABLE_KEY
     STRIPE_PRICE_ID         = secret_settings.STRIPE_PRICE_ID
+
+# Herokuのデプロイ設定
+if not DEBUG:
+
+    #INSTALLED_APPSにcloudinaryの追加
+    #append : 要素を最後に追加
+    INSTALLED_APPS.append('cloudinary')
+    INSTALLED_APPS.append('cloudinary_storage')
+    ALLOWED_HOSTS = [ 'https://marina-nagoyameshi-d5193f1b4fec.herokuapp.com' ]
+
+
+    # 静的ファイル配信ミドルウェア、whitenoiseを使用。
+    MIDDLEWARE = [ 
+        'django.middleware.security.SecurityMiddleware',
+        'whitenoise.middleware.WhiteNoiseMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        ]
+
+    # 静的ファイル(static)の存在場所を指定
+    STATIC_ROOT = BASE_DIR / 'static'
+
+
+    # DBの設定
+    DATABASES = { 
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                'NAME': os.environ["DATABASE_NAME"],
+                'USER': os.environ["DATABASE_USER"],
+                'PASSWORD': os.environ["DATABASE_PASSWORD"],
+                'HOST': os.environ["DATABASE_HOST"],
+                'PORT': '5432',
+                }
+            }
+
+    #DBのアクセス設定
+    import dj_database_url
+
+    db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
+    DATABASES['default'].update(db_from_env)
+    
+    # ストレージの設定
+    #cloudinaryの設定
+    CLOUDINARY_STORAGE = { 
+            'CLOUD_NAME': os.environ["CLOUDINARY_CLOUD_NAME"], 
+            'API_KEY'   : os.environ["CLOUDINARY_API_KEY"], 
+            'API_SECRET': os.environ["CLOUDINARY_API_SECRET"],
+            "SECURE"    : True,
+            }
+
+    #画像のみ(上限20MB)
+    #DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+    #動画だけ(上限100MB)
+    #DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.VideoMediaCloudinaryStorage'
+
+    #これで全てのファイルがアップロード可能(上限20MB。ビュー側でアップロードファイル制限するなら基本これ)
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.RawMediaCloudinaryStorage'

@@ -179,7 +179,7 @@ if not DEBUG:
     #append : 要素を最後に追加
     INSTALLED_APPS.append('cloudinary')
     INSTALLED_APPS.append('cloudinary_storage')
-    ALLOWED_HOSTS = [ 'https://marina-nagoyameshi-d5193f1b4fec.herokuapp.com' ]
+    ALLOWED_HOSTS = [ 'https://nagoyameshi-marina-70e38fc8288d.herokuapp.com/' ]
 
 
     # 静的ファイル配信ミドルウェア、whitenoiseを使用。

@@ -185,7 +185,7 @@ if not DEBUG:
 
     # ALLOWED_HOSTSにホスト名)を入力
     #ALLOWED_HOSTS = [ 'seiya0723-nagoyameshi.herokuapp.com' ]
-    ALLOWED_HOSTS = [ 'seiya0723-nagoyameshi-c0636389b32e.herokuapp.com' ]
+    ALLOWED_HOSTS = [ 'https://nagoyameshi-marina-93dfff473afb.herokuapp.com/' ]
 
     
     

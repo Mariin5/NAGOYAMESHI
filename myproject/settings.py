@@ -163,13 +163,14 @@ if "STRIPE_PUBLISHABLE_KEY" in os.environ and "STRIPE_API_KEY" in os.environ and
     STRIPE_PUBLISHABLE_KEY  = os.environ["STRIPE_PUBLISHABLE_KEY"]
     STRIPE_API_KEY          = os.environ["STRIPE_API_KEY"]
     STRIPE_PRICE_ID         = os.environ["STRIPE_PRICE_ID"]
+'''
 else:
     from . import secret_settings
 
     STRIPE_API_KEY          = secret_settings.STRIPE_API_KEY
     STRIPE_PUBLISHABLE_KEY  = secret_settings.STRIPE_PUBLISHABLE_KEY
     STRIPE_PRICE_ID         = secret_settings.STRIPE_PRICE_ID
-
+'''
 
 
 

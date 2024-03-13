@@ -1,6 +1,3 @@
-#調べること１：Choicesのモデルのつくりかた
-#調べること２：１対多のモデルの作り方
-#考えること１：他に必要なモデルがないかどうか
 from django.db import models 
 
 from django.utils import timezone 

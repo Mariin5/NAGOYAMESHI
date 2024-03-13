@@ -1,0 +1,62 @@
+{% extends "nagoyameshi/base.html" %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block main %}
+<h2>{{ first_day }} ~ {{ last_day }}の収益</h2>
+
+<form action="{% url 'nagoyameshi:profit' %}" method="get" style="text-align: center;">
+    <select name="year">
+        {% for y in year %}
+        <option value="{{ y }}" {% if select_date.year == y  %}selected{% endif %}>{{ y }}年</option>
+        {% endfor %}
+    </select>
+    <select name="month">
+        {% for m in month %}
+        <option value="{{ m }}" {% if select_date.month == m %}selected{% endif %}>{{ m }}月</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="検索" class="btn btn-outline-warning">
+</form>
+
+<table class="table" style="margin-bottom: 30px;">
+    <tr>
+        <th>売上</th>
+        <td>{{ total_sales }}円</td>
+    </tr>
+</table>
+
+<h2>その他実績</h2>
+<div style="text-align:center;">
+
+    <table class="table" style="margin-bottom: 30px;">
+        <tr>
+            <th>総会員数</th>
+            <td>{{ all_user }}人</td>
+        </tr>
+
+        <tr>
+            <th>有料会員数</th>
+            <td>{{ premium_user }}人</td>
+        </tr>
+
+        <tr>
+            <th>無料会員数</th>
+            <td>{{ normal_user }}人</td>
+        </tr>
+
+        <tr>
+            <th>総登録店舗数</th>
+            <td>{{ restaurant }}店舗</td>
+        </tr>
+
+        <tr>
+            <th>総予約数</th>
+            <td>{{ reservation }}件</td>
+        </tr>
+    </table>
+
+</div>
+
+{% endblock %}

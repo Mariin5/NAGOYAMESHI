@@ -1,0 +1,86 @@
+{% extends "registration/base.html" %}
+
+{% block main %}
+
+
+
+    <div class="signup_pros">
+        <h2>会員登録をするとできること</h2>
+        <ul class="signup_list">
+            <li>各店舗のNAGOYAMESHI会員によるレビューが見れるようになる！</li>
+            <li>更に有料会員（月額300円）になると店舗お気に入り登録やレビュー投稿、NAGOYAMESHIサイトからの予約が可能！</li>
+        </ul> 
+    </div>
+
+    <div class="signup_pros">
+        <i class="fa-solid fa-angles-right"></i><a href="{% url 'nagoyameshi:terms_of_service' %}">利用規約を確認して有料会員登録する</a></li>
+    </div>
+
+<h2>会員登録</h2>
+
+<!--https://teratail.com/questions/326819-->
+
+
+<form action="{% url 'signup' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" value="8EUebdpKj8Kl8ElqupVHtgdqp4iGRy237gwJUMDxGPYMUOTcIaNBvlwFO6u88Aoh">
+    <table  class="signup_table">
+        <tr class="contact">
+            <th>
+                <label for="id_username" class="contact_label">ユーザー名</label>
+            </th>
+            <td>
+                <input type="text" name="username" maxlength="150" autocapitalize="none" autocomplete="username" required aria-describedby="id_username_helptext" id="id_username" class="contact_textbox"><br>
+                <span class="helptext signup_caution" id="id_username_helptext">この項目は必須です。半角アルファベット、半角数字、@/./+/-/_ で150文字以下にしてください。</span>
+            </td>
+
+        </tr>
+
+        <tr class="contact">
+            <th>
+                <label for="id_email" class="contact_label">メールアドレス</label>
+                
+            </th>
+            <td>
+                <input type="email" name="email" maxlength="254" autofocus required id="id_email" class="contact_textbox">
+            </td>
+        </tr>
+
+        <tr class="contact">
+            <th>
+                <label for="id_password1" class="contact_label">パスワード</label>
+            </th>
+            <td>
+                <input type="password" name="password1" autocomplete="new-password" required aria-describedby="id_password1_helptext" id="id_password1" class="contact_textbox"> <br>
+                <span class="helptext" id="id_password1_helptext">
+                    <ul>
+                        <li class="signup_caution">あなたの他の個人情報と似ているパスワードにはできません。</li>
+                        <li class="signup_caution">パスワードは最低 8 文字以上必要です。</li>
+                        <li class="signup_caution">よく使われるパスワードにはできません。</li>
+                        <li class="signup_caution">数字だけのパスワードにはできません。</li>
+                    </ul>
+                </span>
+            
+            </td>
+
+        </tr>
+
+        <tr class="contact">
+            <th>
+                <label for="id_password2" class="contact_label">パスワード(確認用)</label>
+            </th>
+            <td>
+                <input type="password" name="password2" autocomplete="new-password" required aria-describedby="id_password2_helptext" id="id_password2" class="contact_textbox"><br>
+                <span class="helptext signup_caution" id="id_password2_helptext">確認のため、再度パスワードを入力してください。</span>
+            </td>
+        </tr>
+        <td>
+            <div class="input-group-apend">
+                <input class="btn btn-outline-warning" type="submit" value="新規作成">
+            </div>
+        </td>
+    </table>
+</form>
+
+
+{% endblock %}

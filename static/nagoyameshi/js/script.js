@@ -27,10 +27,10 @@ window.addEventListener("load" , () => {
 
 //contact.htmlの送信ボタンクリック後
 window.onload = function() {
-var button = document.getElementById('button');
+const button = document.getElementById('button');
 
 button.addEventListener('click',()=>{
-    var result = window.confirm('送信してもよろしいですか？');
+    const result = window.confirm('送信してもよろしいですか？');
 
     if ( result ){
         console.log('送信しました');

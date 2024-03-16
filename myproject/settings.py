@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-f4v1xe4*gzy$fg$z#oa0=a7372__u6#v-f%o4axwfyou6pj9o%
 #デバッグモードは無効化しておく。
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -185,7 +185,9 @@ if not DEBUG:
 
     # ALLOWED_HOSTSにホスト名)を入力
     #ALLOWED_HOSTS = [ 'seiya0723-nagoyameshi.herokuapp.com' ]
-    ALLOWED_HOSTS = [ 'nagoyameshi-marina-93dfff473afb.herokuapp.com' ]
+    #ALLOWED_HOSTS = [ 'nagoyameshi-marina-93dfff473afb.herokuapp.com' ]
+    ALLOWED_HOSTS = ['*']
+    CSRF_TRUSTED_ORIGINS    = [ "https://nagoyameshi-marina-93dfff473afb.herokuapp.com" ]
 
     
     

@@ -185,9 +185,8 @@ if not DEBUG:
 
     # ALLOWED_HOSTSにホスト名)を入力
     #ALLOWED_HOSTS = [ 'seiya0723-nagoyameshi.herokuapp.com' ]
-    #ALLOWED_HOSTS = [ 'nagoyameshi-marina-93dfff473afb.herokuapp.com' ]
-    ALLOWED_HOSTS = ['*']
-    CSRF_TRUSTED_ORIGINS    = [ "https://nagoyameshi-marina-93dfff473afb.herokuapp.com" ]
+    ALLOWED_HOSTS = ['nagoyameshi-marina-32890ff7fdd2.herokuapp.com']
+    CSRF_TRUSTED_ORIGINS    = [ "https://nagoyameshi-marina-32890ff7fdd2.herokuapp.com/" ]
 
     
     

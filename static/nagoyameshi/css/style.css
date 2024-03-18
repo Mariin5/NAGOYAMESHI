@@ -71,8 +71,7 @@ a {
 .header_link {
     color:white;
     margin-left:0.5rem;
-    /*画像使えるようになったらロゴ用で復活*/
-    /*text-align: left;*/
+    text-align: left;
 }
 
 .right_header h1 {
@@ -618,6 +617,15 @@ label[for="star_radio_5"]:hover ~ label[for="star_radio_1"] > .false_star{ displ
 
 }
 
+/*base.html*/
+.header_link {
+    color:white;
+    margin-left:0.5rem;
+    font-size:0.4rem;
+    text-align: left;
+}
+
+
 /*index.html*/
 #categories{
     flex-wrap: wrap;
@@ -628,6 +636,14 @@ label[for="star_radio_5"]:hover ~ label[for="star_radio_1"] > .false_star{ displ
     border:solid 0.1rem orange;
     border-radius:0.5rem;
     margin: auto;
+}
+
+.intro_background{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100vw;
+    height:50vh;
 }
 
 /*footer*/

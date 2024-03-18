@@ -8,19 +8,17 @@
 
 
 <div id="intro" class="intro_area">
-    <img class="intro_background" src="{% static 'assets/back_ramen.jpg' %}" alt="">
+    <img class="intro_background" src="{% static 'assets/back_ramen.jpg' %}" alt="eyecatch">
     <div class="intro_title">
         <h1>名古屋のグルメを堪能しよう！</h1><br>
         <p>名古屋は食べるべきグルメで溢れてる</p>
     </div>
 </div>
 
-<!--actionにURLを設定すると'Manager' object has no attribute 'filetr'とエラーが出る-->
-<!--Exception Location:	C:\work\myproject\myvenv\myproject\nagoyameshi\views.py, line 72, in get-->
 <h2 style="text-align:center">店舗検索</h2>
 <form action="{% url 'nagoyameshi:restaurant_list' %}" method="" id="restaurant_search">
         <div class="input-group">
-            <input class="form-control" type="text" name="search" value="{{ request.GET.search }}" placeholder="検索">
+            <input class="form-control" type="text" name="search" value="{{ request.GET.search }}" placeholder="店舗を検索する">
             <div class="input-group-apend">
                 <input class="btn btn-outline-warning" type="submit" value="検索" class="search_button">
             </div>
@@ -48,15 +46,5 @@
         </a>
     {% endfor %}
 </div>
-
-<!--
-{# TODO:エリアマップ #}
-<h2 style="text-align:center">名古屋市内エリアマップ</h2>
-<div id="area">
-    https://allabout.co.jp/gm/gc/23823/#goog_rewarded -->
-    <!--TODO: エリアマップの必要性（使える地図が少ない、座標指定が難しい（方法は理解した）
-
-</div>-->
-
 
 {% endblock %}

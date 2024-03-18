@@ -29,7 +29,7 @@
     <header>
         <input id="r_sidebar" class="r_sidebar_button" type="checkbox">
         <div class="right_header">
-            <a class="header_link" href="{% url 'nagoyameshi:index' %}"><img src="{% static 'assets/NAGOYAMESHI_logo.png' %}" alt="logo" width="350px" height="67px"></a>
+            <a class="header_link" href="{% url 'nagoyameshi:index' %}">NAGOYAMESHI<!--<img src="{% static 'assets/NAGOYAMESHI_logo.png' %}" alt="logo">--></a>
 
             {% if request.user.is_authenticated %}
             <label class="r_sidebar_label" for="r_sidebar">

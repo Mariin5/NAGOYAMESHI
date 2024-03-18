@@ -69,7 +69,6 @@ a {
     overflow:hidden;
 }
 .header_link {
-    color:white;
     margin-left:0.5rem;
     text-align: left;
 }
@@ -197,16 +196,12 @@ main {
   /*冒頭イントロメッセージ*/
   .intro_area{
     position:relative;
-    /* 親要素の高さを 100vh とする。 */
     height:100vh;
 }
 .intro_background{
-
-    /* 親要素の左上を起点とする。 */
     position:absolute;
     top:0;
     left:0;
-    /* 画面いっぱいまで画像を広げる。 */
     width:100vw;
     height:100vh;
 }
@@ -607,7 +602,7 @@ label[for="star_radio_5"]:hover ~ label[for="star_radio_1"] > .false_star{ displ
 }
 
 /* sp mode */
-@media (max-width:768px){
+@media screen and (max-width:480px){
     .right_header h1 {
         font-size:1.5rem;
         font-weight:bold;
@@ -615,14 +610,29 @@ label[for="star_radio_5"]:hover ~ label[for="star_radio_1"] > .false_star{ displ
         margin:0;
     }
 
-}
+
 
 /*base.html*/
-.header_link {
+.header_link img{
     color:white;
     margin-left:0.5rem;
-    font-size:0.4rem;
+    width: 30vw;
     text-align: left;
+}
+
+.header_link img{
+    color:white;
+    margin-left:0.5rem;
+    width: 30vw;
+    height: 10vw;
+    text-align: left;
+}
+
+.r_sidebar_links {
+    position:relative;
+    margin-left: auto;
+    /*padding-right:0.5rem;*/
+    font-size: 0.5rem;
 }
 
 
@@ -638,13 +648,6 @@ label[for="star_radio_5"]:hover ~ label[for="star_radio_1"] > .false_star{ displ
     margin: auto;
 }
 
-.intro_background{
-    position:absolute;
-    top:0;
-    left:0;
-    width:100vw;
-    height:50vh;
-}
 
 /*footer*/
 footer {
@@ -675,5 +678,5 @@ footer {
     color: #fff;
   }
 
-
+}
 

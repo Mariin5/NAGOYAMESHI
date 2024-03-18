@@ -12,7 +12,6 @@ User = get_user_model()
 
 
 class Category(models.Model):
-    # 和食、洋食、中華、エスニック、メニューの種類
     category_choice =[
         ("和食","和食"),
         ("洋食","洋食"),
@@ -66,7 +65,6 @@ class PayMethod(models.Model):
         return self.paymethod
 
 class Holiday(models.Model):
-    # https://noauto-nolife.com/post/django-models-choices/
     holidays_choice = [
         ("月曜日","月曜日"),
         ("火曜日","火曜日"),
@@ -89,7 +87,7 @@ class Restaurant(models.Model):
     name_kana       = models.CharField(verbose_name="店舗名フリガナ", max_length=100)
     image           = models.ImageField(verbose_name="店舗画像", upload_to="nagoyameshi/restaurant/image/")
     introduction    = models.CharField(verbose_name="店舗紹介文", max_length=100)
-    #PROTECT=関連するオブジェクトがあると削除できない
+    #PROTECT：関連するオブジェクトがあると削除できない
     area            = models.ForeignKey(Area,verbose_name="エリア",on_delete=models.PROTECT)
     post_code_regex = RegexValidator(regex=r'^\d{3}-\d{4}$')
     # validators：追加のバリデーションの指定
@@ -98,13 +96,12 @@ class Restaurant(models.Model):
     start_hour      = models.TimeField(verbose_name="営業開始時間",default=timezone.now)
     end_hour      = models.TimeField(verbose_name="営業終了時間",default=timezone.now)
     holiday         =models.ManyToManyField(Holiday, verbose_name="定休日")
-    # 携帯電話番号であれば11桁、固定回線の場合は10桁 混乱を招くためハイフンを除外する。
+    # 携帯電話番号であれば11桁、固定回線の場合は10桁 混乱を招くためハイフンを除外する
     tel_regex       = RegexValidator(regex=r'^\d{10,11}$')
     tel             = models.CharField(verbose_name="電話番号", max_length=11, validators=[tel_regex])
     email           = models.EmailField(verbose_name="メールアドレス",blank=True)
     paymethod       = models.ManyToManyField(PayMethod, verbose_name="支払い方法")
     headcount       = models.PositiveIntegerField(verbose_name="最大予約可能人数",default=1) 
-    # TrueもしくはFalse
     has_parking     = models.CharField(verbose_name="駐車場", max_length=100)
     created_at  = models.DateTimeField(verbose_name="投稿日時", default=timezone.now)
     updated_at  = models.DateTimeField(verbose_name="更新日時", auto_now=True)
@@ -145,9 +142,6 @@ class Favorite(models.Model):
     created_at = models.DateTimeField(verbose_name="投稿日時", default=timezone.now)
     
 
-
-# もしサイトの運営者情報を表示する場合、複数投稿できる中でどのようにして表示するかを考慮しておく
-# ↑ created_at で最新のCompanyを取り出し、.first() で最新の1件を取り出す。
 class Company(models.Model):
     name            = models.CharField(verbose_name="会社名", max_length=100)
     name_kana       = models.CharField(verbose_name="会社名フリガナ", max_length=100)
@@ -179,7 +173,6 @@ class Reservation(models.Model):
     scheduled_date  = models.DateTimeField(verbose_name="予約日",validators=[scheduled_date_check])
     # 人数はマイナスにならないのでPostiveIntegerField
     headcount       = models.PositiveIntegerField(verbose_name="人数")
-    # アレルギー、車椅子、盲導犬など
     note            = models.CharField(verbose_name="備考", max_length=100,blank=True)
 
     #2つ以上のフィールドをバリデーションする場合

@@ -50,21 +50,6 @@
         </div>
         
         <div class="r_sidebar_menu">
-            <!--管理者の場合
-            {% if request.user.is_staff %}
-            <ul class="sidebar_ul"> 
-                <li class="sidebar_li"><i class="fa-regular fa-circle-user" style="margin-right: 10px;"></i><a href="{% url 'nagoyameshi:membership' %}">会員情報管理</a></li>
-                <li class="sidebar_li"><i class="fa-regular fa-heart" style="margin-right: 10px;"></i><a href="{% url 'nagoyameshi:favorite' %}">お気に入り店舗管理</a></li>
-                <li class="sidebar_li"><i class="fa-regular fa-calendar-days" style="margin-right: 10px;"></i><a href="{% url 'nagoyameshi:reservation' %}">予約管理</a></li>
-                <li class="sidebar_li"><i class="fa-solid fa-yen-sign" style="margin-right: 10px;"></i><a href="{% url 'nagoyameshi:profit' %}">売上管理</a></li>
-            </ul>
-            <div class="sidebar_logout">
-                <form action="{% url 'logout' %}" method="post">
-                    {% csrf_token %}
-                    <input class="btn btn-outline-warning"  type="submit" value="ログアウト">
-                </form>
-            </div>
-            {% endif %}-->
 
             <!--有料会員の場合-->
             {% if request.user.customer %}

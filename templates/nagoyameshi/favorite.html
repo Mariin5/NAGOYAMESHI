@@ -6,7 +6,7 @@
 {% block main %}
 
 
-
+<!--以下内容は有料会員のみ表示、無料会員の場合premium_contents.htmlが表示される-->
 <div>
     {% for favorite in favorites %}
         <a href="{% url 'nagoyameshi:restaurant_detail' favorite.restaurant.id %}"   class="restaurant_list">

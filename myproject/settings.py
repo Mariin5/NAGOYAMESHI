@@ -214,4 +214,9 @@ if not DEBUG:
     #これで全てのファイルがアップロード可能(上限20MB)
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.RawMediaCloudinaryStorage'
 
+    STRIPE_PUBLISHABLE_KEY  = os.environ["STRIPE_PUBLISHABLE_KEY"]
+    STRIPE_API_KEY          = os.environ["STRIPE_API_KEY"]
+    STRIPE_PRICE_ID         = os.environ["STRIPE_PRICE_ID"]
+
+
 

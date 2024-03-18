@@ -224,13 +224,7 @@ def membership(request):
     return render(request,"nagoyameshi/membership.html")
 
 
-#stripe.api_key  = settings.STRIPE_API_KEY
-'''
-class IndexView(LoginRequiredMixin,View):
-    def get(self,request,*args,**kwargs):
-        return render(request,"nagoyameshi/index.html")
-index =IndexView.as_view()
-'''
+stripe.api_key  = settings.STRIPE_API_KEY
 
 class CheckoutView(LoginRequiredMixin,View):
     def post(self, request, *args, **kwargs):

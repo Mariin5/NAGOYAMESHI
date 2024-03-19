@@ -152,7 +152,8 @@ if "STRIPE_PUBLISHABLE_KEY" in os.environ and "STRIPE_API_KEY" in os.environ and
     STRIPE_PRICE_ID         = os.environ["STRIPE_PRICE_ID"]
 
 
-if not DEBUG:
+#if not DEBUG:
+if DEBUG:
     #INSTALLED_APPSにcloudinaryの追加
     INSTALLED_APPS.append('cloudinary')
     INSTALLED_APPS.append('cloudinary_storage')

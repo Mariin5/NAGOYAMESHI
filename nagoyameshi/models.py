@@ -6,7 +6,6 @@ import datetime
 from django.core.exceptions import ValidationError
 from django.db.models import Sum
 
-# ユーザーモデルを読み込みする(1対多)
 from django.contrib.auth import get_user_model
 User = get_user_model()
 

@@ -23,14 +23,11 @@
     </form>
 </div>
 
-<div>
-    <div class="back_top"><a href="{% url 'nagoyameshi:past_reservation' %}">過去の予約履歴</a></div>
-</div>
 {% empty %}
+<!--予約なし-->
 <div class="not_found_restaurant">
     <div class="fontawesome_shop"><i class="fa-solid fa-shop-slash"></i></div>
     <div class="not_found">予約済のレストランはありません</div>
-    <div class="back_top"><a href="{% url 'nagoyameshi:past_reservation' %}">過去の予約履歴</a></div>
     <div class="back_top"><a href="{% url 'nagoyameshi:index' %}">トップページに戻る</a></div>
 </div>
 {% endfor %}

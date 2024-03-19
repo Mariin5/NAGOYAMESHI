@@ -23,8 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-f4v1xe4*gzy$fg$z#oa0=a7372__u6#v-f%o4axwfyou6pj9o%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#デバッグモードは無効化しておく。
-DEBUG = False
+#デバッグモード
+DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
@@ -48,7 +48,6 @@ ACCOUNT_USERNAME_REQUIRED       = False
 ACCOUNT_EMAIL_VARIFICATION  = "mandatory"
 ACCOUNT_EMAIL_REQUIRED      = True
 
-#DEBUGがTrueのとき、メールの内容は全て端末に表示させる
 EMAIL_BACKEND   = "django.core.mail.backends.console.EmailBackend"
 
 
@@ -142,7 +141,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-# 静的ファイルの読み込み設定がwhitenoiseに影響が及ぶので、デバッグ時にのみ有効にしておく。
+# 静的ファイルの読み込み設定がwhitenoiseに影響が及ぶので、デバッグ時にのみ有効にしておく
 if DEBUG:
     STATICFILES_DIRS = [ BASE_DIR / "static" ]
 
@@ -174,7 +173,6 @@ if not DEBUG:
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
         ]
 
-    # 静的ファイル(static)の存在場所を指定する。
     STATIC_ROOT = BASE_DIR / 'static'
 
 

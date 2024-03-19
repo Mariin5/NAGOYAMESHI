@@ -3,16 +3,12 @@ from django.shortcuts import render,redirect
 from django.views import View
 from django.shortcuts import redirect, get_object_or_404
 
-
-# 未認証であればログインページにリダイレクトさせる。
+# 未認証であればログインページにリダイレクト
 from django.contrib.auth.mixins import LoginRequiredMixin,AccessMixin
-
-
 from django.contrib import messages
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.views.generic.base import TemplateView
-
 from .models import Category,Area,PayMethod,Holiday,Restaurant,Review,Reservation,Company,Favorite
 from .forms import CategoryForm,AreaForm,PayMethodForm,HolidayForm,RestaurantForm,ReviewForm,ReservationForm,CompanyForm,FavoriteForm,RestaurantCategorySearchForm,YearMonthForm
 import stripe
@@ -58,7 +54,7 @@ class IndexView(View):
         return render(request, "nagoyameshi/index.html", context)
 
     def post(self, request, *args, **kwargs):
-        # POSTメソッドを使用してリクエストが送られた場合、この部分の処理が実行される。
+        # POSTメソッドを使用してリクエストが送られた場合、この部分の処理が実行
         pass
 
 
@@ -66,7 +62,6 @@ class IndexView(View):
 index   = IndexView.as_view()
 
 class RestaurantListView(View):
-
     def get(self, request, *args, **kwargs):
 
         context = {}
@@ -84,21 +79,16 @@ class RestaurantListView(View):
                     query &= Q( Q(name__icontains=word) | Q(area__area=word) | Q(category_name__category_name=word) )
 
 
-        #TODO : ここにカテゴリでの検索にも対応させる。
         # RestaurantCategorySearchForm で実在するカテゴリのidかをチェックする。
         form    = RestaurantCategorySearchForm(request.GET)
 
         if form.is_valid():
-            # このManyToManyFieldのオブジェクトは直接指定して検索はできない。
+            # このManyToManyFieldのオブジェクトは直接指定して検索はできない
             print( form.cleaned_data["category_name"] )
             # そのため、request.GETからidをセット
             query &= Q(category_name=request.GET["category_name"])
-
-
-
         print(query)
 
-        # TODO:カテゴリも含めて検索する。
         restaurants = Restaurant.objects.filter(query)
         #ページネーション
         #第一引数：オブジェクト、第二引数：1ページに表示するオブジェクト数
@@ -136,39 +126,15 @@ class RestaurantListView(View):
         return render(request,"nagoyameshi/restaurant_list.html",context)
 
 restaurant_list = RestaurantListView.as_view()
-
-
-"""
-class RestaurantListView(View):
-
-    def get(self, request, *args, **kwargs):
-
-        context = {}
-        query   = Q()
-
-        context["categories"] = Category.objects.all()
-
-        if "search" in request.GET:
-            words = request.GET["search"].replace(" ","　").split("　")
-            for word in words:
-                #AND検索：&=
-                #OR検索 ：!=
-                #OR検索で空文字を含むと全件が検索結果として表示されるため、空文字がない場合は検索条件を追加という定義をする（if word !="":）
-                if word   != "":
-                    query &= Q( Q(name__icontains=word) | Q(area__area=word) | Q(category_name__category_name=word) )
-        restaurants = Restaurant.objects.filter(query)
-"""
         
-class RestaurantDetailView(View):
 
+class RestaurantDetailView(View):
     def get(self, request, pk, *args, **kwargs):
 
         context = {}
         context["restaurant"]   = Restaurant.objects.filter(id=pk).first()
         #レストランのIDとレビューが紐づいているためfilter(restaurant=pk)
         context["reviews"]  = Review.objects.filter(restaurant=pk).order_by("-created_at")
-
-
 
         return render(request, "nagoyameshi/restaurant_detail.html", context)
     
@@ -191,6 +157,7 @@ class RestaurantDetailView(View):
 
 restaurant_detail   = RestaurantDetailView.as_view()
 
+
 class CategoryDetailView(View):
     def get(self, request, pk, *args, **kwargs):
 
@@ -201,9 +168,6 @@ class CategoryDetailView(View):
         return render(request, "nagoyameshi/category_detail.html", context)
 
 category_detail   = CategoryDetailView.as_view()
-
-#お気に入り登録
-
 
 
 def company_detail(request):
@@ -224,7 +188,8 @@ def membership(request):
     return render(request,"nagoyameshi/membership.html")
 
 
-stripe.api_key  = settings.STRIPE_API_KEY
+#stripe.api_key  = settings.STRIPE_API_KEY
+
 
 class CheckoutView(LoginRequiredMixin,View):
     def post(self, request, *args, **kwargs):
@@ -246,6 +211,7 @@ class CheckoutView(LoginRequiredMixin,View):
         return redirect(checkout_session.url)
 
 checkout    = CheckoutView.as_view()
+
 
 class SuccessView(LoginRequiredMixin,View):
     def get(self, request, *args, **kwargs):
@@ -275,6 +241,7 @@ class SuccessView(LoginRequiredMixin,View):
         return redirect("nagoyameshi:index")
 
 success     = SuccessView.as_view()
+
 
 class PortalView(LoginRequiredMixin,View):
     def get(self, request, *args, **kwargs):
@@ -316,6 +283,7 @@ class PremiumView(View):
 
 premium     = PremiumView.as_view()
 
+
 #ログイン状態とサブスク状態を一気にチェック
 class PremiumMemberMixin(AccessMixin):
     def dispatch(self,request,*args,**kwargs):
@@ -344,8 +312,8 @@ class PremiumMemberMixin(AccessMixin):
             request.user.save()
             return redirect("nagoyameshi:index")
         
+        
 class FavoriteView(PremiumMemberMixin,View):
-
     def get(self, request, *args, **kwargs):
 
         context                 = {}
@@ -368,7 +336,8 @@ class FavoriteView(PremiumMemberMixin,View):
 
 favorite        = FavoriteView.as_view()
 
-# お気に入り削除
+
+
 class FavoriteDeleteView(PremiumMemberMixin, View):
     def post(self, request, pk,  *args, **kwargs):
 
@@ -378,6 +347,7 @@ class FavoriteDeleteView(PremiumMemberMixin, View):
         return redirect("nagoyameshi:favorite")
 
 favorite_delete = FavoriteDeleteView.as_view()
+
         
 class ReservationView(PremiumMemberMixin,View):
         def get(self, request, *args, **kwargs):
@@ -386,7 +356,6 @@ class ReservationView(PremiumMemberMixin,View):
         #現在時刻より未来の予約のみ表示
         #__gte : Greater Than or Equal
         # 過去の予約を出す場合は　__lte：Less Than or Equal
-        # https://noauto-nolife.com/post/django-filter-method/
             context["reservations"] = Reservation.objects.filter(user=request.user, scheduled_date__gte=timezone.now()).order_by("scheduled_date")
             return render(request, "nagoyameshi/reservation.html", context)
 
@@ -417,6 +386,7 @@ class ReservationView(PremiumMemberMixin,View):
 
 reservation  = ReservationView.as_view()
 
+
 class PastReservationView(PremiumMemberMixin,View):
         def get(self, request, *args, **kwargs):
             context = {}
@@ -424,24 +394,18 @@ class PastReservationView(PremiumMemberMixin,View):
         #現在時刻より未来の予約のみ表示
         #__gte : Greater Than or Equal
         # 過去の予約を出す場合は　__lte：Less Than or Equal
-        # https://noauto-nolife.com/post/django-filter-method/
             context["reservations"] = Reservation.objects.filter(user=request.user, scheduled_date__lte=timezone.now()).order_by("scheduled_date")
             return render(request, "nagoyameshi/past_reservation.html", context)
 
 past_reservation  = PastReservationView.as_view()
 
-# 予約の削除(キャンセル)をするビュー
+
+
 class ReservationDeleteView(PremiumMemberMixin,View):
     def post(self, request, pk,  *args, **kwargs):
 
         reservation = Reservation.objects.filter(id=pk, user=request.user).first()
-
-        # TODO: ここで削除する前に、予約キャンセル可能かを調べる。
-    
         now         = datetime.datetime.now()
-
-        # 予約のキャンセルは前日の23時59分までに行う。
-        # 予約した日から、前日の23時59分のDateTimeオブジェクトを作る。
         dt          = reservation.scheduled_date - datetime.timedelta(days=1)
         deadline    = datetime.datetime( year=dt.year , month=dt.month, day=dt.day, hour=23, minute=59)
 
@@ -449,7 +413,6 @@ class ReservationDeleteView(PremiumMemberMixin,View):
 
         if now < deadline:
             print("予約キャンセル")
-            #reservation.delete()
         else:
             print("予約キャンセルできません。")
 
@@ -557,26 +520,6 @@ class ProfitView(LoginRequiredMixin,View):
         return render(request, "nagoyameshi/profit.html", context)
 
 profit  = ProfitView.as_view()
-
-'''
-class ReviewView(PremiumMemberMixin,View):
-    def post(self, request, pk,*args, **kwargs):
-        #request.POSTにはstar subject contentしか入ってないため、name,restaurantがバリデーションエラーになる
-        copied          = request.POST.copy()
-
-        copied["user"]  = request.user
-        copied["restaurant"]  = pk
-        form    = ReviewForm(request.POST)
-
-        
-        if form.is_valid():
-            print('レビュー投稿が完了しました')
-            form.save()
-        else:
-            print(form.errors)
-        return redirect("nagoyameshi:restaurant_detail", pk)
-review   = ReviewView.as_view()
-'''
 
 
 

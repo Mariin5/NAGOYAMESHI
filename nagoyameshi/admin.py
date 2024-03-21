@@ -19,15 +19,6 @@ class PayMethodAdmin(admin.ModelAdmin):
 
 class HolidayAdmin(admin.ModelAdmin):
     list_display	= [ "id" , "holiday" ]
-'''以下不要
-    def format_holiday(self, obj):
-        content = ""
-
-        for holiday in obj.holiday.all():
-            content += holiday.name
-
-        return format_html('{}', content)
-'''
 
 class RestaurantAdmin(admin.ModelAdmin):
     list_display    = [ "id", "name", "name_kana", "image", "introduction", "area", "post_code", "format_holiday", "tel", "email", "format_paymethod", "has_parking", "created_at", "updated_at" , "format_category" ]
@@ -58,10 +49,6 @@ class RestaurantAdmin(admin.ModelAdmin):
             content += holiday.holiday
 
         return format_html('{}', content)
-
-
-    # categoryはManyToMany、list_displayにManyToManyは入れることはできない。
-
 
 
 class ReviewAdmin(admin.ModelAdmin):

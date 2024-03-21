@@ -590,6 +590,7 @@ review   = ReviewView.as_view()
 '''
 エラー500確認用
 '''
+@requires_csrf_token
 def my_customized_server_error(request, template_name='500.html'):
     import sys
     from django.views import debug

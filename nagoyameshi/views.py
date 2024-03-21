@@ -25,6 +25,9 @@ import datetime
 
 from django.contrib.auth import get_user_model
 
+from django.views.decorators.csrf import requires_csrf_token
+from django.http import HttpResponseServerError
+
 User = get_user_model()
 
 
@@ -584,6 +587,12 @@ class ReviewView(PremiumMemberMixin,View):
 review   = ReviewView.as_view()
 '''
 
-
-
+'''
+エラー500確認用
+'''
+def my_customized_server_error(request, template_name='500.html'):
+    import sys
+    from django.views import debug
+    error_html = debug.technical_500_response(request, *sys.exc_info()).content
+    return HttpResponseServerError(error_html)
 

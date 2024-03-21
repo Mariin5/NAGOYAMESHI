@@ -23,13 +23,13 @@ from django.core.mail import send_mail
 import datetime
 from django.contrib.auth import get_user_model
 
-from django.views.decorators.csrf import requires_csrf_token
-from django.http import HttpResponseServerError
+#from django.views.decorators.csrf import requires_csrf_token
+#from django.http import HttpResponseServerError
 
 
 '''
 エラー500確認用
-'''
+
 
 @requires_csrf_token
 def my_customized_server_error(request, template_name='500.html'):
@@ -37,6 +37,7 @@ def my_customized_server_error(request, template_name='500.html'):
     from django.views import debug
     error_html = debug.technical_500_response(request, *sys.exc_info()).content
     return HttpResponseServerError(error_html)
+    '''
 
 User = get_user_model()
 

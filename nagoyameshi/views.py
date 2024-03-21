@@ -21,16 +21,16 @@ from django.conf import settings
 from django.utils import timezone
 from django.core.mail import send_mail
 import datetime
-
-
 from django.contrib.auth import get_user_model
 
 from django.views.decorators.csrf import requires_csrf_token
 from django.http import HttpResponseServerError
+from django.views.decorators.csrf import csrf_exempt
 
 '''
 エラー500確認用
 '''
+
 @requires_csrf_token
 def my_customized_server_error(request, template_name='500.html'):
     import sys
@@ -216,14 +216,9 @@ def membership(request):
     return render(request,"nagoyameshi/membership.html")
 
 
-#stripe.api_key  = settings.STRIPE_API_KEY
-'''
-class IndexView(LoginRequiredMixin,View):
-    def get(self,request,*args,**kwargs):
-        return render(request,"nagoyameshi/index.html")
-index =IndexView.as_view()
-'''
+stripe.api_key  = settings.STRIPE_API_KEY
 
+@csrf_exempt
 class CheckoutView(LoginRequiredMixin,View):
     def post(self, request, *args, **kwargs):
         checkout_session =stripe.checkout.Session.create(
@@ -234,9 +229,8 @@ class CheckoutView(LoginRequiredMixin,View):
                 },
             ],
             payment_method_types=['card'],
-            #mode='subscription',
-            mode='payment',
-            success_url=request.build_absolute_uri(reverse_lazy("nagoyameshi:success")) + '?session_id={CHECKOUT_SESSION_ID}',
+            mode='subscription',
+            success_url=request.build_absolute_uri(reverse_lazy("nagoyameshi:success")) + f'?session_id={{CHECKOUT_SESSION_ID}}',
             cancel_url=request.build_absolute_uri(reverse_lazy("nagoyameshi:index")),
         )
 

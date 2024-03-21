@@ -23,22 +23,6 @@ from django.core.mail import send_mail
 import datetime
 from django.contrib.auth import get_user_model
 
-#from django.views.decorators.csrf import requires_csrf_token
-#from django.http import HttpResponseServerError
-
-
-'''
-エラー500確認用
-
-
-@requires_csrf_token
-def my_customized_server_error(request, template_name='500.html'):
-    import sys
-    from django.views import debug
-    error_html = debug.technical_500_response(request, *sys.exc_info()).content
-    return HttpResponseServerError(error_html)
-    '''
-
 User = get_user_model()
 
 
@@ -398,7 +382,7 @@ class ReservationView(PremiumMemberMixin,View):
                     subject = "NAGOYAMESHI：予約完了"
                     message = "NAGOYAMESHIのご利用ありがとうございます。予約が完了しました。予約詳細はマイページよりご確認ください。"
 
-                    from_email = nagoyameshi@testl.com
+                    from_email = nagoyameshi@test.com
                     recipient_list = [ "nagoyameshi@testl.com" ]
                     send_mail(subject, message, from_email, recipient_list)
 
@@ -410,19 +394,6 @@ class ReservationView(PremiumMemberMixin,View):
             return redirect("nagoyameshi:reservation")
 
 reservation  = ReservationView.as_view()
-
-class PastReservationView(PremiumMemberMixin,View):
-        def get(self, request, *args, **kwargs):
-            context = {}
-
-        #現在時刻より未来の予約のみ表示
-        #__gte : Greater Than or Equal
-        # 過去の予約を出す場合は　__lte：Less Than or Equal
-        # https://noauto-nolife.com/post/django-filter-method/
-            context["reservations"] = Reservation.objects.filter(user=request.user, scheduled_date__lte=timezone.now()).order_by("scheduled_date")
-            return render(request, "nagoyameshi/past_reservation.html", context)
-
-past_reservation  = PastReservationView.as_view()
 
 # 予約の削除(キャンセル)をするビュー
 class ReservationDeleteView(PremiumMemberMixin,View):

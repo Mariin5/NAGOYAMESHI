@@ -25,7 +25,7 @@ from django.contrib.auth import get_user_model
 
 from django.views.decorators.csrf import requires_csrf_token
 from django.http import HttpResponseServerError
-from django.views.decorators.csrf import csrf_exempt
+
 
 '''
 エラー500確認用
@@ -218,7 +218,7 @@ def membership(request):
 
 stripe.api_key  = settings.STRIPE_API_KEY
 
-@csrf_exempt
+
 class CheckoutView(LoginRequiredMixin,View):
     def post(self, request, *args, **kwargs):
         checkout_session =stripe.checkout.Session.create(

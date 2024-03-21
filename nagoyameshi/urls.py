@@ -12,7 +12,6 @@ urlpatterns = [
     path('favorite/',views.favorite,name="favorite"),
     path('favorite_delete/<int:pk>/',views.favorite_delete,name="favorite_delete"),
     path("membership/", views.membership, name="membership"),
-    path('past_reservation/',views.past_reservation,name="past_reservation"),
     path("portal/", views.portal, name="portal"),
     path("premium/", views.premium, name="premium"),
     path('premium_contents/',views.premium_contents,name="premium_contents"),

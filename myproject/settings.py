@@ -26,8 +26,7 @@ SECRET_KEY = 'django-insecure-f4v1xe4*gzy$fg$z#oa0=a7372__u6#v-f%o4axwfyou6pj9o%
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['nagoyameshi-marina-32890ff7fdd2.herokuapp.com']
 
 
 # Application definition
@@ -182,10 +181,7 @@ if not DEBUG:
     INSTALLED_APPS.append('cloudinary')
     INSTALLED_APPS.append('cloudinary_storage')
 
-    # ALLOWED_HOSTSにホスト名)を入力
-    #ALLOWED_HOSTS = [ 'seiya0723-nagoyameshi.herokuapp.com' ]
-    #ALLOWED_HOSTS = [ 'nagoyameshi-marina-93dfff473afb.herokuapp.com' ]
-    ALLOWED_HOSTS = ['*']
+    ALLOWED_HOSTS = ['nagoyameshi-marina-32890ff7fdd2.herokuapp.com']
     CSRF_TRUSTED_ORIGINS    = [ "https://nagoyameshi-marina-93dfff473afb.herokuapp.com" ]
 
     

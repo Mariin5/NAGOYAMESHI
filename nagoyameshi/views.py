@@ -150,27 +150,6 @@ class RestaurantListView(View):
 
 restaurant_list = RestaurantListView.as_view()
 
-
-"""
-class RestaurantListView(View):
-
-    def get(self, request, *args, **kwargs):
-
-        context = {}
-        query   = Q()
-
-        context["categories"] = Category.objects.all()
-
-        if "search" in request.GET:
-            words = request.GET["search"].replace(" ","　").split("　")
-            for word in words:
-                #AND検索：&=
-                #OR検索 ：!=
-                #OR検索で空文字を含むと全件が検索結果として表示されるため、空文字がない場合は検索条件を追加という定義をする（if word !="":）
-                if word   != "":
-                    query &= Q( Q(name__icontains=word) | Q(area__area=word) | Q(category_name__category_name=word) )
-        restaurants = Restaurant.objects.filter(query)
-"""
         
 class RestaurantDetailView(View):
 
@@ -255,7 +234,8 @@ class CheckoutView(LoginRequiredMixin,View):
                 },
             ],
             payment_method_types=['card'],
-            mode='subscription',
+            #mode='subscription',
+            mode='payment',
             success_url=request.build_absolute_uri(reverse_lazy("nagoyameshi:success")) + '?session_id={CHECKOUT_SESSION_ID}',
             cancel_url=request.build_absolute_uri(reverse_lazy("nagoyameshi:index")),
         )

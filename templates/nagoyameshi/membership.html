@@ -48,12 +48,11 @@
 <h2>有料会員情報</h2>
 <div class="membership">
     <div class="membership_menu"><a href="{% url 'nagoyameshi:portal' %}" class="btn btn-outline-warning">有料会員登録の設定をする</a></div>
-    <!--直接「予約」「お気に入り」のページに遷移できるボタンに変更する-->
     <div class="membership_menu"><a href="{% url 'nagoyameshi:favorite' %}" class="btn btn-outline-warning">お気に入り店舗管理</a></div>
     <div class="membership_menu"><a href="{% url 'nagoyameshi:reservation' %}" class="btn btn-outline-warning">予約管理</a></div>
 </div>
 {% else %}
-<!--利用規約ページに遷移し、下部から登録-->
+<!--利用規約ページに遷移し、利用規約ページ下部から登録-->
 <h2>有料会員情報</h2>
 <div class="membership">
     <div class="membership_menu">

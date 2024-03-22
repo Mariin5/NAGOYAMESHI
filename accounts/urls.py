@@ -2,7 +2,7 @@ from django.urls import path
 
 from . import views
 
-# ここでapp_nameを指定してしまうと、テンプレート、ビューのすべてのURL逆引きを修正する必要があるため、あえて指定しない
+# ここでapp_nameを指定してしまうと、テンプレート、ビューのすべてのURL逆引きを修正する必要があるため、あえて指定していない
 #app_name    = "accounts"
 urlpatterns = [ 
     path("signup/", views.signup, name="signup"),

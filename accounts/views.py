@@ -24,17 +24,14 @@ class SignupView(CreateView):
         if self.request.user.is_authenticated:
             return redirect(settings.LOGIN_REDIRECT_URL)
         return super().dispatch(request, *args, **kwargs)
-
 signup  = SignupView.as_view()
 
 class CustomLoginView(LoginView):
-
     # 認証済みの状態でリクエストした時、LOGIN_REDIRECT_URL へリダイレクトさせる
     def dispatch(self, request, *args, **kwargs):
         if self.request.user.is_authenticated:
             return redirect(settings.LOGIN_REDIRECT_URL)
         return super().dispatch(request, *args, **kwargs)
-
 login   = CustomLoginView.as_view()
 
 # LogoutViewのGETメソッドを無効化する。(すでにDjango4.1で非推奨。5.0で削除される見通し)
@@ -42,14 +39,7 @@ login   = CustomLoginView.as_view()
 class CustomLogoutView(LogoutView):
     def get(self, request, *args, **kwargs):
         return HttpResponseNotAllowed(permitted_methods=['POST'])
-        #print("ログアウトしました")
-        #return redirect("nagoyameshi:index")
-
 logout  = CustomLogoutView.as_view()
-
-
-
-
 
 password_change             = PasswordChangeView.as_view()
 password_change_done        = PasswordChangeDoneView.as_view()

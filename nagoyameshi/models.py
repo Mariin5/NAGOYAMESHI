@@ -1,15 +1,13 @@
 from django.db import models 
-
 from django.utils import timezone 
 from django.core.validators import RegexValidator,MinValueValidator,MaxValueValidator
 import datetime
 from django.core.exceptions import ValidationError
 from django.db.models import Sum
-
 # ユーザーモデルを読み込みする(1対多)
 from django.contrib.auth import get_user_model
-User = get_user_model()
 
+User = get_user_model()
 
 class Category(models.Model):
     # 和食、洋食、中華、エスニック、メニューの種類
@@ -114,8 +112,6 @@ class Restaurant(models.Model):
 
 MAX_STAR      = 5
 class Review(models.Model):
-
-
     user        = models.ForeignKey(User, verbose_name="投稿者", on_delete=models.CASCADE)
     restaurant  = models.ForeignKey(Restaurant, verbose_name="店舗", on_delete=models.CASCADE)
     star        = models.IntegerField(verbose_name="星",validators=[MinValueValidator(1),MaxValueValidator(MAX_STAR)],default=1)
@@ -131,23 +127,14 @@ class Review(models.Model):
 
         return dic
 
-
-
-
-
 class Favorite(models.Model):
     #同一ユーザーが複数回同じレストランをお気に入り登録できないように設定する（重複を防ぐ）
     class Meta:
         unique_together=("user","restaurant")
-
     user       = models.ForeignKey(User, verbose_name="登録者",on_delete=models.CASCADE)
     restaurant = models.ForeignKey(Restaurant, verbose_name="店舗",on_delete=models.CASCADE)
     created_at = models.DateTimeField(verbose_name="投稿日時", default=timezone.now)
     
-
-
-# もしサイトの運営者情報を表示する場合、複数投稿できる中でどのようにして表示するかを考慮しておく
-# ↑ created_at で最新のCompanyを取り出し、.first() で最新の1件を取り出す。
 class Company(models.Model):
     name            = models.CharField(verbose_name="会社名", max_length=100)
     name_kana       = models.CharField(verbose_name="会社名フリガナ", max_length=100)
@@ -164,15 +151,13 @@ class Company(models.Model):
     created_at  = models.DateTimeField(verbose_name="投稿日時", default=timezone.now)
     updated_at  = models.DateTimeField(verbose_name="更新日時", auto_now=True)
 
-
 #予約締め切り日（24時間前)を超えていないかチェック
 def scheduled_date_check(value):
     deadline = timezone.now() + datetime.timedelta(days=1)
 
     if deadline > value :
         raise ValidationError("予約可能日時を過ぎています")
-    
-    
+        
 class Reservation(models.Model):
     user            = models.ForeignKey(User, verbose_name="予約者", on_delete=models.CASCADE)
     restaurant      = models.ForeignKey(Restaurant, verbose_name="店舗", on_delete=models.CASCADE)
@@ -202,7 +187,6 @@ class Reservation(models.Model):
     #予約希望日が定休日でないかつ営業時間内であることを確認
     #最初に定休日の確認
         print( date.weekday() )
-
         holidays = [
             "月曜日",
             "火曜日",

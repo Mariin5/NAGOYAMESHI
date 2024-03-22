@@ -27,28 +27,59 @@ class HolidayForm(forms.ModelForm):
 class RestaurantForm(forms.ModelForm):
     class Meta:
         model	= Restaurant
-        fields	= [ "category_name", "name", "name_kana", "image", "introduction", "post_code", "address", "start_hour", "end_hour","holiday", "tel", "email", "paymethod", "headcount","has_parking" ]
+        fields	= [ "category_name", 
+                  "name", 
+                  "name_kana", 
+                  "image", 
+                  "introduction", 
+                  "post_code", 
+                  "address", 
+                  "start_hour", 
+                  "end_hour",
+                  "holiday", 
+                  "tel", 
+                  "email", 
+                  "paymethod", 
+                  "headcount",
+                  "has_parking" ]
 
 class ReviewForm(forms.ModelForm):
     class Meta:
         model	= Review
-        fields	= [ "star" ,"user", "restaurant", "subject", "content" ]
+        fields	= [ "star",
+                  "user", 
+                  "restaurant", 
+                  "subject", 
+                  "content" ]
 
 class ReservationForm(forms.ModelForm):
     class Meta:
         model	= Reservation
-        fields	= [ "user", "restaurant", "scheduled_date", "headcount", "note" ]
+        fields	= [ "user", 
+                  "restaurant", 
+                  "scheduled_date", 
+                  "headcount", 
+                  "note" ]
 
 class CompanyForm(forms.ModelForm):
     class Meta:
         model	= Company
-        fields	= [ "name", "name_kana", "ceo", "founding_date", "capital", "activity", "post_code", "tel", "email" ]
+        fields	= [ "name", 
+                  "name_kana", 
+                  "ceo", 
+                  "founding_date", 
+                  "capital", 
+                  "activity", 
+                  "post_code", 
+                  "tel", 
+                  "email" ]
 
 
 class FavoriteForm(forms.ModelForm):
     class Meta:
         model   = Favorite
-        fields  = [ "user", "restaurant" ]
+        fields  = [ "user", 
+                   "restaurant" ]
 
 class RestaurantCategoryForm(forms.ModelForm):
     class Meta:

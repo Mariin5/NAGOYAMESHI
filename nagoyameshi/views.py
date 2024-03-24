@@ -391,7 +391,7 @@ class ReservationView(PremiumMemberMixin,View):
             else:
                 print("予約に失敗しました。営業時間と予約可能人数をご確認の上、再度予約をお願いします")
                 print(form.errors)
-            return redirect("nagoyameshi:restaurant_detail")
+            return redirect("nagoyameshi:restaurant_detail/<int:pk>/")
 
 reservation  = ReservationView.as_view()
 

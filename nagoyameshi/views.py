@@ -376,7 +376,6 @@ class ReservationView(PremiumMemberMixin,View):
             if form.is_valid():
                 print("予約が完了しました")
                 form.save()
-
                 def get(self, request, *args, **kwargs):
 
                     subject = "NAGOYAMESHI：予約完了"
@@ -385,11 +384,9 @@ class ReservationView(PremiumMemberMixin,View):
                     from_email = nagoyameshi@test.com
                     recipient_list = [ "nagoyameshi@testl.com" ]
                     send_mail(subject, message, from_email, recipient_list)
-
                 return redirect("nagoyameshi:reservation")
-
             else:
-                return redirect("nagoyameshi:reservation_error")
+                return render(request,"nagoyameshi:reservation_error")
 
 reservation  = ReservationView.as_view()
 

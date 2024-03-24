@@ -409,6 +409,7 @@ class ReservationDeleteView(PremiumMemberMixin,View):
 
         if now < deadline:
             print("予約キャンセル")
+            reservation.delete()
         else:
             print("予約キャンセルできません。")
 

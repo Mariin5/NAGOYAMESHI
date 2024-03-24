@@ -386,7 +386,7 @@ class ReservationView(PremiumMemberMixin,View):
                     send_mail(subject, message, from_email, recipient_list)
                 return redirect("nagoyameshi:reservation")
             else:
-                return render(request,"nagoyameshi:reservation_error")
+                return render(request, "nagoyameshi/reservation_error.html")
 
 reservation  = ReservationView.as_view()
 

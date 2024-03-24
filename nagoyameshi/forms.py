@@ -61,13 +61,9 @@ class ReservationForm(forms.ModelForm):
                   "headcount", 
                   "note" ]
         error_message = {
-            "scheduled_date":{
-                "required": "営業時間内のみ予約可能です。日時をご確認ください。"
-            },
-            "headcount":{
-                "required": "予約可能人数を超える人数の予約はできません。"
+            "scheduled_date":"営業時間内のみ予約可能です。日時をご確認ください。",
+            "headcount":"予約可能人数を超える人数の予約はできません。"
             }
-        }
 
 class CompanyForm(forms.ModelForm):
     class Meta:

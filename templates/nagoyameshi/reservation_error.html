@@ -1,0 +1,26 @@
+{% extends "nagoyameshi/base.html" %}
+{% load static %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block main %}
+
+
+
+<div class="not_found_restaurant">
+    <div class="not_found">予約に失敗しました。<br>予約日時・人数をご確認の上、再度予約をお願いします。</div>
+    <div class="back_top"><a href="{% url 'nagoyameshi:index' %}">トップページに戻る</a></div>
+</div>
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+

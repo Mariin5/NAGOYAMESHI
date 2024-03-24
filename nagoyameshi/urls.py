@@ -32,6 +32,8 @@ urlpatterns = [
     path("profit/", views.profit, name="profit"),
     #有料会員のみ：予約管理
     path('reservation/',views.reservation,name="reservation"),
+    #有料会員のみ：予約失敗
+    path('reservation_error/',views.reservation,name="reservation_error"),
     #有料会員のみ：予約取り消し
     path('reservation_delete/<int:pk>/',views.reservation_delete,name="reservation_delete"),
     #店舗一覧

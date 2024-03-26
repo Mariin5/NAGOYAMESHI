@@ -1,0 +1,47 @@
+{% extends "nagoyameshi/base.html" %}
+{% load static %}
+
+
+{% block extra_head %}
+{% endblock %}
+
+{% block main %}
+
+<div class="signup_pros">
+    <h2>有料会員登録をするとできること</h2>
+    <ul class="signup_list">
+        <i class="fa-regular fa-comment" style="font-size: 70px;"></i>
+        <li>各店舗のレビュー投稿が可能！</li><br><br>
+        <i class="fa-regular fa-heart" style="font-size: 70px;"></i>
+        <li>店舗お気に入り登録ができるので、行きたい店舗をリスト管理できる！</li><br><br>
+        <i class="fa-regular fa-calendar-days" style="font-size: 70px;"></i>
+        <li>NAGOYAMESHIサイトからの店舗予約や予約管理が可能なので、予約管理も簡単    <i class="fa-regular fa-thumbs-up"></i></li>
+    </ul> 
+</div>
+
+{% if request.user.is_authenticated %}
+{% if not request.user.customer %}
+<div class="membership_menu">
+    <form action="{% url 'nagoyameshi:terms_of_service' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" name="create_premium" value="有料会員登録する" class="btn btn-outline-warning">
+    </form>
+</div>
+{% endif %}
+
+{% else %}
+<div class="membership_menu">
+    <form action="{% url 'nagoyameshi:terms_of_service' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" name="create_premium" value="有料会員登録する" class="btn btn-outline-warning">
+    </form><br>
+    <form action="{% url 'signup' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" name="create_premium" value="無料会員登録をする" class="btn btn-outline-warning">
+    </form>
+    <span style="font-size: small;">無料会員後、いつでも有料会員に切り替え可能！</span>
+</div>
+{% endif %}
+
+<div class="back_top"><a href="{% url 'nagoyameshi:index' %}">トップページに戻る</a></div>
+{% endblock %}

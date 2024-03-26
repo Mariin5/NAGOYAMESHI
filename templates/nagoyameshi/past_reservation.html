@@ -1,0 +1,40 @@
+{% extends "nagoyameshi/base.html" %}
+{% load static %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block main %}
+
+
+{% for past_reservation in past_reservations %}
+<div>
+    <a href="{% url 'nagoyameshi:restaurant_detail' past_reservation.restaurant.id %}"   class="restaurant_list">
+        <div class="restaurant_image"><img src="{{ past_reservation.restaurant.image.url }}" alt="{{past_reservation.restaurant.name}}" ></div>
+        <div class="restaurant_info">予約日時: {{ past_reservation.scheduled_date }}</div>
+        <div class="restaurant_info">店舗名: {{ past_reservation.restaurant.name }}</div>
+        <div class="restaurant_info">人数: {{ past_reservation.headcount }}</div>
+        <div class="restaurant_info">備考: {{ past_reservation.note }}</div><br><br>
+        <span style="font-size: 20px;">再度予約する</span>
+
+    </a>
+
+</div>
+{% empty %}
+<div class="not_found_restaurant">
+    <div class="fontawesome_shop"><i class="fa-solid fa-shop-slash"></i></div>
+    <div class="not_found">予約済のレストランはありません</div>
+    <div class="back_top"><a href="{% url 'nagoyameshi:index' %}">トップページに戻る</a></div>
+</div>
+{% endfor %}
+
+
+{% endblock %}
+
+
+
+
+
+
+
+

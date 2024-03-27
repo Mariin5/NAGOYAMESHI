@@ -67,14 +67,14 @@
             </td>
         </tr>
 
-    <!--<tr class="contact">
+        <tr class="contact">
             <th>
                 <label for="birthday" class="contact_label">誕生日</label>
             </th>
             <td>
-                <input type="text" name="birthday" value="{{ request.user.birthday }}" maxlength="100" autofocus required id="birthday" class="contact_textbox"><br>
+                <input type="text" name="birthday" value="{{ request.user.birthday }}" class="flatpickr_datetime_form contact_textbox" autofocus required id="birthday" class="contact_textbox"><br>
             </td>
-        </tr>-->
+        </tr>
         <td>
             <div class="input-group-apend">
                 <input type="submit" name="done" value="編集完了" class="btn btn-outline-warning">

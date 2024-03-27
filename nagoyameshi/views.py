@@ -225,20 +225,24 @@ def premium_contents(request):
 def membership(request):
     return render(request,"nagoyameshi/membership.html")
 
-class UserChangeView(LoginRequiredMixin,View):
+class UserChangeView(LoginRequiredMixin, View):
     template_name = "nagoyameshi/userchange.html"
-    success_url = reverse_lazy("nagoyameshi:membership")  
+    success_url = reverse_lazy("nagoyameshi:membership")
 
     def post(self, request, *args, **kwargs):
         form = ProfileForm(request.POST, instance=request.user)
-
         if form.is_valid():
             form.save()
             messages.success(request, "会員情報の変更が完了しました")
             return redirect(self.success_url)
-    
-        return render(request, self.template_name, {'form': form})
-userchange    = UserChangeView.as_view()
+        else:
+            print(form.errors)
+            messages.error(request, "会員情報の変更に失敗しました")
+            return render(request, self.template_name, {'form': form})
+
+
+userchange = UserChangeView.as_view()
+
 
 stripe.api_key  = settings.STRIPE_API_KEY
 
